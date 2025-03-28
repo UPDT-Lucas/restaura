@@ -1,0 +1,96 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+p {
+    color: white;
+    font-weight: bold;
+}
+
+h2 {
+    color: #FCA311;
+}
+
+li {
+    color: #8AF7FF;
+}
+
+hr {
+    width: 100%;
+    background-color: #FCA311;
+    height: 1px;
+    border: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido */
+    height: 80vh; /* Asegura que ocupe la altura establecida */
+    width: 350px;
+    background-color: #14213D;
+    border-radius: 10px;
+    margin-left: 24px;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Espacio entre los elementos */
+    flex-grow: 1; /* Ocupa el espacio restante */
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.start-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    li {
+        margin-left: 24px;
+        font-size: 14px;
+    }
+}   
+
+.functions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.functions-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.each-list {
+    display: flex;
+    gap: 12px;
+    color: white;
+    p {
+        font-size: 14px;
+    }
+}
+
+.session-option {
+    display: flex;
+    width: 100%;
+    color: #FF6262;
+    align-items: center;
+    gap: 12px;
+    p {
+        font-size: 14px;
+        color: #FF6262;
+    }
+}

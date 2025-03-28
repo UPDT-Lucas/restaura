@@ -1,0 +1,28 @@
+span, h1 {
+    color: #21438C;
+}
+
+.container {
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    align-items: center;
+}
+
+.logo-list {
+    display: flex;
+    gap: 12px;
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}

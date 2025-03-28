@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { DropdownComponent } from "./shared/components/dropdown/dropdown.component";
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [HeaderComponent, DropdownComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
