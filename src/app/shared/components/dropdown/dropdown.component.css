@@ -25,6 +25,12 @@ hr {
 }
 
 .container {
+    position: relative;
+}
+
+.menu-options {
+    position: absolute;
+    right: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribuye el contenido */
@@ -32,7 +38,6 @@ hr {
     width: 350px;
     background-color: #14213D;
     border-radius: 10px;
-    margin-left: 24px;
     padding: 32px;
     box-sizing: border-box;
 }
@@ -93,4 +98,8 @@ hr {
         font-size: 14px;
         color: #FF6262;
     }
+}
+
+.material-icons {
+    cursor: pointer;
 }
