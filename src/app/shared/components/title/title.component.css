@@ -1,0 +1,10 @@
+.title-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.title-text{
+    font-size: 25px;
+    font-weight: 700;
+}

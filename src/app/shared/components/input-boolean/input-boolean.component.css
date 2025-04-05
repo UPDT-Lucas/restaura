@@ -1,0 +1,44 @@
+.boolean-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 250px;
+    max-width: 100%;
+}
+
+.input-label {
+    font-size: 17px;
+    font-weight: 400;
+    color: #616161;
+}
+
+.options {
+    display: flex;
+    gap: 1rem;
+}
+
+button {
+    padding: 10px 20px;
+    border: 1px solid #616161;
+    border-radius: 18px;
+    background-color: white;
+    color: #616161;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 42px;
+    text-align: center;
+
+    &.active {
+        background-color: #616161;
+        color: white;
+    }
+
+    &:hover {
+        box-shadow: 0 0 5px rgba(49, 38, 130, 0.5);
+        background-color: #312682;
+        border: 1px solid #312682;
+        color: white;
+    }
+}

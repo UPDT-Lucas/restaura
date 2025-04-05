@@ -1,0 +1,104 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 250px;
+  max-width: 100%;
+
+  &:focus-within .input-label {
+    color: #312682;
+  }
+}
+
+.input-label {
+  font-size: 17px;
+  font-weight: 400;
+  color: #616161;
+  transition: color 0.3s ease;
+}
+
+
+::ng-deep .ng-select.custom-input {
+  border: 1.5px solid #616161;
+  height: 42px;
+  border-radius: 10px;
+  padding: 10px 10px;
+  font-size: 16px;
+  color: #616161;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+::ng-deep .ng-select.custom-input.ng-select-focused {
+  color: #312682;
+}
+
+
+::ng-deep .ng-select.custom-input.ng-select-focused {
+  border-color: #312682;
+  box-shadow: 0 0 0 3px rgba(49, 38, 130, 0.3);
+}
+
+::ng-deep .ng-select.custom-input .ng-select-container {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+::ng-deep .ng-select.custom-input .ng-value {
+  background-color: #616161;
+  color: white;
+  border-radius: 6px;
+  padding: 1px 10px;
+  padding-top: 0px;
+}
+
+::ng-deep .ng-value-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+::ng-deep .ng-input {
+  width: 0px;
+}
+
+::ng-deep .ng-select.custom-input .ng-value-label {
+  font-size: 12px;
+}
+
+::ng-deep .ng-select.custom-input.ng-select-focused .ng-value {
+  background-color: #312682;
+  color: white;
+}
+
+::ng-deep .ng-select.custom-input .ng-value-icon {
+  color: white;
+}
+
+::ng-deep .ng-select.custom-input .ng-dropdown-panel {
+  padding-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  margin-top: 4px;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  z-index: 1000;
+  margin-top: 12px;
+}
+
+::ng-deep .ng-select.custom-input .ng-option {
+  padding: 10px;
+  font-size: 15px;
+  color: #312682;
+}
+
+::ng-deep .ng-select.custom-input .ng-option-selected {
+  background-color: #ece9ff;
+  font-weight: bold;
+}

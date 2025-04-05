@@ -1,0 +1,17 @@
+<div class="boolean-container">
+  <label class="input-label">{{ label }}</label>
+  <div class="options">
+    <button
+      [class.active]="value === true" 
+      (click)="toggle(true)"
+    >
+      Sí
+    </button>
+    <button 
+      [class.active]="value === false" 
+      (click)="toggle(false)"
+    >
+      No
+    </button>
+  </div>
+</div>
