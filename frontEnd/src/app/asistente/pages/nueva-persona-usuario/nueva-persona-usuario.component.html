@@ -373,16 +373,17 @@
         <shared-input-boolean [label]="'¿Brinda apoyo económico?'" [value]="false" />
 
         <!-- Tiene pareja -->
-        <shared-input-boolean [label]="'¿Tiene pareja?'" [value]="false" />
+        <shared-input-boolean [label]="'¿Tiene pareja?'" [(value)]="tienePareja" />
 
-        <!-- Tiene pareja -->
+        <!-- Su pareja hace uso del dormitorio -->
         <shared-input-boolean
+            *ngIf="tienePareja"
             [label]="'¿Su pareja hace uso del Centro Dormitorio?'"
             [(value)]="suParejaHaceUsoDelDormitorio"
         />
-        <!-- Telefono -->
+        <!-- Porque No -->
         <shared-input-number
-            *ngIf="!suParejaHaceUsoDelDormitorio"
+            *ngIf="!suParejaHaceUsoDelDormitorio && tienePareja"
             [label]="'¿Porque No?'"
             [placeholder]="'Ingrese la razón'"
         />
@@ -427,4 +428,15 @@
             [multiple]="true"
         />
     </div>
+
+    
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Persona Usuario"></shared-button>
+        </div>
+        <div class="button-container">
+            <shared-secondary-button text="Cancelar Creación"></shared-secondary-button>
+        </div>
+    </div>
+    
 </div>

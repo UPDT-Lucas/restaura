@@ -9,6 +9,8 @@ import { InputDateComponent } from '../../../shared/components/input-date/input-
 import { InputTextAreaComponent } from '../../../shared/components/input-text-area/input-text-area.component';
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
 import { InputNumberComponent } from '../../../shared/components/input-number/input-number.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
 
 @Component({
     selector: 'nueva-persona-usuario',
@@ -23,6 +25,8 @@ import { InputNumberComponent } from '../../../shared/components/input-number/in
         InputBooleanComponent,
         InputNumberComponent,
         CommonModule,
+        ButtonComponent,
+        SecondaryButtonComponent,
     ],
     templateUrl: './nueva-persona-usuario.component.html',
     styleUrls: ['./nueva-persona-usuario.component.css'],
@@ -37,5 +41,6 @@ export class AddPersonComponent {
     tomaMedicamento: boolean = false;
     consumeDrogas: boolean = false;
     haEstadoEnCarcel: boolean = false;
+    tienePareja: boolean = false;
     suParejaHaceUsoDelDormitorio: boolean = false;
 }

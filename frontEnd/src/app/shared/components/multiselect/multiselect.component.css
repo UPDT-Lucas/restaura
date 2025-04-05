@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex: 1 1 250px;
-  max-width: 100%;
 
   &:focus-within .input-label {
     color: #312682;
@@ -44,6 +42,7 @@
   border: none;
   box-shadow: none;
   padding: 0;
+  min-width: 300px;
 }
 
 ::ng-deep .ng-select.custom-input .ng-value {
