@@ -20,6 +20,17 @@
     margin-top: 20px;
 }
 
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-top: 50px;
+}
+
+.button-container{
+    width: 50%;
+}
+
 shared-input-text {
     display: flex;
     flex: 1 1 250px;
@@ -28,13 +39,6 @@ shared-input-text {
 }
 
 shared-select {
-    display: flex;
-    flex: 1 1 250px;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-shared-multiselect {
     display: flex;
     flex: 1 1 250px;
     max-width: 100%;

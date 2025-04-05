@@ -10,6 +10,7 @@
     font-size: 17px;
     font-weight: 400;
     color: #616161;
+    white-space: nowrap;
 }
 
 .options {
