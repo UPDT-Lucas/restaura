@@ -1,0 +1,430 @@
+<div class="container">
+    <shared-title [text]="'Agregar Nueva Persona Usuario'"></shared-title>
+
+    <!-- INFORMACION PERSONAL -->
+    <shared-subtitle [text]="'Información Personal'" />
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text [label]="'Nombre'" [placeholder]="'Ingrese el nombre'" />
+        <!-- Segundo Nombre -->
+        <shared-input-text [label]="'Segundo Nombre'" [placeholder]="'Ingrese el segundo nombre'" />
+        <!-- Apellido -->
+        <shared-input-text [label]="'Apellido'" [placeholder]="'Ingrese el apellido'" />
+        <!-- Segundo Apellido -->
+        <shared-input-text [label]="'Segundo Apellido'" [placeholder]="'Ingrese el segundo apellido'" />
+        <!-- Tipo Identificacion -->
+        <shared-select
+            [label]="'Tipo de Identificación'"
+            [options]="[
+                { value: '0', label: 'Cédula' },
+                { value: '1', label: 'Pasaporte' },
+                { value: '2', label: 'Carne' },
+                { value: '3', label: 'Residencia' },
+                { value: '4', label: 'Ninguno' }
+            ]"
+        />
+        <!-- Identificacion -->
+        <shared-input-text [label]="'Identificación'" [placeholder]="'Ingrese el Identificación'" />
+        <!-- Edad -->
+        <shared-input-number [label]="'Edad'" [placeholder]="'Ingrese la Edad'" />
+        <!-- Fecha Nacimiento -->
+        <shared-input-date [label]="'Fecha de Nacimiento'" [placeholder]="'Ingrese la fecha de nacimiento'" />
+        <!-- Género -->
+        <shared-select
+            [label]="'Género'"
+            [options]="[
+                { value: '0', label: 'Masculino' },
+                { value: '1', label: 'Femenino' },
+                { value: '2', label: 'Trans Masculino' },
+                { value: '3', label: 'Trans Femenino' }
+            ]"
+        />
+        <!-- Número de Hijos -->
+        <!-- Edad -->
+        <shared-input-number [label]="'Número de Hijos'" [placeholder]="'Ingrese el número de hijos'" />
+    </div>
+
+    <!-- PROCEDENCIA -->
+    <shared-subtitle [text]="'Procedencia'" />
+    <div class="form-wrap">
+        <!-- Pais -->
+        <shared-select
+            [label]="'Pais'"
+            [options]="[
+                { value: '0', label: 'Costa Rica' },
+                { value: '1', label: 'Panamá' },
+                { value: '2', label: 'Colombia' },
+                { value: '3', label: 'Nicaragua' },
+                { value: '4', label: 'Honduras' }
+            ]"
+        />
+        <!-- Provincia -->
+        <shared-select
+            [label]="'Provincia'"
+            [options]="[
+                { value: '0', label: 'San José' },
+                { value: '1', label: 'Alajuela' },
+                { value: '2', label: 'Cartago' },
+                { value: '3', label: 'Heredia' },
+                { value: '4', label: 'Guanacaste' }
+            ]"
+        />
+        <!-- Cantón -->
+        <shared-select
+            [label]="'Cantón'"
+            [options]="[
+                { value: '0', label: 'Mora' },
+                { value: '1', label: 'Colon' }
+            ]"
+        />
+    </div>
+
+    <!-- DORMITORIO -->
+    <shared-subtitle [text]="'Dormitorio'" />
+    <div class="form-wrap">
+        <!-- Como contacto el dormitorio -->
+        <shared-multiselect
+            [label]="'¿Como contacto el dormitorio?'"
+            [options]="[
+                { value: '0', label: 'Teléfono' },
+                { value: '1', label: 'WhatsApp' },
+                { value: '2', label: 'Correo' },
+                { value: '3', label: 'Facebook' },
+                { value: '4', label: 'Instagram' }
+            ]"
+            [multiple]="true"
+        />
+        <!-- Razon por la que acude al dormitorio -->
+        <shared-multiselect
+            [label]="'¿Razón por la que acude al dormitorio?'"
+            [options]="[
+                { value: '0', label: 'Condición Migratoria Irregular' },
+                { value: '1', label: 'Falta de Dinero' },
+                { value: '2', label: 'Drogas' },
+                { value: '3', label: 'No tiene donde vivir' },
+                { value: '4', label: 'Problemas de Salud' },
+                { value: '5', label: 'Problemas Familiares' },
+                { value: '6', label: 'Problemas Legales' },
+                { value: '7', label: 'Otros' }
+            ]"
+            [multiple]="true"
+        />
+        <!-- Hace cuanto vive en la calle -->
+        <shared-select
+            [label]="'¿Hace cuanto vive en la calle?'"
+            [options]="[
+                { value: '0', label: '0-15 días' },
+                { value: '1', label: '15-30 días' },
+                { value: '2', label: '1-3 meses' },
+                { value: '3', label: '3-6 meses' },
+                { value: '4', label: '6-12 meses' },
+                { value: '5', label: 'Más de 1 año' }
+            ]"
+        />
+    </div>
+
+    <!-- TRABAJO -->
+    <shared-subtitle [text]="'Trabajo'" />
+    <div class="form-wrap">
+        <!-- Trabaja actualmente -->
+        <shared-input-boolean [label]="'¿Trabaja actualmente?'" [(value)]="trabajaActualmente" />
+
+        <!-- Empresa -->
+        <shared-input-text [label]="'Empresa'" [placeholder]="'Ingrese la empresa'" *ngIf="trabajaActualmente" />
+
+        <!-- Ocupación -->
+        <shared-input-text [label]="'Ocupación'" [placeholder]="'Ingrese la ocupación'" />
+    </div>
+
+    <!-- LICENCIAS -->
+    <shared-subtitle [text]="'Licencias'" />
+    <div class="form-wrap">
+        <!-- Tiene Licencias -->
+        <shared-input-boolean [label]="'¿Tiene Licencia?'" [(value)]="tieneLicencia" />
+
+        <!-- Razon por la que acude al dormitorio -->
+        <shared-multiselect
+            *ngIf="tieneLicencia"
+            [label]="'¿Cual Licencia?'"
+            [options]="[
+                { value: '0', label: 'A1' },
+                { value: '1', label: 'A2' },
+                { value: '2', label: 'B1' },
+                { value: '3', label: 'B2' },
+                { value: '4', label: 'B3' },
+                { value: '5', label: 'C1' },
+                { value: '6', label: 'C2' },
+                { value: '7', label: 'C3' }
+            ]"
+            [multiple]="true"
+        />
+    </div>
+
+    <!-- OBSERVACIONES -->
+    <shared-subtitle [text]="'Observaciones'" />
+    <shared-input-text-area [label]="'Observaciones'" [placeholder]="'Ingrese una observación extra'" [rows]="3" />
+
+    <!-- INFORMACION PARA REFERENCIAS -->
+    <shared-subtitle [text]="'Información para Referencias'" />
+    <p>Ha estado los últimos tres meses en:</p>
+    <div class="forms-wraps">
+        <div class="form-wrap">
+            <!-- Carcel -->
+            <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="tresMesesCarcel" />
+
+            <!-- Razón -->
+            <shared-input-text [label]="'Razón'" [placeholder]="'Ingrese la razón'" *ngIf="tresMesesCarcel" />
+        </div>
+        <div class="form-wrap">
+            <!-- Tratamiento Medico -->
+            <shared-input-boolean [label]="'¿Tratamiento Médico?'" [(value)]="tresMesesTratamientoMedico" />
+
+            <!-- Razón -->
+            <shared-input-text
+                [label]="'Razón'"
+                [placeholder]="'Ingrese la razón'"
+                *ngIf="tresMesesTratamientoMedico"
+            />
+        </div>
+        <div class="form-wrap">
+            <!-- Tratamiento Psiquiatrico -->
+            <shared-input-boolean [label]="'¿Tratamiento Psiquiatrico?'" [(value)]="tresMesesTratamientoPsiquiatrico" />
+
+            <!-- Razón -->
+            <shared-input-text
+                [label]="'Razón'"
+                [placeholder]="'Ingrese la razón'"
+                *ngIf="tresMesesTratamientoPsiquiatrico"
+            />
+        </div>
+        <div class="form-wrap">
+            <!-- Tratamiento Medico -->
+            <shared-input-boolean [label]="'¿Tratamiento De Drogas?'" [(value)]="tresMesesTratamientoDeDrogas" />
+
+            <!-- Razón -->
+            <shared-input-text
+                [label]="'Razón'"
+                [placeholder]="'Ingrese la razón'"
+                *ngIf="tresMesesTratamientoDeDrogas"
+            />
+        </div>
+    </div>
+
+    <!-- ESTADO DE SALUD -->
+    <shared-subtitle [text]="'Estado de Salud'" />
+    <div class="forms-wraps">
+        <div class="form-wrap">
+            <!-- ¿Tiene tos, flema sanguinolenta o fiebre? -->
+            <shared-input-boolean [label]="'¿Tiene tos, flema sanguinolenta o fiebre?'" [value]="false" />
+
+            <!-- Condicion Especial -->
+            <shared-input-text
+                [label]="'Si padece de condición especial, describala'"
+                [placeholder]="'Ingrese la condición'"
+            />
+
+            <!-- Discapacidad -->
+            <shared-input-text [label]="'Discapacidad'" [placeholder]="'Ingrese la discapacidad'" />
+        </div>
+        <div class="form-wrap">
+            <!-- Toma Medicacion -->
+            <shared-input-boolean [label]="'¿Toma medicación?'" [(value)]="tomaMedicamento" />
+
+            <!-- Medicamento -->
+            <shared-input-text
+                [label]="'Medicamentos'"
+                [placeholder]="'Ingrese los medicamentos'"
+                *ngIf="tomaMedicamento"
+            />
+        </div>
+    </div>
+
+    <!-- PENSION-->
+    <shared-subtitle [text]="'Pensiones'" />
+    <div class="form-wrap">
+        <!-- Pensiones -->
+        <shared-multiselect
+            [label]="'Tipos de Pension'"
+            [options]="[
+                { value: '0', label: 'Pensión Alimentaria' },
+                { value: '1', label: 'Pensión No Contributiva' },
+                { value: '2', label: 'Pensión Contributiva' },
+                { value: '3', label: 'Pensión de Invalidez' },
+                { value: '4', label: 'Pensión de Vejez' },
+                { value: '5', label: 'Ninguna' }
+            ]"
+            [multiple]="true"
+        />
+    </div>
+
+    <!-- INFORMACION ACADEMICA -->
+    <shared-subtitle [text]="'Información Académica'" />
+    <div class="form-wrap">
+        <!-- Sabe leer y escribir -->
+        <shared-input-boolean [label]="'¿Sabe leer y escribir?'" [value]="false" />
+
+        <!-- Grado Académico -->
+        <shared-multiselect
+            [label]="'Grado Académico'"
+            [options]="[
+                { value: '0', label: 'Primaria' },
+                { value: '1', label: 'Secundaria' },
+                { value: '2', label: 'Bachillerato' },
+                { value: '3', label: 'Universidad' },
+                { value: '4', label: 'Ninguno' }
+            ]"
+            [multiple]="true"
+        />
+
+        <!-- Nombre de Tecnico -->
+        <shared-input-text [label]="'Nombre de Técnico'" [placeholder]="'Ingrese la nombre del técnico'" />
+    </div>
+
+    <!-- DROGAS -->
+    <shared-subtitle [text]="'Consumo de Drogas'" />
+    <div class="form-wrap">
+        <!-- Consume Drogas -->
+        <shared-input-boolean [label]="'¿Consume drogas actualmente?'" [(value)]="consumeDrogas" />
+
+        <!-- Drogas que consume -->
+        <shared-multiselect
+            *ngIf="consumeDrogas"
+            [label]="'Drogas que consume'"
+            [options]="[
+                { value: '0', label: 'Cocaína' },
+                { value: '1', label: 'Crack' },
+                { value: '2', label: 'Heroína' },
+                { value: '3', label: 'Marihuana' },
+                { value: '4', label: 'Benzodiacepinas' },
+                { value: '5', label: 'Alcohol' },
+                { value: '6', label: 'Otros' }
+            ]"
+            [multiple]="true"
+        />
+
+        <!-- Droga que mas le afecta -->
+        <shared-input-text
+            *ngIf="consumeDrogas"
+            [label]="'Droga que más le afecta'"
+            [placeholder]="'Ingrese la droga que más le afecta'"
+        />
+
+        <!-- Edad de inicio de consumo -->
+        <shared-input-number
+            *ngIf="consumeDrogas"
+            [label]="'Edad de Inicio del Consumo'"
+            [placeholder]="'Ingrese la edad'"
+        />
+    </div>
+
+    <!-- CARCEL -->
+    <shared-subtitle [text]="'Consumo de Drogas'" />
+    <div class="form-wrap">
+        <!-- Consume Drogas -->
+        <shared-input-boolean [label]="'¿Ha estado en la cárcel?'" [(value)]="haEstadoEnCarcel" />
+
+        <!-- Razon -->
+        <shared-input-text
+            *ngIf="haEstadoEnCarcel"
+            [label]="'Razón de Encarcelamiento'"
+            [placeholder]="'Ingrese la razón de encarcelamiento'"
+        />
+
+        <!-- Edad de inicio de consumo -->
+        <shared-input-number *ngIf="haEstadoEnCarcel" [label]="'Edad de Inicio'" [placeholder]="'Ingrese la edad'" />
+
+        <!-- Consume Drogas -->
+        <shared-input-boolean *ngIf="haEstadoEnCarcel" [label]="'¿Pendiente Resolución?'" />
+    </div>
+
+    <!-- INFORMACION PERSONAL -->
+    <shared-subtitle [text]="'Información Personal'" />
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text [label]="'Nombre'" [placeholder]="'Ingrese el nombre'" />
+        <!-- Telefono -->
+        <shared-input-number [label]="'Teléfono'" [placeholder]="'Ingrese el teléfono'" />
+        <!-- Parentesco -->
+        <shared-select
+            [label]="'Parentesco'"
+            [options]="[
+                { value: '0', label: 'Madre' },
+                { value: '1', label: 'Padre' },
+                { value: '2', label: 'Hermano' },
+                { value: '3', label: 'Hermana' },
+                { value: '4', label: 'Abuelo' },
+                { value: '5', label: 'Abuela' },
+                { value: '6', label: 'Tío' },
+                { value: '7', label: 'Tía' }
+            ]"
+        />
+    </div>
+
+    <!-- INFORMACION INAMU -->
+    <shared-subtitle [text]="'Información INAMU'" />
+    <div class="form-wrap">
+        <!-- Jefa Hogar -->
+        <shared-input-boolean [label]="'¿Es jefa de hogar?'" [value]="false" />
+
+        <!-- Mantiene contacto -->
+        <shared-input-boolean [label]="'¿Mantiene contacto con su familia?'" [value]="false" />
+
+        <!-- Brinda Apoyo -->
+        <shared-input-boolean [label]="'¿Brinda apoyo económico?'" [value]="false" />
+
+        <!-- Tiene pareja -->
+        <shared-input-boolean [label]="'¿Tiene pareja?'" [value]="false" />
+
+        <!-- Tiene pareja -->
+        <shared-input-boolean
+            [label]="'¿Su pareja hace uso del Centro Dormitorio?'"
+            [(value)]="suParejaHaceUsoDelDormitorio"
+        />
+        <!-- Telefono -->
+        <shared-input-number
+            *ngIf="!suParejaHaceUsoDelDormitorio"
+            [label]="'¿Porque No?'"
+            [placeholder]="'Ingrese la razón'"
+        />
+
+        <!-- Recibe ayuda de alguna institución -->
+        <shared-multiselect
+            [label]="'¿Recibe ayuda de alguna institución?'"
+            [options]="[
+                { value: '0', label: 'Cocaína' },
+                { value: '1', label: 'Crack' },
+                { value: '2', label: 'Heroína' },
+                { value: '3', label: 'Marihuana' },
+                { value: '4', label: 'Benzodiacepinas' },
+                { value: '5', label: 'Alcohol' },
+                { value: '6', label: 'Otros' }
+            ]"
+            [multiple]="true"
+        />
+
+        <!-- Ha sufrido algun tipo de violencia -->
+        <shared-multiselect
+            [label]="'¿Ha sufrido algun tipo de violencia?'"
+            [options]="[
+                { value: '0', label: 'Física' },
+                { value: '1', label: 'Psicológica' },
+                { value: '2', label: 'Sexual' },
+                { value: '3', label: 'Económica' },
+                { value: '4', label: 'Otros' }
+            ]"
+            [multiple]="true"
+        />
+        <!-- ¿Ante esta situación se dirigio a alguna institución? -->
+        <shared-multiselect
+            [label]="'¿Ante esta situación se dirigio a alguna institución?'"
+            [options]="[
+                { value: '0', label: 'INAMU' },
+                { value: '1', label: 'PANI' },
+                { value: '2', label: 'Fiscala' },
+                { value: '3', label: 'Hospital' },
+                { value: '4', label: 'Otros' }
+            ]"
+            [multiple]="true"
+        />
+    </div>
+</div>

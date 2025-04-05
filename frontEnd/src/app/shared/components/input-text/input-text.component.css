@@ -1,0 +1,36 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 250px;
+    max-width: 100%;
+
+    &:focus-within .input-label {
+        color: #312682;
+    }
+}
+
+.input-label {
+    font-size: 17px;
+    font-weight: 400;
+    color: #616161;
+    transition: color 0.3s ease;
+}
+
+.custom-input {
+    padding: 10px 15px;
+    border: 1.5px solid #616161;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #616161;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+        border-color: #312682;
+        color: #312682;
+        transition: color 0.3s ease;
+        box-shadow: 0 0 0 3px rgba(49, 38, 130, 0.3);
+    }
+}
+

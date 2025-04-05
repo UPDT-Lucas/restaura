@@ -1,0 +1,14 @@
+<div class="input-container">
+  <label class="input-label">{{ label }}</label>
+  <ng-select
+    class="custom-input"
+    [items]="options"
+    bindLabel="label"
+    bindValue="value"
+    [multiple]="true"
+    [closeOnSelect]="false"
+    [(ngModel)]="selectedValues"
+    placeholder="Seleccione una o varias opciones"
+  >
+  </ng-select>
+</div>

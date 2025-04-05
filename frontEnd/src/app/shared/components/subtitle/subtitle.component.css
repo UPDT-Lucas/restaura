@@ -1,0 +1,12 @@
+.subtitle-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.subtitle-text{
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
