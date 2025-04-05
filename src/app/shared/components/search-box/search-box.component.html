@@ -1,4 +1,13 @@
+@if(!placeholder){
+    <p>{{searchTitle}}</p>
+}
 <div class="search-box">
-    <input type="text" placeholder="Buscar por identificación" />
-    <span class="material-icons md-36">search</span>
+    @if(placeholder){
+        <input type="text" placeholder="Buscar..."/>
+    }@else {
+        <input type="text"/>
+    }
+    @if(searchIcon){
+        <span class="material-icons md-36">search</span>
+    }
 </div>
