@@ -16,6 +16,9 @@
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
   }
 }
