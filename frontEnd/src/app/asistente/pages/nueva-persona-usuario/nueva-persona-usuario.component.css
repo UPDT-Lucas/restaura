@@ -20,15 +20,46 @@
     margin-top: 20px;
 }
 
-.buttons{
+.buttons {
     display: flex;
     flex-direction: row;
     gap: 2rem;
     margin-top: 50px;
 }
 
-.button-container{
+.button-container {
     width: 50%;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 shared-input-text {
