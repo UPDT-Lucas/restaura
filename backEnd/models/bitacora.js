@@ -1,16 +1,17 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { DataTypes } from "@sequelize/core";
+
+export default function defineBitacora(sequelize) {
   return sequelize.define('bitacora', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     fecha: {
       type: DataTypes.DATEONLY,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     sequelize,
     tableName: 'bitacora',
@@ -22,8 +23,8 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
-        ]
+        ],
       },
-    ]
+    ],
   });
-};
+}

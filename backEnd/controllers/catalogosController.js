@@ -1,6 +1,6 @@
 /**
- * @file clienteController.js
- * @description Controlador que contiene la lógica de negocio de los clientes.
+ * @file catalogoController.js
+ * @description Controlador que contiene la lógica de negocio de los catalogos.
  */
 import dbConnection from "../DB/dbConnection.js";
 
