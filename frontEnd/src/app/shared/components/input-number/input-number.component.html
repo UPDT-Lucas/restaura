@@ -1,4 +1,11 @@
 <div class="input-container">
-    <label class="input-label">{{ label }}</label>
-    <input type="number" class="custom-input" placeholder="{{ placeholder }}" required />
+    <label class="input-label">{{label}}</label>
+    <input
+        type="number"
+        class="custom-input"
+        [value]="value"
+        (input)="onInputChange($event)"
+        placeholder="{{placeholder}}"
+        required
+    />
 </div>

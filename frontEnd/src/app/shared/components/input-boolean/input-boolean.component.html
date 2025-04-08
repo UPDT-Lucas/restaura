@@ -2,13 +2,15 @@
   <label class="input-label">{{ label }}</label>
   <div class="options">
     <button
-      [class.active]="value === true" 
+      [class.active]="value === true"
+      type="button"
       (click)="toggle(true)"
     >
       Sí
     </button>
-    <button 
-      [class.active]="value === false" 
+    <button
+      [class.active]="value === false"
+      type="button"
       (click)="toggle(false)"
     >
       No

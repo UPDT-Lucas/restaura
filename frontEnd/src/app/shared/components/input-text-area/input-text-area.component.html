@@ -1,9 +1,11 @@
 <div class="input-container">
-  <label class="input-label">{{ label }}</label>
-  <textarea
-    class="custom-input"
-    [placeholder]="placeholder"
-    [rows]="rows"
-    required
-  ></textarea>
+    <label class="input-label">{{ label }}</label>
+    <textarea
+        class="custom-input"
+        [value]="value"
+        (input)="onInputChange($event)"
+        [placeholder]="placeholder"
+        [rows]="rows"
+        required
+    ></textarea>
 </div>

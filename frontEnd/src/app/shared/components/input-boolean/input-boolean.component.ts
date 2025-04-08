@@ -11,8 +11,7 @@ export class InputBooleanComponent {
     @Input() value: boolean | null = null;
     @Output() valueChange = new EventEmitter<boolean>();
 
-    toggle(value: boolean) {
-        this.value = value;
-        this.valueChange.emit(this.value);
+    toggle(newValue: boolean) {
+        this.valueChange.emit(newValue);
     }
 }

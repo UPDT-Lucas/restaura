@@ -5,88 +5,145 @@
 
     <shared-title [text]="'Agregar Nueva Persona Usuario'"></shared-title>
 
+    <!-- INFORMACION ENTREVISTADOR -->
+    <shared-subtitle [text]="'Información Entrevistador'" />
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [(value)]="formPersonaUsuario.personal.nombreentrevistador"
+        />
+        <!-- Fecha -->
+        <shared-input-date
+            [label]="'Fecha Ingreso'"
+            [placeholder]="'Ingrese el Identificación'"
+            [(value)]="formPersonaUsuario.personal.fechaingreso"
+        />
+    </div>
+
     <!-- INFORMACION PERSONAL -->
     <shared-subtitle [text]="'Información Personal'" />
     <div class="form-wrap">
         <!-- Nombre -->
-        <shared-input-text [label]="'Nombre'" [placeholder]="'Ingrese el nombre'" />
-        <!-- Segundo Nombre -->
-        <shared-input-text [label]="'Segundo Nombre'" [placeholder]="'Ingrese el segundo nombre'" />
-        <!-- Apellido -->
-        <shared-input-text [label]="'Apellido'" [placeholder]="'Ingrese el apellido'" />
-        <!-- Segundo Apellido -->
-        <shared-input-text [label]="'Segundo Apellido'" [placeholder]="'Ingrese el segundo apellido'" />
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [(value)]="formPersonaUsuario.personal.nombre"
+        />
         <!-- Tipo Identificacion -->
-        <shared-select [label]="'Tipo de Identificación'" [options]="tipoIdentificacionOptions" />
+        <shared-select
+            [label]="'Tipo de Identificación'"
+            [options]="tipoIdentificacionOptions"
+            [(value)]="formPersonaUsuario.personal.tipo_id_id"
+        />
         <!-- Identificacion -->
-        <shared-input-text [label]="'Identificación'" [placeholder]="'Ingrese el Identificación'" />
+        <shared-input-text
+            [label]="'Identificación'"
+            [placeholder]="'Ingrese el Identificación'"
+            [(value)]="formPersonaUsuario.personal.id"
+        />
         <!-- Edad -->
-        <shared-input-number [label]="'Edad'" [placeholder]="'Ingrese la Edad'" />
+        <shared-input-number [label]="'Edad'" [placeholder]="'Ingrese la Edad'" [(value)]="formPersonaUsuario.edad" />
         <!-- Fecha Nacimiento -->
-        <shared-input-date [label]="'Fecha de Nacimiento'" [placeholder]="'Ingrese la fecha de nacimiento'" />
+        <shared-input-date
+            [label]="'Fecha de Nacimiento'"
+            [placeholder]="'Ingrese la fecha de nacimiento'"
+            [(value)]="formPersonaUsuario.personal.fechanacimiento"
+        />
         <!-- Género -->
-        <shared-select [label]="'Género'" [options]="generoOptions" />
+        <shared-select [label]="'Género'" [options]="generoOptions" [(value)]="formPersonaUsuario.personal.genero_id" />
         <!-- Número de Hijos -->
         <!-- Edad -->
-        <shared-input-number [label]="'Número de Hijos'" [placeholder]="'Ingrese el número de hijos'" />
+        <shared-input-number
+            [label]="'Número de Hijos'"
+            [placeholder]="'Ingrese el número de hijos'"
+            [(value)]="formPersonaUsuario.personal.cantidadhijos"
+        />
     </div>
 
     <!-- PROCEDENCIA -->
     <shared-subtitle [text]="'Procedencia'" />
     <div class="form-wrap">
         <!-- Pais -->
-        <shared-select [label]="'Pais'" [options]="paisOptions" />
+        <shared-select [label]="'Pais'" [options]="paisOptions" [(value)]="formPersonaUsuario.personal.pais_id" />
         <!-- Provincia -->
-        <shared-select [label]="'Provincia'" [options]="provinciaOptions" />
+        <shared-select
+            [label]="'Provincia'"
+            [options]="provinciaOptions"
+            [(value)]="formPersonaUsuario.personal.provincia_id"
+        />
         <!-- Cantón -->
-        <shared-select [label]="'Cantón'" [options]="cantonOptions" />
+        <shared-select [label]="'Cantón'" [options]="cantonOptions" [(value)]="formPersonaUsuario.personal.canton_id" />
     </div>
 
     <!-- DORMITORIO -->
     <shared-subtitle [text]="'Dormitorio'" />
     <div class="form-wrap">
         <!-- Como contacto el dormitorio -->
-        <shared-multiselect
+        <shared-select
             [label]="'¿Como contacto el dormitorio?'"
             [options]="contactoDormitorioOptions"
-            [multiple]="true"
+            [(value)]="formPersonaUsuario.personal.donde_dormi_id"
         />
         <!-- Razon por la que acude al dormitorio -->
         <shared-multiselect
             [label]="'¿Razón por la que acude al dormitorio?'"
             [options]="razonServicioOptions"
             [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.razon_servicio_id"
         />
         <!-- Hace cuanto vive en la calle -->
-        <shared-select [label]="'¿Hace cuanto vive en la calle?'" [options]="tiempoCalleOptions" />
+        <shared-select
+            [label]="'¿Hace cuanto vive en la calle?'"
+            [options]="tiempoCalleOptions"
+            [(value)]="formPersonaUsuario.personal.tiempo_calle_id"
+        />
     </div>
 
     <!-- TRABAJO -->
     <shared-subtitle [text]="'Trabajo'" />
     <div class="form-wrap">
         <!-- Trabaja actualmente -->
-        <shared-input-boolean [label]="'¿Trabaja actualmente?'" [(value)]="trabajaActualmente" />
+        <shared-input-boolean [label]="'¿Trabaja actualmente?'" [(value)]="formPersonaUsuario.personal.sitrabaja" />
 
         <!-- Empresa -->
-        <shared-input-text [label]="'Empresa'" [placeholder]="'Ingrese la empresa'" *ngIf="trabajaActualmente" />
+        <shared-input-text
+            [label]="'Empresa'"
+            [placeholder]="'Ingrese la empresa'"
+            [(value)]="formPersonaUsuario.personal.empresa"
+        />
 
         <!-- Ocupación -->
-        <shared-input-text [label]="'Ocupación'" [placeholder]="'Ingrese la ocupación'" />
+        <shared-input-text
+            [label]="'Ocupación'"
+            [placeholder]="'Ingrese la ocupación'"
+            [(value)]="formPersonaUsuario.personal.ocupacion"
+        />
     </div>
 
     <!-- LICENCIAS -->
     <shared-subtitle [text]="'Licencias'" />
     <div class="form-wrap">
         <!-- Tiene Licencias -->
-        <shared-input-boolean [label]="'¿Tiene Licencia?'" [(value)]="tieneLicencia" />
+        <shared-input-boolean [label]="'¿Tiene Licencia?'" [(value)]="formPersonaUsuario.personal.licencia" />
 
         <!-- Razon por la que acude al dormitorio -->
-        <shared-input-text *ngIf="tieneLicencia" [label]="'¿Cual Licencia?'" />
+        <shared-input-text
+            *ngIf="formPersonaUsuario.personal.licencia"
+            [label]="'¿Cual Licencia?'"
+            [(value)]="formPersonaUsuario.personal.tipo_licencia"
+        />
     </div>
 
     <!-- OBSERVACIONES -->
     <shared-subtitle [text]="'Observaciones'" />
-    <shared-input-text-area [label]="'Observaciones'" [placeholder]="'Ingrese una observación extra'" [rows]="3" />
+    <shared-input-text-area
+        [label]="'Observaciones'"
+        [placeholder]="'Ingrese una observación extra'"
+        [rows]="3"
+        [(value)]="formPersonaUsuario.personal.observacion"
+    />
 
     <!-- INFORMACION PARA REFERENCIAS -->
     <shared-subtitle [text]="'Información para Referencias'" />
@@ -94,42 +151,59 @@
     <div class="forms-wraps">
         <div class="form-wrap">
             <!-- Carcel -->
-            <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="tresMesesCarcel" />
-
-            <!-- Razón -->
-            <shared-input-text [label]="'Razón'" [placeholder]="'Ingrese la razón'" *ngIf="tresMesesCarcel" />
-        </div>
-        <div class="form-wrap">
-            <!-- Tratamiento Medico -->
-            <shared-input-boolean [label]="'¿Tratamiento Médico?'" [(value)]="tresMesesTratamientoMedico" />
+            <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formPersonaUsuario.info3meses_id.carcel" />
 
             <!-- Razón -->
             <shared-input-text
                 [label]="'Razón'"
                 [placeholder]="'Ingrese la razón'"
-                *ngIf="tresMesesTratamientoMedico"
+                *ngIf="formPersonaUsuario.info3meses_id.carcel"
+                [(value)]="formPersonaUsuario.info3meses_id.razoncarcel"
+            />
+        </div>
+        <div class="form-wrap">
+            <!-- Tratamiento Medico -->
+            <shared-input-boolean
+                [label]="'¿Tratamiento Médico?'"
+                [(value)]="formPersonaUsuario.info3meses_id.tratamientoMedico"
+            />
+
+            <!-- Razón -->
+            <shared-input-text
+                [label]="'Razón'"
+                [placeholder]="'Ingrese la razón'"
+                *ngIf="formPersonaUsuario.info3meses_id.tratamientoMedico"
+                [(value)]="formPersonaUsuario.info3meses_id.razonTrat"
             />
         </div>
         <div class="form-wrap">
             <!-- Tratamiento Psiquiatrico -->
-            <shared-input-boolean [label]="'¿Tratamiento Psiquiatrico?'" [(value)]="tresMesesTratamientoPsiquiatrico" />
+            <shared-input-boolean
+                [label]="'¿Tratamiento Psiquiatrico?'"
+                [(value)]="formPersonaUsuario.info3meses_id.tratamiento_psiq"
+            />
 
             <!-- Razón -->
             <shared-input-text
                 [label]="'Razón'"
                 [placeholder]="'Ingrese la razón'"
-                *ngIf="tresMesesTratamientoPsiquiatrico"
+                *ngIf="formPersonaUsuario.info3meses_id.tratamiento_psiq"
+                [(value)]="formPersonaUsuario.info3meses_id.razon_psiq"
             />
         </div>
         <div class="form-wrap">
             <!-- Tratamiento Medico -->
-            <shared-input-boolean [label]="'¿Tratamiento De Drogas?'" [(value)]="tresMesesTratamientoDeDrogas" />
+            <shared-input-boolean
+                [label]="'¿Tratamiento De Drogas?'"
+                [(value)]="formPersonaUsuario.info3meses_id.tratamiento_drogas"
+            />
 
             <!-- Razón -->
             <shared-input-text
                 [label]="'Razón'"
                 [placeholder]="'Ingrese la razón'"
-                *ngIf="tresMesesTratamientoDeDrogas"
+                *ngIf="formPersonaUsuario.info3meses_id.tratamiento_drogas"
+                [(value)]="formPersonaUsuario.info3meses_id.razon_drogas"
             />
         </div>
     </div>
@@ -139,26 +213,35 @@
     <div class="forms-wraps">
         <div class="form-wrap">
             <!-- ¿Tiene tos, flema sanguinolenta o fiebre? -->
-            <shared-input-boolean [label]="'¿Tiene tos, flema sanguinolenta o fiebre?'" [value]="false" />
+            <shared-input-boolean
+                [label]="'¿Tiene tos, flema sanguinolenta o fiebre?'"
+                [(value)]="formPersonaUsuario.personal.tosflemafiebre"
+            />
 
             <!-- Condicion Especial -->
             <shared-input-text
                 [label]="'Si padece de condición especial, describala'"
                 [placeholder]="'Ingrese la condición'"
+                [(value)]="formPersonaUsuario.personal.condicionespecial"
             />
 
             <!-- Discapacidad -->
-            <shared-input-text [label]="'Discapacidad'" [placeholder]="'Ingrese la discapacidad'" />
+            <shared-input-text
+                [label]="'Discapacidad'"
+                [placeholder]="'Ingrese la discapacidad'"
+                [(value)]="formPersonaUsuario.personal.discapacidad"
+            />
         </div>
         <div class="form-wrap">
             <!-- Toma Medicacion -->
-            <shared-input-boolean [label]="'¿Toma medicación?'" [(value)]="tomaMedicamento" />
+            <shared-input-boolean [label]="'¿Toma medicación?'" [(value)]="formPersonaUsuario.personal.medicacion" />
 
             <!-- Medicamento -->
             <shared-input-text
                 [label]="'Medicamentos'"
                 [placeholder]="'Ingrese los medicamentos'"
-                *ngIf="tomaMedicamento"
+                [(value)]="formPersonaUsuario.personal.detallemedicamento"
+                *ngIf="formPersonaUsuario.personal.medicacion"
             />
         </div>
     </div>
@@ -167,108 +250,164 @@
     <shared-subtitle [text]="'Pensiones'" />
     <div class="form-wrap">
         <!-- Pensiones -->
-        <shared-multiselect [label]="'Tipos de Pension'" [options]="tipoPensionesOptions" [multiple]="true" />
+        <shared-multiselect
+            [label]="'Tipos de Pension'"
+            [options]="tipoPensionesOptions"
+            [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.pensiones"
+        />
     </div>
 
     <!-- INFORMACION ACADEMICA -->
     <shared-subtitle [text]="'Información Académica'" />
     <div class="form-wrap">
         <!-- Sabe leer y escribir -->
-        <shared-input-boolean [label]="'¿Sabe leer y escribir?'" [value]="false" />
+        <shared-input-boolean [label]="'¿Sabe leer y escribir?'" [(value)]="formPersonaUsuario.personal.leerescribir" />
 
         <!-- Grado Académico -->
-        <shared-multiselect [label]="'Grado Académico'" [options]="gradoAcademicoOptions" [multiple]="true" />
+        <shared-multiselect
+            [label]="'Grado Académico'"
+            [options]="gradoAcademicoOptions"
+            [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.gradosacademicos"
+        />
 
         <!-- Nombre de Tecnico -->
-        <shared-input-text [label]="'Nombre de Técnico'" [placeholder]="'Ingrese la nombre del técnico'" />
+        <shared-input-text
+            [label]="'Nombre de Técnico'"
+            [placeholder]="'Ingrese la nombre del técnico'"
+            [(value)]="formPersonaUsuario.personal.nombretecnico"
+        />
     </div>
 
     <!-- DROGAS -->
     <shared-subtitle [text]="'Consumo de Drogas'" />
     <div class="form-wrap">
         <!-- Consume Drogas -->
-        <shared-input-boolean [label]="'¿Consume drogas actualmente?'" [(value)]="consumeDrogas" />
+        <shared-input-boolean
+            [label]="'¿Consume drogas actualmente?'"
+            [(value)]="formPersonaUsuario.personal.consumodrogas"
+        />
 
         <!-- Drogas que consume -->
         <shared-multiselect
-            *ngIf="consumeDrogas"
+            *ngIf="formPersonaUsuario.personal.consumodrogas"
             [label]="'Drogas que consume'"
             [options]="tipoDrogasOptions"
             [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.drogas"
         />
 
         <!-- Droga que mas le afecta -->
         <shared-input-text
-            *ngIf="consumeDrogas"
+            *ngIf="formPersonaUsuario.personal.consumodrogas"
             [label]="'Droga que más le afecta'"
             [placeholder]="'Ingrese la droga que más le afecta'"
+            [(value)]="formPersonaUsuario.personal.droga_principal"
         />
 
-        <!-- Edad de inicio de consumo -->
+        <!-- Edad Inicio -->
         <shared-input-number
-            *ngIf="consumeDrogas"
-            [label]="'Edad de Inicio del Consumo'"
-            [placeholder]="'Ingrese la edad'"
+            *ngIf="formPersonaUsuario.personal.consumodrogas"
+            [label]="'Edad de Inicio'"
+            [placeholder]="'Ingrese la edad de inicio'"
+            [(value)]="formPersonaUsuario.personal.edadiniciodrogas"
+        />
+
+        <!-- Internamientos -->
+        <shared-input-number
+            [label]="'Número internamientos'"
+            [placeholder]="'Ingrese el número de internamientos'"
+            [(value)]="formPersonaUsuario.personal.numerointernamientos"
         />
     </div>
 
     <!-- CARCEL -->
     <shared-subtitle [text]="'Consumo de Drogas'" />
     <div class="form-wrap">
-        <!-- Consume Drogas -->
-        <shared-input-boolean [label]="'¿Ha estado en la cárcel?'" [(value)]="haEstadoEnCarcel" />
+        <!-- Ha estado en carcel -->
+        <shared-input-boolean [label]="'¿Ha estado en la cárcel?'" [(value)]="formPersonaUsuario.personal.carcel" />
 
         <!-- Razon -->
         <shared-input-text
-            *ngIf="haEstadoEnCarcel"
+            *ngIf="formPersonaUsuario.personal.carcel"
             [label]="'Razón de Encarcelamiento'"
             [placeholder]="'Ingrese la razón de encarcelamiento'"
+            [(value)]="formPersonaUsuario.personal.razoncarcel"
         />
 
         <!-- Edad de inicio de consumo -->
-        <shared-input-number *ngIf="haEstadoEnCarcel" [label]="'Edad de Inicio'" [placeholder]="'Ingrese la edad'" />
+        <shared-input-number
+            *ngIf="formPersonaUsuario.personal.carcel"
+            [label]="'Edad de Inicio'"
+            [placeholder]="'Ingrese la edad'"
+            [(value)]="formPersonaUsuario.personal.edadiniciocarcel"
+        />
 
-        <!-- Consume Drogas -->
-        <shared-input-boolean *ngIf="haEstadoEnCarcel" [label]="'¿Pendiente Resolución?'" />
+        <!-- Pendiente Resolucion -->
+        <shared-input-boolean
+            *ngIf="formPersonaUsuario.personal.carcel"
+            [label]="'¿Pendiente Resolución?'"
+            [(value)]="formPersonaUsuario.personal.pendienteresolucion"
+        />
     </div>
 
     <!-- INFORMACION PERSONAL -->
     <shared-subtitle [text]="'Información Personal'" />
     <div class="form-wrap">
         <!-- Nombre -->
-        <shared-input-text [label]="'Nombre'" [placeholder]="'Ingrese el nombre'" />
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [(value)]="formPersonaUsuario.contacto.nombre"
+        />
         <!-- Telefono -->
-        <shared-input-number [label]="'Teléfono'" [placeholder]="'Ingrese el teléfono'" />
+        <shared-input-number
+            [label]="'Teléfono'"
+            [placeholder]="'Ingrese el teléfono'"
+            [(value)]="formPersonaUsuario.contacto.telefono"
+        />
         <!-- Parentesco -->
-        <shared-input-text [label]="'Parentesco'" />
+        <shared-input-text
+            [label]="'Parentesco'"
+            [placeholder]="'Ingrese el Parentesco'"
+            [(value)]="formPersonaUsuario.contacto.relacion"
+        />
     </div>
 
     <!-- INFORMACION INAMU -->
     <shared-subtitle [text]="'Información INAMU'" />
     <div class="form-wrap">
         <!-- Jefa Hogar -->
-        <shared-input-boolean [label]="'¿Es jefa de hogar?'" [value]="false" />
+        <shared-input-boolean [label]="'¿Es jefa de hogar?'" [(value)]="formPersonaUsuario.inamu.jefehogar" />
 
         <!-- Mantiene contacto -->
-        <shared-input-boolean [label]="'¿Mantiene contacto con su familia?'" [value]="false" />
+        <shared-input-boolean
+            [label]="'¿Mantiene contacto con su familia?'"
+            [(value)]="formPersonaUsuario.inamu.contactofamilia"
+        />
 
         <!-- Brinda Apoyo -->
-        <shared-input-boolean [label]="'¿Brinda apoyo económico?'" [value]="false" />
+        <shared-input-boolean
+            [label]="'¿Brinda apoyo económico?'"
+            [(value)]="formPersonaUsuario.inamu.apoyoeconomico"
+        />
 
         <!-- Tiene pareja -->
-        <shared-input-boolean [label]="'¿Tiene pareja?'" [(value)]="tienePareja" />
+        <shared-input-boolean [label]="'¿Tiene pareja?'" [(value)]="formPersonaUsuario.inamu.pareja" />
 
         <!-- Su pareja hace uso del dormitorio -->
         <shared-input-boolean
-            *ngIf="tienePareja"
+            *ngIf="formPersonaUsuario.inamu.pareja"
             [label]="'¿Su pareja hace uso del Centro Dormitorio?'"
-            [(value)]="suParejaHaceUsoDelDormitorio"
+            [(value)]="formPersonaUsuario.inamu.parejacentro"
         />
         <!-- Porque No -->
         <shared-input-number
-            *ngIf="!suParejaHaceUsoDelDormitorio && tienePareja"
+            *ngIf="!formPersonaUsuario.inamu.parejacentro && formPersonaUsuario.inamu.pareja"
             [label]="'¿Porque No?'"
             [placeholder]="'Ingrese la razón'"
+            [(value)]="formPersonaUsuario.inamu.parejano"
         />
 
         <!-- Recibe ayuda de alguna institución -->
@@ -276,6 +415,7 @@
             [label]="'¿Recibe ayuda de alguna institución?'"
             [options]="tipoAyudaOptions"
             [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.tipos_ayuda"
         />
 
         <!-- Ha sufrido algun tipo de violencia -->
@@ -283,18 +423,27 @@
             [label]="'¿Ha sufrido algun tipo de violencia?'"
             [options]="tipoViolenciaOptions"
             [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.tipos_violencia"
         />
         <!-- ¿Ante esta situación se dirigio a alguna institución? -->
         <shared-multiselect
             [label]="'¿Ante esta situación se dirigio a alguna institución?'"
             [options]="institucionesAyudaOptions"
             [multiple]="true"
+            [(value)]="formPersonaUsuario.catalogos.instituciones_violencia"
+        />
+
+        <!-- ¿Que soluciones o medidas se brindaron? -->
+        <shared-input-text
+            [label]="'¿Que soluciones o medidas se brindaron?'"
+            [placeholder]="'Ingrese la solución o medida'"
+            [(value)]="formPersonaUsuario.inamu.solucionesdetalle"
         />
     </div>
 
     <div class="buttons">
         <div class="button-container">
-            <shared-button text="Crear Persona Usuario"></shared-button>
+            <shared-button text="Crear Persona Usuario" (click)="crearPersonaUsuario()"></shared-button>
         </div>
         <div class="button-container">
             <shared-secondary-button text="Cancelar Creación"></shared-secondary-button>

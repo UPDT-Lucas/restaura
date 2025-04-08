@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -11,8 +11,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 })
 export class MultiselectComponent {
     @Input() label: string = '';
-    @Input() options: { value: string; label: string }[] = [];
+    @Input() options: { value: any; label: string }[] = [];
     @Input() multiple: boolean = false;
 
-    selectedValues: string[] = []; // o number[] si tus values son numéricos
+    @Input() value: any[] = [];
+    @Output() valueChange = new EventEmitter<any[]>();
+
+    onChange(newValues: any[]) {
+        this.valueChange.emit(newValues);
+    }
 }

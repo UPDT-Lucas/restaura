@@ -5,10 +5,11 @@
     [items]="options"
     bindLabel="label"
     bindValue="value"
-    [multiple]="true"
+    [multiple]="multiple"
     [closeOnSelect]="false"
-    [(ngModel)]="selectedValues"
-    placeholder="Seleccione una o varias opciones"
+    [placeholder]="'Seleccione una o varias opciones'"
+    [ngModel]="value"
+    (ngModelChange)="onChange($event)"
   >
   </ng-select>
 </div>

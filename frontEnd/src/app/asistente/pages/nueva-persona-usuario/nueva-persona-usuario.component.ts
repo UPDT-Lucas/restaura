@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TitleOneComponent } from '../../../shared/components/title/title.component';
 import { SubtitleComponent } from '../../../shared/components/subtitle/subtitle.component';
@@ -28,23 +29,87 @@ import { CatalogoService } from '../../../services/catalogo.service';
         CommonModule,
         ButtonComponent,
         SecondaryButtonComponent,
+        ReactiveFormsModule,
     ],
     templateUrl: './nueva-persona-usuario.component.html',
     styleUrls: ['./nueva-persona-usuario.component.css'],
 })
 export class AddPersonComponent {
+    // Formulario
+    formPersonaUsuario: any = {
+        personal: {
+            nombreentrevistador: null,
+            fechaingreso: null,
+            nombre: null,
+            tipo_id_id: null,
+            id: null,
+            edad: null,
+            fechanacimiento: null,
+            genero_id: null,
+            cantidadhijos: null,
+            pais_id: null,
+            provincia_id: null,
+            canton_id: null,
+            tiempo_calle_id: null,
+            donde_dormi_id: null,
+            sitrabaja: false,
+            empresa: null,
+            ocupacion: null,
+            licencia: false,
+            tipo_licencia: null,
+            observacion: null,
+            tosflemafiebre: false,
+            condicionespecial: null,
+            discapacidad: null,
+            medicacion: false,
+            detallemedicamento: null,
+            leerescribir: false,
+            nombretecnico: null,
+            consumodrogas: false,
+            droga_principal: null,
+            edadiniciodrogas: null,
+            numerointernamientos: null,
+            carcel: false,
+            razoncarcel: null,
+            pendienteresolucion: false,
+            edadiniciocarcel: null,
+        },
+        info3meses_id: {
+            carcel: false,
+            razoncarcel: null,
+            tratamientoMedico: false,
+            razonTrat: null,
+            tratamiento_psiq: false,
+            razon_psiq: null,
+            tratamiento_drogas: false,
+            razon_drogas: null,
+        },
+        contacto: {
+            nombre: null,
+            telefono: null,
+            relacion: null,
+        },
+        inamu: {
+            jefehogar: false,
+            contactofamilia: false,
+            apoyoeconomico: false,
+            pareja: false,
+            parejacentro: false,
+            parejano: null,
+            solucionesdetalle: null,
+        },
+        catalogos: {
+            tipos_ayuda: [],
+            tipos_violencia: [],
+            instituciones_violencia: [],
+            gradosacademicos: [],
+            drogas: [],
+            pensiones: [],
+            razon_servicio: [],
+        },
+    };
+
     // Variables Formulario
-    trabajaActualmente: boolean = false;
-    tieneLicencia: boolean = false;
-    tresMesesCarcel: boolean = false;
-    tresMesesTratamientoMedico: boolean = false;
-    tresMesesTratamientoPsiquiatrico: boolean = false;
-    tresMesesTratamientoDeDrogas: boolean = false;
-    tomaMedicamento: boolean = false;
-    consumeDrogas: boolean = false;
-    haEstadoEnCarcel: boolean = false;
-    tienePareja: boolean = false;
-    suParejaHaceUsoDelDormitorio: boolean = false;
 
     // Variables API
     catalogos: any[] = [];
@@ -149,5 +214,10 @@ export class AddPersonComponent {
                 this.cargando = false;
             },
         });
+    }
+
+    crearPersonaUsuario() {
+        console.log('Objeto final:', this.formPersonaUsuario);
+        // Aquí podrías hacer una petición POST si querés
     }
 }
