@@ -13,6 +13,7 @@ import { InputNumberComponent } from '../../../shared/components/input-number/in
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
 import { CatalogoService } from '../../../services/catalogo.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'nueva-persona-usuario',
@@ -38,20 +39,19 @@ export class AddPersonComponent {
     // Formulario
     formPersonaUsuario: any = {
         personal: {
-            nombreentrevistador: null,
-            fechaingreso: null,
             nombre: null,
             tipo_id_id: null,
             id: null,
+            nombreentrevistador: null,
+            fechaingreso: null,
             edad: null,
             fechanacimiento: null,
             genero_id: null,
             cantidadhijos: null,
             pais_id: null,
-            provincia_id: null,
             canton_id: null,
-            tiempo_calle_id: null,
             donde_dormi_id: null,
+            tiempo_calle_id: null,
             sitrabaja: false,
             empresa: null,
             ocupacion: null,
@@ -60,7 +60,7 @@ export class AddPersonComponent {
             observacion: null,
             tosflemafiebre: false,
             condicionespecial: null,
-            discapacidad: null,
+            discapacidad: false,
             medicacion: false,
             detallemedicamento: null,
             leerescribir: false,
@@ -77,8 +77,8 @@ export class AddPersonComponent {
         info3meses_id: {
             carcel: false,
             razoncarcel: null,
-            tratamientoMedico: false,
-            razonTrat: null,
+            tratamiento_medico: false,
+            razon_trat: null,
             tratamiento_psiq: false,
             razon_psiq: null,
             tratamiento_drogas: false,
@@ -130,7 +130,7 @@ export class AddPersonComponent {
 
     cargando: boolean = true;
 
-    constructor(private catalogoService: CatalogoService) {}
+    constructor(private catalogoService: CatalogoService, private http: HttpClient) {}
 
     // Llamada API
     ngOnInit(): void {
@@ -219,5 +219,16 @@ export class AddPersonComponent {
     crearPersonaUsuario() {
         console.log('Objeto final:', this.formPersonaUsuario);
         // Aquí podrías hacer una petición POST si querés
+
+        this.http.post('http://localhost:3100/saveCliente', this.formPersonaUsuario).subscribe({
+            next: (response) => {
+                console.log('Respuesta del servidor:', response);
+                // Podés mostrar un toast, limpiar el formulario, etc.
+            },
+            error: (error) => {
+                console.error('Error al guardar la persona usuario:', error);
+                // Mostrar error al usuario si querés
+            },
+        });
     }
 }

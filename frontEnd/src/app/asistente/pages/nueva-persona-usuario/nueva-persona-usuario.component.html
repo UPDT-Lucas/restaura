@@ -12,6 +12,7 @@
         <shared-input-text
             [label]="'Nombre'"
             [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.nombreentrevistador"
         />
         <!-- Fecha -->
@@ -44,7 +45,7 @@
             [(value)]="formPersonaUsuario.personal.id"
         />
         <!-- Edad -->
-        <shared-input-number [label]="'Edad'" [placeholder]="'Ingrese la Edad'" [(value)]="formPersonaUsuario.edad" />
+        <shared-input-number [label]="'Edad'" [placeholder]="'Ingrese la Edad'" [(value)]="formPersonaUsuario.personal.edad" />
         <!-- Fecha Nacimiento -->
         <shared-input-date
             [label]="'Fecha de Nacimiento'"
@@ -91,7 +92,7 @@
             [label]="'¿Razón por la que acude al dormitorio?'"
             [options]="razonServicioOptions"
             [multiple]="true"
-            [(value)]="formPersonaUsuario.catalogos.razon_servicio_id"
+            [(value)]="formPersonaUsuario.catalogos.razon_servicio"
         />
         <!-- Hace cuanto vive en la calle -->
         <shared-select
@@ -165,7 +166,7 @@
             <!-- Tratamiento Medico -->
             <shared-input-boolean
                 [label]="'¿Tratamiento Médico?'"
-                [(value)]="formPersonaUsuario.info3meses_id.tratamientoMedico"
+                [(value)]="formPersonaUsuario.info3meses_id.tratamiento_medico"
             />
 
             <!-- Razón -->
@@ -173,7 +174,7 @@
                 [label]="'Razón'"
                 [placeholder]="'Ingrese la razón'"
                 *ngIf="formPersonaUsuario.info3meses_id.tratamientoMedico"
-                [(value)]="formPersonaUsuario.info3meses_id.razonTrat"
+                [(value)]="formPersonaUsuario.info3meses_id.razon_trat"
             />
         </div>
         <div class="form-wrap">
@@ -226,11 +227,7 @@
             />
 
             <!-- Discapacidad -->
-            <shared-input-text
-                [label]="'Discapacidad'"
-                [placeholder]="'Ingrese la discapacidad'"
-                [(value)]="formPersonaUsuario.personal.discapacidad"
-            />
+            <shared-input-boolean [label]="'Discapacidad'" [(value)]="formPersonaUsuario.personal.discapacidad" />
         </div>
         <div class="form-wrap">
             <!-- Toma Medicacion -->
@@ -362,7 +359,7 @@
             [(value)]="formPersonaUsuario.contacto.nombre"
         />
         <!-- Telefono -->
-        <shared-input-number
+        <shared-input-text
             [label]="'Teléfono'"
             [placeholder]="'Ingrese el teléfono'"
             [(value)]="formPersonaUsuario.contacto.telefono"

@@ -34,3 +34,8 @@
     }
 }
 
+.error-message {
+    color: rgb(246, 61, 61);
+    font-size: 12px;
+    margin-top: 4px;
+}
