@@ -1,11 +1,12 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { DataTypes } from "@sequelize/core";
+
+export default function defineDrogaXCliente(sequelize) {
   return sequelize.define('drogaxcliente', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     droga_id: {
       type: DataTypes.INTEGER,
@@ -13,8 +14,8 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'droga',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     cliente_servicio_id: {
       type: DataTypes.TEXT,
@@ -22,13 +23,13 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'cliente_servicio',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     importante: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   }, {
     sequelize,
     tableName: 'drogaxcliente',
@@ -42,8 +43,8 @@ module.exports = function(sequelize, DataTypes) {
           { name: "id" },
           { name: "droga_id" },
           { name: "cliente_servicio_id" },
-        ]
+        ],
       },
-    ]
+    ],
   });
-};
+}

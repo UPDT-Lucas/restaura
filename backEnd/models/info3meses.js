@@ -1,43 +1,44 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { DataTypes } from "@sequelize/core";
+
+export default function defineInfo3Meses(sequelize) {
   return sequelize.define('info3meses', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     carcel: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     razon_carcel: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     tratamiento_medico: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     razon_trat: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     tratamiento_psiq: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     razon_psiq: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     tratamiento_drogas: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     razon_drogas: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     cliente_servicio_id: {
       type: DataTypes.TEXT,
@@ -45,9 +46,9 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'cliente_servicio',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     tableName: 'info3meses',
@@ -60,8 +61,8 @@ module.exports = function(sequelize, DataTypes) {
         fields: [
           { name: "id" },
           { name: "cliente_servicio_id" },
-        ]
+        ],
       },
-    ]
+    ],
   });
-};
+}

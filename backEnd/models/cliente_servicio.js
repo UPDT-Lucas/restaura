@@ -1,171 +1,177 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { DataTypes } from "@sequelize/core";
+
+export default function defineClienteServicio(sequelize) {
   return sequelize.define('cliente_servicio', {
     id: {
       type: DataTypes.TEXT,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     nombre: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     edad: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
     fechanacimiento: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
     },
     nombreentrevistador: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     fechaingreso: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
     },
     observacion: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     sitrabaja: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     empresa: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     ocupacion: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     licencia: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
-    tipo: {
+    tipo_licencia: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     tosflemafiebre: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     condicionespecial: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     discapacidad: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     medicacion: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     detallemedicamento: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     cantidadhijos: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
     leerescribir: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     nombretecnico: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     consumodrogas: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     edadiniciodrogas: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
     numerointernamientos: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
     carcel: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     razoncarcel: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
     },
     pendienteresolucion: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     edadiniciocarcel: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
+    droga_principal:{
+        type: DataTypes.TEXT,
+        allowNull: true,
+    }
+    ,
     genero_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'genero',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     tipo_id_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'tipo_id',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
-    provincia_id: {
+    canton_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'provincia',
-        key: 'id'
-      }
+        model: 'canton',
+        key: 'id',
+      },
     },
     pais_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'pais',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     donde_dormi_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'donde_dormi',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     tiempo_calle_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'tiempo_calle',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     estado_civil_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'estado_civil',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     tableName: 'cliente_servicio',
@@ -177,8 +183,8 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
-        ]
+        ],
       },
-    ]
+    ],
   });
-};
+}

@@ -1,11 +1,12 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+import { DataTypes } from "@sequelize/core";
+
+export default function defineViolenciaXInamu(sequelize) {
   return sequelize.define('violenciaxinamu', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     tipo_violencia_id: {
       type: DataTypes.INTEGER,
@@ -13,8 +14,8 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'tipo_violencia',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     informacion_inamu_id: {
       type: DataTypes.INTEGER,
@@ -22,9 +23,9 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'informacion_inamu',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     tableName: 'violenciaxinamu',
@@ -38,8 +39,8 @@ module.exports = function(sequelize, DataTypes) {
           { name: "id" },
           { name: "tipo_violencia_id" },
           { name: "informacion_inamu_id" },
-        ]
+        ],
       },
-    ]
+    ],
   });
-};
+}
