@@ -702,11 +702,11 @@ clienteCtr.updateCliente = async (req,res)=> {
             return res.status(404).json({ message: "Cliente no encontrado o sin cambios" });
         }
 
-        res.status(200).json({ message: "Cliente actualizado correctamente", updatedRows });
+        res.status(200).json({ message: "Cliente actualizado correctamente", updatedRows,status:200 });
 
     }catch(error){
         console.error("Error al eliminar cliente:", error);
-        res.status(500).json({ message: "Error al eliminar cliente", error });
+        res.status(500).json({ message: "Error al eliminar cliente", error,status:500 });
     }
 }
 
@@ -730,7 +730,7 @@ clienteCtr.deleteCliente = async (req,res)=> {
 
     }catch(error){
         console.error("Error al eliminar cliente:", error);
-        res.status(500).json({ message: "Error al eliminar cliente", error });
+        res.status(500).json({ message: "Error al eliminar cliente", error,status:500 });
     }
 }
 
