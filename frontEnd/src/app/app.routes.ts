@@ -28,7 +28,7 @@ export const routes: Routes = [
         component: EditPersonComponent,
     },
     {
-        path: 'view',
+        path: 'view/:id',
         component: ViewPersonComponent,
     },
 ];

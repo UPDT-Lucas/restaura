@@ -7,8 +7,9 @@
             <th>Nombre</th>
             <th>Edad</th>
             <th>Ingreso</th>
-            <th>Eliminar</th>
+            <th>Ver</th>
             <th>Editar</th>
+            <th>Eliminar</th>
            <!-- 
             <th>Agregar</th>
             -->
@@ -20,13 +21,18 @@
             <td>{{client.edad}}</td>
             <td>{{client.fechaingreso}}</td>
             <td>
-                <span class="material-icons" (click)="getInamu(client.id)">
-                    delete_forever
+                <span class="material-icons" routerLink="/view/{{client.id}}">
+                    visibility
                 </span>
             </td>
             <td>
                 <span class="material-icons" routerLink="/edit/{{client.id}}">
                     edit
+                </span>
+            </td>
+            <td>
+                <span class="material-icons" (click)="getInamu(client.id)">
+                    delete_forever
                 </span>
             </td>
             <!--

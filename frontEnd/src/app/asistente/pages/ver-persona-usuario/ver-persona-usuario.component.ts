@@ -12,6 +12,7 @@ import { InputBooleanComponent } from '../../../shared/components/input-boolean/
 import { InputNumberComponent } from '../../../shared/components/input-number/input-number.component';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { CantonesService } from '../../../services/cantones.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'nueva-persona-usuario',
@@ -132,10 +133,13 @@ export class ViewPersonComponent {
     constructor(
         private catalogoService: CatalogoService,
         private cantonesService: CantonesService,
+        private route: ActivatedRoute
     ) {}
 
     // Llamada API
     ngOnInit(): void {
+        const clientId = this.route.snapshot.paramMap.get('id');
+        console.log("idddddddddddd", clientId);
         this.catalogoService.getCatalogos().subscribe({
             next: (data) => {
                 this.catalogos = data;
