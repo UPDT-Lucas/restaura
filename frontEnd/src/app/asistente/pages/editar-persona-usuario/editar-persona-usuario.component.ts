@@ -15,6 +15,8 @@ import { SecondaryButtonComponent } from '../../../shared/components/secondary-b
 import { CatalogoService } from '../../../services/catalogo.service';
 import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
+import { ActivatedRoute } from '@angular/router';
+import { __param } from 'tslib';
 
 @Component({
     selector: 'editar-persona-usuario',
@@ -138,10 +140,12 @@ export class EditPersonComponent {
         private catalogoService: CatalogoService,
         private clientService: ClientService,
         private cantonesService: CantonesService,
+        private route: ActivatedRoute
     ) {}
 
     // Llamada API
     ngOnInit(): void {
+        const clientId = this.route.snapshot.paramMap.get('id');
         this.catalogoService.getCatalogos().subscribe({
             next: (data) => {
                 this.catalogos = data;
@@ -219,8 +223,9 @@ export class EditPersonComponent {
             },
         });
 
+
         // Obtener datos del cliente
-        this.clientService.getAllInfoClient('15428412').subscribe({
+        this.clientService.getAllInfoClient(clientId!).subscribe({
             next: (data) => {
                 this.cargando = false;
 

@@ -8,6 +8,7 @@
             <th>Edad</th>
             <th>Ingreso</th>
             <th>Eliminar</th>
+            <th>Editar</th>
            <!-- 
             <th>Agregar</th>
             -->
@@ -21,6 +22,11 @@
             <td>
                 <span class="material-icons" (click)="getInamu(client.id)">
                     delete_forever
+                </span>
+            </td>
+            <td>
+                <span class="material-icons" routerLink="/edit/{{client.id}}">
+                    edit
                 </span>
             </td>
             <!--

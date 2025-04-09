@@ -24,7 +24,7 @@ export const routes: Routes = [
         component: AddPersonComponent,
     },
     {
-        path: 'edit',
+        path: 'edit/:id',
         component: EditPersonComponent,
     },
     {

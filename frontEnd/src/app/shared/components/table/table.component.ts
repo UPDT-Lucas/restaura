@@ -2,10 +2,13 @@ import { Component, Input } from '@angular/core';
 import { ClienteServicio } from '../../../interfaces/clienteServicio.interface';
 import { ClientService } from '../../../services/client.service';
 import { AllInfoClient } from '../../../interfaces/allClient.interface';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'shared-table',
-  imports: [],
+  imports: [
+    RouterModule
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
