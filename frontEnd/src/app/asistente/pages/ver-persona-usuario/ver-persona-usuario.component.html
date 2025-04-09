@@ -3,7 +3,7 @@
         <div class="spinner"></div>
     </div>
 
-    <shared-title [text]="'Agregar Nueva Persona Usuario'"></shared-title>
+    <shared-title [text]="'Ver Persona Usuario'"></shared-title>
 
     <!-- INFORMACION ENTREVISTADOR -->
     <shared-subtitle [text]="'Información Entrevistador'" />
@@ -462,11 +462,5 @@
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.inamu.solucionesdetalle"
         />
-    </div>
-
-    <div class="buttons">
-        <div class="button-container">
-            <shared-button text="Crear Persona Usuario" (click)="crearPersonaUsuario()"></shared-button>
-        </div>
     </div>
 </div>

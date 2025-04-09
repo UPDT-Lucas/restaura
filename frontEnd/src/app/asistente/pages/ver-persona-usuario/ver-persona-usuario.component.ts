@@ -10,10 +10,7 @@ import { InputDateComponent } from '../../../shared/components/input-date/input-
 import { InputTextAreaComponent } from '../../../shared/components/input-text-area/input-text-area.component';
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
 import { InputNumberComponent } from '../../../shared/components/input-number/input-number.component';
-import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
 import { CatalogoService } from '../../../services/catalogo.service';
-import { PersonaUsuarioService } from '../../../services/persona-usuario.service';
 import { CantonesService } from '../../../services/cantones.service';
 
 @Component({
@@ -29,13 +26,12 @@ import { CantonesService } from '../../../services/cantones.service';
         InputBooleanComponent,
         InputNumberComponent,
         CommonModule,
-        ButtonComponent,
         ReactiveFormsModule,
     ],
     templateUrl: './ver-persona-usuario.component.html',
     styleUrls: ['./ver-persona-usuario.component.css'],
 })
-export class AddPersonComponent {
+export class ViewPersonComponent {
     // Formulario
     formPersonaUsuario: any = {
         personal: {
@@ -135,7 +131,6 @@ export class AddPersonComponent {
 
     constructor(
         private catalogoService: CatalogoService,
-        private personaUsuarioService: PersonaUsuarioService,
         private cantonesService: CantonesService,
     ) {}
 
@@ -272,19 +267,5 @@ export class AddPersonComponent {
         console.log('Objeto final:', this.formPersonaUsuario);
         // Aquí podrías hacer una petición POST si querés
 
-        this.personaUsuarioService.addUser(this.formPersonaUsuario).subscribe({
-            next: (response) => {
-                this.cargando = false;
-
-                if (response.status === 200) {
-                    console.log('Persona usuario guardada correctamente:', response.data);
-                } else {
-                    console.error('Error al guardar la persona usuario:', response);
-                }
-            },
-            error: (error) => {
-                console.error('Error al guardar la persona usuario:', error);
-            },
-        });
     }
 }

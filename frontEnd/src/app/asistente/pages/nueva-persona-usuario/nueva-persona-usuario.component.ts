@@ -13,7 +13,7 @@ import { InputNumberComponent } from '../../../shared/components/input-number/in
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
 import { CatalogoService } from '../../../services/catalogo.service';
-import { PersonaUsuarioService } from '../../../services/persona-usuario.service';
+import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
 
 @Component({
@@ -136,7 +136,7 @@ export class AddPersonComponent {
 
     constructor(
         private catalogoService: CatalogoService,
-        private personaUsuarioService: PersonaUsuarioService,
+        private clientService: ClientService,
         private cantonesService: CantonesService,
     ) {}
 
@@ -273,7 +273,7 @@ export class AddPersonComponent {
         console.log('Objeto final:', this.formPersonaUsuario);
         // Aquí podrías hacer una petición POST si querés
 
-        this.personaUsuarioService.addUser(this.formPersonaUsuario).subscribe({
+        this.clientService.addClient(this.formPersonaUsuario).subscribe({
             next: (response) => {
                 this.cargando = false;
 

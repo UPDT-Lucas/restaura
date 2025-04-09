@@ -3,7 +3,7 @@
         <div class="spinner"></div>
     </div>
 
-    <shared-title [text]="'Agregar Nueva Persona Usuario'"></shared-title>
+    <shared-title [text]="'Editar Persona Usuario'"></shared-title>
 
     <!-- INFORMACION ENTREVISTADOR -->
     <shared-subtitle [text]="'Información Entrevistador'" />
@@ -43,6 +43,7 @@
         <shared-input-text
             [label]="'Identificación'"
             [placeholder]="'Ingrese el Identificación'"
+            [disabled]="false"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.id"
         />
@@ -466,7 +467,7 @@
 
     <div class="buttons">
         <div class="button-container">
-            <shared-button text="Crear Persona Usuario" (click)="crearPersonaUsuario()"></shared-button>
+            <shared-button text="Editar Persona Usuario" (click)="editarPersonaUsuario()"></shared-button>
         </div>
         <div class="button-container">
             <shared-secondary-button text="Cancelar Creación"></shared-secondary-button>

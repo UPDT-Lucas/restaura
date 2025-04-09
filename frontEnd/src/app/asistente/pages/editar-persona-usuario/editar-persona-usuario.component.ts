@@ -13,7 +13,7 @@ import { InputNumberComponent } from '../../../shared/components/input-number/in
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
 import { CatalogoService } from '../../../services/catalogo.service';
-import { PersonaUsuarioService } from '../../../services/persona-usuario.service';
+import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
 
 @Component({
@@ -36,7 +36,7 @@ import { CantonesService } from '../../../services/cantones.service';
     templateUrl: './editar-persona-usuario.component.html',
     styleUrls: ['./editar-persona-usuario.component.css'],
 })
-export class AddPersonComponent {
+export class EditPersonComponent {
     // Formulario
     formPersonaUsuario: any = {
         personal: {
@@ -136,7 +136,7 @@ export class AddPersonComponent {
 
     constructor(
         private catalogoService: CatalogoService,
-        private personaUsuarioService: PersonaUsuarioService,
+        private clientService: ClientService,
         private cantonesService: CantonesService,
     ) {}
 
@@ -145,7 +145,6 @@ export class AddPersonComponent {
         this.catalogoService.getCatalogos().subscribe({
             next: (data) => {
                 this.catalogos = data;
-                this.cargando = false;
 
                 this.tipoIdentificacionOptions = data.tipoId.map((item: any) => ({
                     label: item.nombre,
@@ -219,6 +218,81 @@ export class AddPersonComponent {
                 this.cargando = false;
             },
         });
+
+        // Obtener datos del cliente
+        this.clientService.getAllInfoClient('15428412').subscribe({
+            next: (data) => {
+                this.cargando = false;
+
+                console.log('Datos del cliente:', data);
+
+                this.provinciaId = data.personal.pais_id;
+
+                // 1. Secciones simples
+                this.formPersonaUsuario.personal = {
+                    ...data.personal,
+                    tipo_id_id: data.personal.tipo_id_id?.toString(),
+                    genero_id: data.personal.genero_id?.toString(),
+                    pais_id: data.personal.pais_id?.toString(),
+                    canton_id: data.personal.canton_id?.toString(),
+                    donde_dormi_id: data.personal.donde_dormi_id?.toString(),
+                    tiempo_calle_id: data.personal.tiempo_calle_id?.toString(),
+                };
+
+                this.formPersonaUsuario.info3meses_id = {
+                    carcel: data.info3meses_id?.carcel ?? false,
+                    razoncarcel: data.info3meses_id?.razon_carcel ?? null,
+                    tratamiento_medico: data.info3meses_id?.tratamiento_medico ?? false,
+                    razon_trat: data.info3meses_id?.razon_trat ?? null,
+                    tratamiento_psiq: data.info3meses_id?.tratamiento_psiq ?? false,
+                    razon_psiq: data.info3meses_id?.razon_psiq ?? null,
+                    tratamiento_drogas: data.info3meses_id?.tratamiento_drogas ?? false,
+                    razon_drogas: data.info3meses_id?.razon_drogas ?? null,
+                };
+
+                this.formPersonaUsuario.contacto = {
+                    nombre: data.contacto?.nombre ?? null,
+                    telefono: data.contacto?.telefono ?? null,
+                    relacion: data.contacto?.relacion ?? null,
+                };
+
+                this.inamu_informacion = !!data.inamu;
+                this.formPersonaUsuario.inamu = data.inamu
+                    ? {
+                          jefehogar: data.inamu.jefehogar ?? false,
+                          contactofamilia: data.inamu.contactofamilia ?? false,
+                          apoyoeconomico: data.inamu.apoyoeconomico ?? false,
+                          pareja: data.inamu.pareja ?? false,
+                          parejacentro: data.inamu.parejacentro ?? false,
+                          parejano: data.inamu.parejano ?? null,
+                          solucionesdetalle: data.inamu.solucionesdetalle ?? null,
+                      }
+                    : null;
+
+                // 2. Secciones tipo lista (IDs en string)
+                this.formPersonaUsuario.catalogos.tipos_ayuda =
+                    data.tipos_ayuda?.map((a: any) => a.id.toString()) ?? [];
+                this.formPersonaUsuario.catalogos.tipos_violencia =
+                    data.tipos_violencia?.map((a: any) => a.id.toString()) ?? [];
+                this.formPersonaUsuario.catalogos.instituciones_violencia =
+                    data.instituciones_violencia?.map((a: any) => a.id.toString()) ?? [];
+                this.formPersonaUsuario.catalogos.gradosacademicos =
+                    data.gradosacademicos?.map((a: any) => a.id.toString()) ?? [];
+                this.formPersonaUsuario.catalogos.drogas = data.drogas?.map((a: any) => a.id.toString()) ?? [];
+                this.formPersonaUsuario.catalogos.pensiones = data.pensiones?.map((a: any) => a.id.toString()) ?? [];
+                this.formPersonaUsuario.catalogos.razon_servicio =
+                    data.razon_servicio?.map((a: any) => a.id.toString()) ?? [];
+
+                // 3. Provincia y cantón
+                this.provinciaId = data.personal.pais_id;
+                this.formPersonaUsuario.personal.canton_id = data.personal.canton_id;
+            },
+            error: (error) => {
+                console.error('Error al obtener los datos del cliente:', error);
+                this.cargando = false;
+            },
+        });
+
     }
 
     onInamuInformacionChange(value: boolean): void {
@@ -264,7 +338,7 @@ export class AddPersonComponent {
         }
     }
 
-    crearPersonaUsuario() {
+    editarPersonaUsuario() {
         this.cargando = true;
 
         if (!this.inamu_informacion) {
@@ -273,7 +347,7 @@ export class AddPersonComponent {
         console.log('Objeto final:', this.formPersonaUsuario);
         // Aquí podrías hacer una petición POST si querés
 
-        this.personaUsuarioService.addUser(this.formPersonaUsuario).subscribe({
+        this.clientService.addClient(this.formPersonaUsuario).subscribe({
             next: (response) => {
                 this.cargando = false;
 
