@@ -227,7 +227,7 @@ clienteCtr.getClienteAll = async (req,res)=> {
             console.log("Resultados de clientService4:", clientService4);
             finalRes.tipos_ayuda = clientService4;
 
-            const [clientService5, metadata5] = await sequelize.query(
+            const clientService5 = await sequelize.query(
                 'SELECT * FROM fn_get_tipo_violencia(:p_id)',
                 {
                     replacements: { p_id},
@@ -236,7 +236,7 @@ clienteCtr.getClienteAll = async (req,res)=> {
             );
             finalRes.tipos_violencia = clientService5;
 
-            const [clientService6, metadata6] = await sequelize.query(
+            const clientService6 = await sequelize.query(
                 'SELECT * FROM fn_get_instituciones_violencia(:p_id)',
                 {
                     replacements: { p_id},
@@ -245,14 +245,47 @@ clienteCtr.getClienteAll = async (req,res)=> {
             );
             finalRes.instituciones_violencia = clientService6;
 
-            
-
         }else{
             finalRes.inamu = null;
             finalRes.tipos_ayuda = [];
             finalRes.tipos_violencia = [];
             finalRes.instituciones_violencia = [];
         }
+
+        const clientService7 = await sequelize.query(
+            'SELECT * FROM fn_get_grado_academico(:p_id)',
+            {
+                replacements: { p_id},
+                type: sequelize.QueryTypes.SELECT, 
+            }
+        );
+        finalRes.gradosacademicos= clientService7;
+
+        const clientService8 = await sequelize.query(
+            'SELECT * FROM fn_get_droga(:p_id)',
+            {
+                replacements: { p_id},
+                type: sequelize.QueryTypes.SELECT, 
+            }
+        );
+        finalRes.drogas= clientService8;
+        const clientService9 = await sequelize.query(
+            'SELECT * FROM fn_get_tipo_pension(:p_id)',
+            {
+                replacements: { p_id},
+                type: sequelize.QueryTypes.SELECT, 
+            }
+        );
+        finalRes.pensiones= clientService9;
+
+        const clientService10 = await sequelize.query(
+            'SELECT * FROM fn_get_razon_servicio(:p_id)',
+            {
+                replacements: { p_id},
+                type: sequelize.QueryTypes.SELECT, 
+            }
+        );
+        finalRes.razon_servicio= clientService10;
 
         
 
