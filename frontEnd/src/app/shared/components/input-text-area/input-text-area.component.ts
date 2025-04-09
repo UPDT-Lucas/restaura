@@ -13,6 +13,7 @@ export class InputTextAreaComponent {
     @Input() label: string = 'Mensaje';
     @Input() placeholder: string = '';
     @Input() rows: number = 4;
+    @Input() disabled: boolean = false;
 
     // Método para manejar el evento de input
     onInputChange(event: Event): void {

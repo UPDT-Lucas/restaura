@@ -140,7 +140,7 @@ export class EditPersonComponent {
         private catalogoService: CatalogoService,
         private clientService: ClientService,
         private cantonesService: CantonesService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
     ) {}
 
     // Llamada API
@@ -219,19 +219,29 @@ export class EditPersonComponent {
             },
             error: (error) => {
                 console.error('Error al obtener los catálogos:', error);
-                this.cargando = false;
             },
         });
 
-
         // Obtener datos del cliente
         this.clientService.getAllInfoClient(clientId!).subscribe({
-            next: (data) => {
-                this.cargando = false;
+            next: (data: any) => {
 
-                console.log('Datos del cliente:', data);
+                this.provinciaId = data.personal.provincia_id?.toString() ?? null;
 
-                this.provinciaId = data.personal.pais_id;
+                this.cantonesService.getCantonesPorProvincia(this.provinciaId).subscribe({
+                    next: (data) => {
+                        this.cargando = false;
+
+                        this.cantonOptions = data.map((item: any) => ({
+                            label: item.nombre,
+                            value: item.id.toString(),
+                        }));
+                    },
+                    error: (error) => {
+                        console.error('Error al obtener cantones:', error);
+                        this.cantonOptions = []; // Limpiar por si falla
+                    },
+                });                
 
                 // 1. Secciones simples
                 this.formPersonaUsuario.personal = {
@@ -287,17 +297,12 @@ export class EditPersonComponent {
                 this.formPersonaUsuario.catalogos.pensiones = data.pensiones?.map((a: any) => a.id.toString()) ?? [];
                 this.formPersonaUsuario.catalogos.razon_servicio =
                     data.razon_servicio?.map((a: any) => a.id.toString()) ?? [];
-
-                // 3. Provincia y cantón
-                this.provinciaId = data.personal.pais_id;
-                this.formPersonaUsuario.personal.canton_id = data.personal.canton_id;
             },
             error: (error) => {
                 console.error('Error al obtener los datos del cliente:', error);
                 this.cargando = false;
             },
         });
-
     }
 
     onInamuInformacionChange(value: boolean): void {

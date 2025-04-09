@@ -13,6 +13,7 @@ export class MultiselectComponent {
     @Input() label: string = '';
     @Input() options: { value: any; label: string }[] = [];
     @Input() multiple: boolean = false;
+    @Input() disabled: boolean = false;
 
     @Input() value: any[] = [];
     @Output() valueChange = new EventEmitter<any[]>();

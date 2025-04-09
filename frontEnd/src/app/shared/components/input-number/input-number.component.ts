@@ -11,6 +11,7 @@ export class InputNumberComponent {
 
     @Input() label: string = '';
     @Input() placeholder: string = '';
+    @Input() disabled: boolean = false;
 
     // Método para manejar el evento de input
     onInputChange(event: Event): void {
