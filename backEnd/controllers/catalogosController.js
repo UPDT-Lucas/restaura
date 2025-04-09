@@ -95,4 +95,29 @@ catalogosCtr.getCatalogos = async (req, res) => {
     }
 }
 
+catalogosCtr.getCantones = async (req,res)=> {
+    const { p_provincia_id} = req.params; 
+    console.log("Parametros recibidos:", p_provincia_id); 
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize; 
+
+
+        const [cantonesProvincia] = await sequelize.query(
+            'SELECT * FROM buscar_cantones(:p_provincia_id)',
+            {
+                replacements: {p_provincia_id},
+                type: sequelize.QueryTypes.SELECT, 
+            }
+        );
+
+        console.log("Resultados del procedimiento:", cantonesProvincia);
+
+    res.status(200).json(cantonesProvincia); 
+    } catch (error) {
+        console.error('Error al obtener el canton de la provincia:', error);
+        res.status(500).json({ message: 'Error al obtener el canton de la provincia', error: error.message });
+    }
+}
+
 export default catalogosCtr;
