@@ -104,8 +104,8 @@ catalogosCtr.getCantones = async (req,res)=> {
         const sequelize = dbConnection.getInstance().Sequelize; 
 
 
-        const [cantonesProvincia] = await sequelize.query(
-            'SELECT * FROM buscar_cantones(:p_provincia_id)',
+        const cantonesProvincia = await sequelize.query(
+            'SELECT * FROM buscar_canton(:p_provincia_id)',
             {
                 replacements: {p_provincia_id},
                 type: sequelize.QueryTypes.SELECT, 

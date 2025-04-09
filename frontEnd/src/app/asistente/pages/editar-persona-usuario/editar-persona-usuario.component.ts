@@ -17,7 +17,7 @@ import { PersonaUsuarioService } from '../../../services/persona-usuario.service
 import { CantonesService } from '../../../services/cantones.service';
 
 @Component({
-    selector: 'nueva-persona-usuario',
+    selector: 'editar-persona-usuario',
     imports: [
         TitleOneComponent,
         SubtitleComponent,
@@ -33,8 +33,8 @@ import { CantonesService } from '../../../services/cantones.service';
         SecondaryButtonComponent,
         ReactiveFormsModule,
     ],
-    templateUrl: './nueva-persona-usuario.component.html',
-    styleUrls: ['./nueva-persona-usuario.component.css'],
+    templateUrl: './editar-persona-usuario.component.html',
+    styleUrls: ['./editar-persona-usuario.component.css'],
 })
 export class AddPersonComponent {
     // Formulario

@@ -5,11 +5,12 @@
         class="custom-input"
         [value]="value"
         (input)="onInputChange($event)"
+        (blur)="onBlur()"
         [placeholder]="placeholder"
         [disabled]="disabled"
         required
     />
-    <p class="error-message" *ngIf="value === null || value === ''">
+    <p class="error-message" *ngIf="touched && (value === null || value === '')">
         {{ error }}
     </p>
 </div>

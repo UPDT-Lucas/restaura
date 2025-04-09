@@ -19,13 +19,12 @@ export class InputTextComponent {
     // Método para manejar el evento de input
     onInputChange(event: Event): void {
         const input = event.target as HTMLInputElement;
-        
-        // Marcar como tocado
-        if (!this.touched) {
-            this.touched = true;
-        }
-        
+
         const value = input.value === '' ? null : input.value;
         this.valueChange.emit(value);
+    }
+
+    onBlur(): void {
+        this.touched = true;
     }
 }

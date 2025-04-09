@@ -30,11 +30,10 @@ import { CantonesService } from '../../../services/cantones.service';
         InputNumberComponent,
         CommonModule,
         ButtonComponent,
-        SecondaryButtonComponent,
         ReactiveFormsModule,
     ],
-    templateUrl: './nueva-persona-usuario.component.html',
-    styleUrls: ['./nueva-persona-usuario.component.css'],
+    templateUrl: './ver-persona-usuario.component.html',
+    styleUrls: ['./ver-persona-usuario.component.css'],
 })
 export class AddPersonComponent {
     // Formulario
