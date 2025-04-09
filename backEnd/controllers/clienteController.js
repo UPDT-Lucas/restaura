@@ -21,6 +21,19 @@ import defineViolenciaXInamu from "../models/violenciaxinamu.js";
 
 const clienteCtr = {};
 
+function compararListas(listaOriginal, listaNueva) {
+    // Convertir las listas en conjuntos
+    const setOriginal = new Set(listaOriginal);
+    const setNueva = new Set(listaNueva);
+
+    // Números removidos: están en la lista original pero no en la nueva
+    const removidos = [...setOriginal].filter(num => !setNueva.has(num));
+
+    // Números agregados: están en la lista nueva pero no en la original
+    const agregados = [...setNueva].filter(num => !setOriginal.has(num));
+
+    return { removidos, agregados };
+}
 /**
  * @description Guarda un usuario del servicio.
  * @route  PUT /cliente
@@ -327,6 +340,375 @@ clienteCtr.getClientService = async (req, res) => {
     }
 };
 
+clienteCtr.updateCliente = async (req,res)=> {
+    try{
+        const db = dbConnection.getInstance();
+        const sequelize = db.Sequelize;
+
+        const clienteServicio = defineClienteServicio(db.Sequelize,db.dataType);
+
+        const data = req.body;
+
+        const updatedRows = await clienteServicio.update(data.personal, {
+            where: { id: data.personal.id }
+        });
+
+        const info3MesesAdd = defineInfo3Meses(db.Sequelize,db.dataType);
+
+        const updatedRows1 = await info3MesesAdd.update(data.info3meses_id, {
+            where: { id: data.info3meses_id.id }
+        });
+        
+        
+        const contactoAdd = defineContacto(db.Sequelize,db.dataType);
+        const updatedRows2 = await contactoAdd.update(data.contacto, {
+            where: { id: data.contacto.id }
+        });
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        const academicoxcliente = defineAcademicoXCliente(db.Sequelize, db.dataType);
+
+        const academicoBase = await academicoxcliente.findAll({
+            atributes:['grado_academico_id'],
+            where: { cliente_servicio_id: data.personal.id }
+        });
+
+        const gradosAcademicosViejos = academicoBase.map((grado) => {
+            return grado.dataValues.grado_academico_id ;
+        });
+        
+
+
+        const resulGrados = compararListas(gradosAcademicosViejos,data.catalogos.gradosacademicos);
+
+        if(resulGrados.agregados.length > 0){
+            for( let i = 0; i < resulGrados.agregados.length;i++){
+                let dataAcademico ={
+                    grado_academico_id: resulGrados.agregados[i],
+                    cliente_servicio_id: data.personal.id
+                }
+                await academicoxcliente.create(dataAcademico);
+            }
+
+        }
+
+        if(resulGrados.removidos.length > 0){
+            for( let i = 0; i < resulGrados.removidos.length;i++){
+                await academicoxcliente.destroy({
+                    where: {
+                        cliente_servicio_id: data.personal.id,
+                        grado_academico_id: resulGrados.removidos[i]
+                    }
+                });
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        const drogaxcliente = defineDrogaXCliente(db.Sequelize, db.dataType);
+
+        const drogaBase = await drogaxcliente.findAll({
+            atributes:['droga_id'],
+            where: { cliente_servicio_id: data.personal.id }
+        });
+
+        const drogaViejo = drogaBase.map((droga) => {
+            return droga.dataValues.droga_id ;
+        });
+        
+
+
+        const resuldroga = compararListas(drogaViejo,data.catalogos.drogas);
+
+        if(resuldroga.agregados.length > 0){
+            for( let i = 0; i < resuldroga.agregados.length;i++){
+                let dataDroga ={
+                    importante: false,
+                    droga_id: resuldroga.agregados[i],
+                    cliente_servicio_id: data.personal.id
+                }
+                await drogaxcliente.create(dataDroga);
+            }
+
+        }
+
+        if(resuldroga.removidos.length > 0){
+            for( let i = 0; i < resuldroga.removidos.length;i++){
+                await drogaxcliente.destroy({
+                    where: {
+                        cliente_servicio_id:data.personal.id,
+                        droga_id: resuldroga.removidos[i]
+                        
+                    }
+                });
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+        const pensionxcliente = definePensionXCliente(db.Sequelize, db.dataType);
+
+        const pensionBase = await pensionxcliente.findAll({
+            atributes:['tipo_pension_id'],
+            where: { cliente_servicio_id: data.personal.id }
+        });
+
+        const pensionViejos = pensionBase.map((pension) => {
+            return pension.dataValues.tipo_pension_id ;
+        });
+        
+
+
+        const resulPension = compararListas(pensionViejos,data.catalogos.pensiones);
+
+
+
+        if(resulPension.agregados.length > 0){
+            for( let i = 0; i < resulPension.agregados.length;i++){
+                let dataPension ={
+                    tipo_pension_id: resulPension.agregados[i],
+                    cliente_servicio_id: data.personal.id
+                }
+                await pensionxcliente.create(dataPension);
+            }
+
+        }
+
+        if(resulPension.removidos.length > 0){
+            for( let i = 0; i < resulPension.removidos.length;i++){
+                await pensionxcliente.destroy({
+                    where: {
+                        cliente_servicio_id: data.personal.id,
+                        tipo_pension_id: resulPension.removidos[i]
+                    }
+                });
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////// 
+
+         ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+        const razonxcliente = defineRazonSerXCliente(db.Sequelize, db.dataType);
+
+        const razonBase = await razonxcliente.findAll({
+            atributes:['razon_servicio_id'],
+            where: { cliente_servicio_id: data.personal.id }
+        });
+
+        const razonViejo = razonBase.map((razon) => {
+            return razon.dataValues.razon_servicio_id ;
+        });
+        
+
+
+        const resulRazon = compararListas(razonViejo,data.catalogos.razon_servicio);
+
+
+
+        if(resulRazon.agregados.length > 0){
+            for( let i = 0; i < resulRazon.agregados.length;i++){
+                let dataResul ={
+                    razon_servicio_id: resulRazon.agregados[i],
+                    cliente_servicio_id: data.personal.id
+                }
+                await razonxcliente.create(dataResul);
+            }
+
+        }
+
+        if(resulRazon.removidos.length > 0){
+            for( let i = 0; i < resulRazon.removidos.length;i++){
+                await razonxcliente.destroy({
+                    where: {
+                        cliente_servicio_id: data.personal.id,
+                        razon_servicio_id: resulRazon.removidos[i]
+                    }
+                });
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////// 
+        
+        if(data.inamu !== undefined && data.inamu !== null){
+
+            const informacionInamu = defineInformacionInamu(db.Sequelize,db.dataType);
+            const updatedRows3 = await informacionInamu.update(data.inamu, {
+                where: { id: data.inamu.id }
+            });
+
+            //Relaciones de inamu 
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+            const ayudaxcliente = defineAyudaXInamu(db.Sequelize, db.dataType);
+
+            const ayudaBase = await ayudaxcliente.findAll({
+                atributes:['tipos_ayuda_id'],
+                where: { informacion_inamu_id: data.inamu.id }
+            });
+
+            const ayudaViejo = ayudaBase.map((ayuda) => {
+                return ayuda.dataValues.tipos_ayuda_id ;
+            });
+            
+
+
+            const resulAyuda = compararListas(ayudaViejo,data.catalogos.tipos_ayuda);
+
+
+
+            if(resulAyuda.agregados.length > 0){
+                for( let i = 0; i < resulAyuda.agregados.length;i++){
+                    let dataAyuda ={
+                        tipos_ayuda_id: resulAyuda.agregados[i],
+                        informacion_inamu_id: data.inamu.id
+                    }
+                    await ayudaxcliente.create(dataAyuda);
+                }
+
+            }
+
+            if(resulAyuda.removidos.length > 0){
+                for( let i = 0; i < resulAyuda.removidos.length;i++){
+                    await ayudaxcliente.destroy({
+                        where: {
+                            informacion_inamu_id: data.inamu.id,
+                            tipos_ayuda_id: resulAyuda.removidos[i]
+                        }
+                    });
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////// 
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+
+            const violenciaxcliente = defineViolenciaXInamu(db.Sequelize, db.dataType);
+
+            const violenBase = await violenciaxcliente.findAll({
+                atributes:['tipo_violencia_id'],
+                where: { informacion_inamu_id: data.inamu.id }
+            });
+
+            const violenViejo = violenBase.map((violen) => {
+                return violen.dataValues.tipo_violencia_id ;
+            });
+            
+
+
+            const resulVio = compararListas(violenViejo,data.catalogos.tipos_violencia);
+
+
+
+            if(resulVio.agregados.length > 0){
+                for( let i = 0; i < resulVio.agregados.length;i++){
+                    let dataVio ={
+                        tipo_violencia_id: resulVio.agregados[i],
+                        informacion_inamu_id: data.inamu.id
+                    }
+                    await violenciaxcliente.create(dataVio);
+                }
+
+            }
+
+            if(resulVio.removidos.length > 0){
+                for( let i = 0; i < resulVio.removidos.length;i++){
+                    await violenciaxcliente.destroy({
+                        where: {
+                            informacion_inamu_id: data.inamu.id,
+                            tipo_violencia_id: resulVio.removidos[i]
+                        }
+                    });
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////// 
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////// 
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+
+            const instituxviolen = defineInstituxViolen(db.Sequelize, db.dataType);
+
+            const instituVioBase = await instituxviolen.findAll({
+                atributes:['instituciones_violencia_id'],
+                where: { informacion_inamu_id: data.inamu.id }
+            });
+
+            const instituVioViejo = instituVioBase.map((violen) => {
+                return violen.dataValues.instituciones_violencia_id ;
+            });
+            
+
+
+            const resulInstitutoVio = compararListas(instituVioViejo,data.catalogos.instituciones_violencia);
+
+
+
+            if(resulInstitutoVio.agregados.length > 0){
+                for( let i = 0; i < resulInstitutoVio.agregados.length;i++){
+                    let dataVio ={
+                        instituciones_violencia_id: resulInstitutoVio.agregados[i],
+                        informacion_inamu_id: data.inamu.id
+                    }
+                    await instituxviolen.create(dataVio);
+                }
+
+            }
+
+            if(resulInstitutoVio.removidos.length > 0){
+                for( let i = 0; i < resulInstitutoVio.removidos.length;i++){
+                    await instituxviolen.destroy({
+                        where: {
+                            informacion_inamu_id: data.inamu.id,
+                            instituciones_violencia_id: resulInstitutoVio.removidos[i]
+                        }
+                    });
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////// 
+                
+        }
+
+
+
+        if (updatedRows === 0) {
+            return res.status(404).json({ message: "Cliente no encontrado o sin cambios" });
+        }
+
+        res.status(200).json({ message: "Cliente actualizado correctamente", updatedRows });
+
+    }catch(error){
+        console.error("Error al eliminar cliente:", error);
+        res.status(500).json({ message: "Error al eliminar cliente", error });
+    }
+}
 
 
 clienteCtr.deleteCliente = async (req,res)=> {
@@ -340,6 +722,8 @@ clienteCtr.deleteCliente = async (req,res)=> {
             replacements: { p_id: data.cliente_servicio_id, p_inamu_id: data.informacion_inamu_id },
             type: sequelize.QueryTypes.RAW
         });
+         
+
 
         res.status(200).json({ message: "Usuario correctamente eliminado",
             cliente: result,status: 200});

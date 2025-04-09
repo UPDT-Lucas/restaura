@@ -5,6 +5,7 @@ var api = express.Router();
 
 api.get('/clients', clienteCtr.getClientService);
 api.get('/getClienteAll/:id', clienteCtr.getClienteAll);
+api.put('/updateCliente', clienteCtr.updateCliente);
 api.post('/saveCliente', clienteCtr.saveCliente);
 api.delete('/deleteCliente', clienteCtr.deleteCliente);
 
