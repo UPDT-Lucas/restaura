@@ -4,9 +4,10 @@
     class="custom-input"
     [ngModel]="value"
     (ngModelChange)="onChange($event)"
+    [disabled]="disabled"
     required
   >
-    <option [ngValue]="null" disabled selected>Seleccione una opción</option>
+    <option [ngValue]="null" disabled>Seleccione una opción</option>
     <option *ngFor="let option of options" [ngValue]="option.value">
       {{ option.label }}
     </option>

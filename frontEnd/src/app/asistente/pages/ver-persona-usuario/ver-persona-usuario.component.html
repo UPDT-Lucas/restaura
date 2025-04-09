@@ -3,7 +3,7 @@
         <div class="spinner"></div>
     </div>
 
-    <shared-title [text]="'Agregar Nueva Persona Usuario'"></shared-title>
+    <shared-title [text]="'Ver Persona Usuario'"></shared-title>
 
     <!-- INFORMACION ENTREVISTADOR -->
     <shared-subtitle [text]="'Información Entrevistador'" />
@@ -14,12 +14,14 @@
             [placeholder]="'Ingrese el nombre'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.nombreentrevistador"
+            [disabled]="true"
         />
         <!-- Fecha -->
         <shared-input-date
             [label]="'Fecha Ingreso'"
             [placeholder]="'Ingrese el Identificación'"
             [(value)]="formPersonaUsuario.personal.fechaingreso"
+            [disabled]="true"
         />
     </div>
 
@@ -32,12 +34,14 @@
             [placeholder]="'Ingrese el nombre'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.nombre"
+            [disabled]="true"
         />
         <!-- Tipo Identificacion -->
         <shared-select
             [label]="'Tipo de Identificación'"
             [options]="tipoIdentificacionOptions"
             [(value)]="formPersonaUsuario.personal.tipo_id_id"
+            [disabled]="true"
         />
         <!-- Identificacion -->
         <shared-input-text
@@ -45,27 +49,36 @@
             [placeholder]="'Ingrese el Identificación'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.id"
+            [disabled]="true"
         />
         <!-- Edad -->
         <shared-input-number
             [label]="'Edad'"
             [placeholder]="'Ingrese la Edad'"
             [(value)]="formPersonaUsuario.personal.edad"
+            [disabled]="true"
         />
         <!-- Fecha Nacimiento -->
         <shared-input-date
             [label]="'Fecha de Nacimiento'"
             [placeholder]="'Ingrese la fecha de nacimiento'"
             [(value)]="formPersonaUsuario.personal.fechanacimiento"
+            [disabled]="true"
         />
         <!-- Género -->
-        <shared-select [label]="'Género'" [options]="generoOptions" [(value)]="formPersonaUsuario.personal.genero_id" />
+        <shared-select
+            [label]="'Género'"
+            [options]="generoOptions"
+            [(value)]="formPersonaUsuario.personal.genero_id"
+            [disabled]="true"
+        />
         <!-- Número de Hijos -->
         <!-- Edad -->
         <shared-input-number
             [label]="'Número de Hijos'"
             [placeholder]="'Ingrese el número de hijos'"
             [(value)]="formPersonaUsuario.personal.cantidadhijos"
+            [disabled]="true"
         />
     </div>
 
@@ -73,11 +86,27 @@
     <shared-subtitle [text]="'Procedencia'" />
     <div class="form-wrap">
         <!-- Pais -->
-        <shared-select [label]="'Pais'" [options]="paisOptions" [(value)]="formPersonaUsuario.personal.pais_id" />
+        <shared-select
+            [label]="'Pais'"
+            [options]="paisOptions"
+            [(value)]="formPersonaUsuario.personal.pais_id"
+            [disabled]="true"
+        />
         <!-- Provincia -->
-        <shared-select [label]="'Provincia'" [options]="provinciaOptions" [(value)]="provinciaId" (valueChange)="onProvinciaChange($event)" />
+        <shared-select
+            [label]="'Provincia'"
+            [options]="provinciaOptions"
+            [(value)]="provinciaId"
+            (valueChange)="onProvinciaChange($event)"
+            [disabled]="true"
+        />
         <!-- Cantón -->
-        <shared-select [label]="'Cantón'" [options]="cantonOptions" [(value)]="formPersonaUsuario.personal.canton_id" />
+        <shared-select
+            [label]="'Cantón'"
+            [options]="cantonOptions"
+            [(value)]="formPersonaUsuario.personal.canton_id"
+            [disabled]="true"
+        />
     </div>
 
     <!-- DORMITORIO -->
@@ -88,6 +117,7 @@
             [label]="'¿Como contacto el dormitorio?'"
             [options]="contactoDormitorioOptions"
             [(value)]="formPersonaUsuario.personal.donde_dormi_id"
+            [disabled]="true"
         />
         <!-- Razon por la que acude al dormitorio -->
         <shared-multiselect
@@ -95,12 +125,14 @@
             [options]="razonServicioOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.razon_servicio"
+            [disabled]="true"
         />
         <!-- Hace cuanto vive en la calle -->
         <shared-select
             [label]="'¿Hace cuanto vive en la calle?'"
             [options]="tiempoCalleOptions"
             [(value)]="formPersonaUsuario.personal.tiempo_calle_id"
+            [disabled]="true"
         />
     </div>
 
@@ -108,7 +140,11 @@
     <shared-subtitle [text]="'Trabajo'" />
     <div class="form-wrap">
         <!-- Trabaja actualmente -->
-        <shared-input-boolean [label]="'¿Trabaja actualmente?'" [(value)]="formPersonaUsuario.personal.sitrabaja" />
+        <shared-input-boolean
+            [label]="'¿Trabaja actualmente?'"
+            [(value)]="formPersonaUsuario.personal.sitrabaja"
+            [disabled]="true"
+        />
 
         <!-- Empresa -->
         <shared-input-text
@@ -116,6 +152,7 @@
             [placeholder]="'Ingrese la empresa'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.empresa"
+            [disabled]="true"
         />
 
         <!-- Ocupación -->
@@ -124,6 +161,7 @@
             [placeholder]="'Ingrese la ocupación'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.ocupacion"
+            [disabled]="true"
         />
     </div>
 
@@ -131,7 +169,11 @@
     <shared-subtitle [text]="'Licencias'" />
     <div class="form-wrap">
         <!-- Tiene Licencias -->
-        <shared-input-boolean [label]="'¿Tiene Licencia?'" [(value)]="formPersonaUsuario.personal.licencia" />
+        <shared-input-boolean
+            [label]="'¿Tiene Licencia?'"
+            [(value)]="formPersonaUsuario.personal.licencia"
+            [disabled]="true"
+        />
 
         <!-- Razon por la que acude al dormitorio -->
         <shared-input-text
@@ -139,6 +181,7 @@
             [label]="'¿Cual Licencia?'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.tipo_licencia"
+            [disabled]="true"
         />
     </div>
 
@@ -149,6 +192,7 @@
         [placeholder]="'Ingrese una observación extra'"
         [rows]="3"
         [(value)]="formPersonaUsuario.personal.observacion"
+        [disabled]="true"
     />
 
     <!-- INFORMACION PARA REFERENCIAS -->
@@ -157,7 +201,11 @@
     <div class="forms-wraps">
         <div class="form-wrap">
             <!-- Carcel -->
-            <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formPersonaUsuario.info3meses_id.carcel" />
+            <shared-input-boolean
+                [label]="'¿Cárcel?'"
+                [(value)]="formPersonaUsuario.info3meses_id.carcel"
+                [disabled]="true"
+            />
 
             <!-- Razón -->
             <shared-input-text
@@ -166,6 +214,7 @@
                 [error]="'*Campo requerido'"
                 *ngIf="formPersonaUsuario.info3meses_id.carcel"
                 [(value)]="formPersonaUsuario.info3meses_id.razoncarcel"
+                [disabled]="true"
             />
         </div>
         <div class="form-wrap">
@@ -173,6 +222,7 @@
             <shared-input-boolean
                 [label]="'¿Tratamiento Médico?'"
                 [(value)]="formPersonaUsuario.info3meses_id.tratamiento_medico"
+                [disabled]="true"
             />
 
             <!-- Razón -->
@@ -182,6 +232,7 @@
                 [error]="'*Campo requerido'"
                 *ngIf="formPersonaUsuario.info3meses_id.tratamiento_medico"
                 [(value)]="formPersonaUsuario.info3meses_id.razon_trat"
+                [disabled]="true"
             />
         </div>
         <div class="form-wrap">
@@ -189,6 +240,7 @@
             <shared-input-boolean
                 [label]="'¿Tratamiento Psiquiatrico?'"
                 [(value)]="formPersonaUsuario.info3meses_id.tratamiento_psiq"
+                [disabled]="true"
             />
 
             <!-- Razón -->
@@ -198,6 +250,7 @@
                 [error]="'*Campo requerido'"
                 *ngIf="formPersonaUsuario.info3meses_id.tratamiento_psiq"
                 [(value)]="formPersonaUsuario.info3meses_id.razon_psiq"
+                [disabled]="true"
             />
         </div>
         <div class="form-wrap">
@@ -205,6 +258,7 @@
             <shared-input-boolean
                 [label]="'¿Tratamiento De Drogas?'"
                 [(value)]="formPersonaUsuario.info3meses_id.tratamiento_drogas"
+                [disabled]="true"
             />
 
             <!-- Razón -->
@@ -214,6 +268,7 @@
                 [error]="'*Campo requerido'"
                 *ngIf="formPersonaUsuario.info3meses_id.tratamiento_drogas"
                 [(value)]="formPersonaUsuario.info3meses_id.razon_drogas"
+                [disabled]="true"
             />
         </div>
     </div>
@@ -226,6 +281,7 @@
             <shared-input-boolean
                 [label]="'¿Tiene tos, flema sanguinolenta o fiebre?'"
                 [(value)]="formPersonaUsuario.personal.tosflemafiebre"
+                [disabled]="true"
             />
 
             <!-- Condicion Especial -->
@@ -234,14 +290,23 @@
                 [placeholder]="'Ingrese la condición'"
                 [error]="'*Campo requerido'"
                 [(value)]="formPersonaUsuario.personal.condicionespecial"
+                [disabled]="true"
             />
 
             <!-- Discapacidad -->
-            <shared-input-boolean [label]="'Discapacidad'" [(value)]="formPersonaUsuario.personal.discapacidad" />
+            <shared-input-boolean
+                [label]="'Discapacidad'"
+                [(value)]="formPersonaUsuario.personal.discapacidad"
+                [disabled]="true"
+            />
         </div>
         <div class="form-wrap">
             <!-- Toma Medicacion -->
-            <shared-input-boolean [label]="'¿Toma medicación?'" [(value)]="formPersonaUsuario.personal.medicacion" />
+            <shared-input-boolean
+                [label]="'¿Toma medicación?'"
+                [(value)]="formPersonaUsuario.personal.medicacion"
+                [disabled]="true"
+            />
 
             <!-- Medicamento -->
             <shared-input-text
@@ -250,6 +315,7 @@
                 [error]="'*Campo requerido'"
                 [(value)]="formPersonaUsuario.personal.detallemedicamento"
                 *ngIf="formPersonaUsuario.personal.medicacion"
+                [disabled]="true"
             />
         </div>
     </div>
@@ -263,6 +329,7 @@
             [options]="tipoPensionesOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.pensiones"
+            [disabled]="true"
         />
     </div>
 
@@ -270,7 +337,11 @@
     <shared-subtitle [text]="'Información Académica'" />
     <div class="form-wrap">
         <!-- Sabe leer y escribir -->
-        <shared-input-boolean [label]="'¿Sabe leer y escribir?'" [(value)]="formPersonaUsuario.personal.leerescribir" />
+        <shared-input-boolean
+            [label]="'¿Sabe leer y escribir?'"
+            [(value)]="formPersonaUsuario.personal.leerescribir"
+            [disabled]="true"
+        />
 
         <!-- Grado Académico -->
         <shared-multiselect
@@ -278,6 +349,7 @@
             [options]="gradoAcademicoOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.gradosacademicos"
+            [disabled]="true"
         />
 
         <!-- Nombre de Tecnico -->
@@ -286,6 +358,7 @@
             [placeholder]="'Ingrese la nombre del técnico'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.nombretecnico"
+            [disabled]="true"
         />
     </div>
 
@@ -296,6 +369,7 @@
         <shared-input-boolean
             [label]="'¿Consume drogas actualmente?'"
             [(value)]="formPersonaUsuario.personal.consumodrogas"
+            [disabled]="true"
         />
 
         <!-- Drogas que consume -->
@@ -305,6 +379,7 @@
             [options]="tipoDrogasOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.drogas"
+            [disabled]="true"
         />
 
         <!-- Droga que mas le afecta -->
@@ -314,6 +389,7 @@
             [error]="'*Campo requerido'"
             [placeholder]="'Ingrese la droga que más le afecta'"
             [(value)]="formPersonaUsuario.personal.droga_principal"
+            [disabled]="true"
         />
 
         <!-- Edad Inicio -->
@@ -322,6 +398,7 @@
             [label]="'Edad de Inicio'"
             [placeholder]="'Ingrese la edad de inicio'"
             [(value)]="formPersonaUsuario.personal.edadiniciodrogas"
+            [disabled]="true"
         />
 
         <!-- Internamientos -->
@@ -329,6 +406,7 @@
             [label]="'Número internamientos'"
             [placeholder]="'Ingrese el número de internamientos'"
             [(value)]="formPersonaUsuario.personal.numerointernamientos"
+            [disabled]="true"
         />
     </div>
 
@@ -336,7 +414,11 @@
     <shared-subtitle [text]="'Consumo de Drogas'" />
     <div class="form-wrap">
         <!-- Ha estado en carcel -->
-        <shared-input-boolean [label]="'¿Ha estado en la cárcel?'" [(value)]="formPersonaUsuario.personal.carcel" />
+        <shared-input-boolean
+            [label]="'¿Ha estado en la cárcel?'"
+            [(value)]="formPersonaUsuario.personal.carcel"
+            [disabled]="true"
+        />
 
         <!-- Razon -->
         <shared-input-text
@@ -345,6 +427,7 @@
             [error]="'*Campo requerido'"
             [placeholder]="'Ingrese la razón de encarcelamiento'"
             [(value)]="formPersonaUsuario.personal.razoncarcel"
+            [disabled]="true"
         />
 
         <!-- Edad de inicio de consumo -->
@@ -353,6 +436,7 @@
             [label]="'Edad de Inicio'"
             [placeholder]="'Ingrese la edad'"
             [(value)]="formPersonaUsuario.personal.edadiniciocarcel"
+            [disabled]="true"
         />
 
         <!-- Pendiente Resolucion -->
@@ -360,6 +444,7 @@
             *ngIf="formPersonaUsuario.personal.carcel"
             [label]="'¿Pendiente Resolución?'"
             [(value)]="formPersonaUsuario.personal.pendienteresolucion"
+            [disabled]="true"
         />
     </div>
 
@@ -372,6 +457,7 @@
             [placeholder]="'Ingrese el nombre'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.contacto.nombre"
+            [disabled]="true"
         />
         <!-- Telefono -->
         <shared-input-text
@@ -379,6 +465,7 @@
             [placeholder]="'Ingrese el teléfono'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.contacto.telefono"
+            [disabled]="true"
         />
         <!-- Parentesco -->
         <shared-input-text
@@ -386,6 +473,7 @@
             [placeholder]="'Ingrese el Parentesco'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.contacto.relacion"
+            [disabled]="true"
         />
     </div>
 
@@ -394,6 +482,7 @@
             [label]="'¿Información Inamu?'"
             [(value)]="inamu_informacion"
             (valueChange)="onInamuInformacionChange($event)"
+            [disabled]="true"
         />
     </div>
 
@@ -401,28 +490,39 @@
     <shared-subtitle [text]="'Información INAMU'" *ngIf="inamu_informacion" />
     <div class="form-wrap" *ngIf="inamu_informacion">
         <!-- Jefa Hogar -->
-        <shared-input-boolean [label]="'¿Es jefa de hogar?'" [(value)]="formPersonaUsuario.inamu.jefehogar" />
+        <shared-input-boolean
+            [label]="'¿Es jefa de hogar?'"
+            [(value)]="formPersonaUsuario.inamu.jefehogar"
+            [disabled]="true"
+        />
 
         <!-- Mantiene contacto -->
         <shared-input-boolean
             [label]="'¿Mantiene contacto con su familia?'"
             [(value)]="formPersonaUsuario.inamu.contactofamilia"
+            [disabled]="true"
         />
 
         <!-- Brinda Apoyo -->
         <shared-input-boolean
             [label]="'¿Brinda apoyo económico?'"
             [(value)]="formPersonaUsuario.inamu.apoyoeconomico"
+            [disabled]="true"
         />
 
         <!-- Tiene pareja -->
-        <shared-input-boolean [label]="'¿Tiene pareja?'" [(value)]="formPersonaUsuario.inamu.pareja" />
+        <shared-input-boolean
+            [label]="'¿Tiene pareja?'"
+            [(value)]="formPersonaUsuario.inamu.pareja"
+            [disabled]="true"
+        />
 
         <!-- Su pareja hace uso del dormitorio -->
         <shared-input-boolean
             *ngIf="formPersonaUsuario.inamu.pareja"
             [label]="'¿Su pareja hace uso del Centro Dormitorio?'"
             [(value)]="formPersonaUsuario.inamu.parejacentro"
+            [disabled]="true"
         />
         <!-- Porque No -->
         <shared-input-text
@@ -430,6 +530,7 @@
             [label]="'¿Porque No?'"
             [placeholder]="'Ingrese la razón'"
             [(value)]="formPersonaUsuario.inamu.parejano"
+            [disabled]="true"
         />
 
         <!-- Recibe ayuda de alguna institución -->
@@ -438,6 +539,7 @@
             [options]="tipoAyudaOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.tipos_ayuda"
+            [disabled]="true"
         />
 
         <!-- Ha sufrido algun tipo de violencia -->
@@ -446,6 +548,7 @@
             [options]="tipoViolenciaOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.tipos_violencia"
+            [disabled]="true"
         />
         <!-- ¿Ante esta situación se dirigio a alguna institución? -->
         <shared-multiselect
@@ -453,6 +556,7 @@
             [options]="institucionesAyudaOptions"
             [multiple]="true"
             [(value)]="formPersonaUsuario.catalogos.instituciones_violencia"
+            [disabled]="true"
         />
 
         <!-- ¿Que soluciones o medidas se brindaron? -->
@@ -461,15 +565,7 @@
             [placeholder]="'Ingrese la solución o medida'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.inamu.solucionesdetalle"
+            [disabled]="true"
         />
-    </div>
-
-    <div class="buttons">
-        <div class="button-container">
-            <shared-button text="Crear Persona Usuario" (click)="crearPersonaUsuario()"></shared-button>
-        </div>
-        <div class="button-container">
-            <shared-secondary-button text="Cancelar Creación"></shared-secondary-button>
-        </div>
     </div>
 </div>

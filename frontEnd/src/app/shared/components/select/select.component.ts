@@ -3,20 +3,21 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'shared-select',
-  standalone: true,
-  imports: [NgFor, FormsModule],
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.css'],
+    selector: 'shared-select',
+    standalone: true,
+    imports: [NgFor, FormsModule],
+    templateUrl: './select.component.html',
+    styleUrls: ['./select.component.css'],
 })
 export class SelectComponent {
-  @Input() label: string = '';
-  @Input() options: { value: any; label: string }[] = [];
+    @Input() label: string = '';
+    @Input() options: { value: any; label: string }[] = [];
 
-  @Input() value: any;
-  @Output() valueChange = new EventEmitter<any>();
+    @Input() value: any;
+    @Output() valueChange = new EventEmitter<any>();
+    @Input() disabled: boolean = false;
 
-  onChange(newValue: any) {
-    this.valueChange.emit(newValue);
-  }
+    onChange(newValue: any) {
+        this.valueChange.emit(newValue);
+    }
 }

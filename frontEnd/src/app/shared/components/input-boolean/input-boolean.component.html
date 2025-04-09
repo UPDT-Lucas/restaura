@@ -5,6 +5,7 @@
       [class.active]="value === true"
       type="button"
       (click)="toggle(true)"
+      [disabled]="disabled"
     >
       Sí
     </button>
@@ -12,6 +13,7 @@
       [class.active]="value === false"
       type="button"
       (click)="toggle(false)"
+      [disabled]="disabled"
     >
       No
     </button>
