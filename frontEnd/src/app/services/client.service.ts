@@ -20,6 +20,10 @@ export class ClientService {
         return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clients/?p_id=${text}&limit=${limit}&offset=${offset}`);
     }
 
+    editClient(cliente: ClienteServicio): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/updateCliente`, cliente);
+    }
+
     // deleteClient(text: id){
     //     return this.http.delete(`${this.apiUrl}/deleteCliente`);
     // }

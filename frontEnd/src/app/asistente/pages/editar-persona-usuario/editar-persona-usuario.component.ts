@@ -225,7 +225,6 @@ export class EditPersonComponent {
         // Obtener datos del cliente
         this.clientService.getAllInfoClient(clientId!).subscribe({
             next: (data: any) => {
-
                 this.provinciaId = data.personal.provincia_id?.toString() ?? null;
 
                 this.cantonesService.getCantonesPorProvincia(this.provinciaId).subscribe({
@@ -241,7 +240,7 @@ export class EditPersonComponent {
                         console.error('Error al obtener cantones:', error);
                         this.cantonOptions = []; // Limpiar por si falla
                     },
-                });                
+                });
 
                 // 1. Secciones simples
                 this.formPersonaUsuario.personal = {
@@ -255,6 +254,7 @@ export class EditPersonComponent {
                 };
 
                 this.formPersonaUsuario.info3meses_id = {
+                    id: data.info3meses_id?.id ?? null,
                     carcel: data.info3meses_id?.carcel ?? false,
                     razoncarcel: data.info3meses_id?.razon_carcel ?? null,
                     tratamiento_medico: data.info3meses_id?.tratamiento_medico ?? false,
@@ -266,6 +266,7 @@ export class EditPersonComponent {
                 };
 
                 this.formPersonaUsuario.contacto = {
+                    id: data.contacto?.id ?? null,
                     nombre: data.contacto?.nombre ?? null,
                     telefono: data.contacto?.telefono ?? null,
                     relacion: data.contacto?.relacion ?? null,
@@ -274,6 +275,7 @@ export class EditPersonComponent {
                 this.inamu_informacion = !!data.inamu;
                 this.formPersonaUsuario.inamu = data.inamu
                     ? {
+                          id: data.inamu.id ?? null,
                           jefehogar: data.inamu.jefehogar ?? false,
                           contactofamilia: data.inamu.contactofamilia ?? false,
                           apoyoeconomico: data.inamu.apoyoeconomico ?? false,
@@ -351,25 +353,47 @@ export class EditPersonComponent {
     editarPersonaUsuario() {
         this.cargando = true;
 
+        // Hacer una copia profunda del objeto para no modificar el original
+        const personaEditada = JSON.parse(JSON.stringify(this.formPersonaUsuario));
+
+        // Si no hay información del INAMU, eliminarla
         if (!this.inamu_informacion) {
-            this.formPersonaUsuario.inamu = null;
+            personaEditada.inamu = null;
         }
-        console.log('Objeto final:', this.formPersonaUsuario);
-        // Aquí podrías hacer una petición POST si querés
 
-        this.clientService.addClient(this.formPersonaUsuario).subscribe({
-            next: (response) => {
-                this.cargando = false;
+        // Si contacto está completamente vacío, eliminar el objeto contacto
+        const contacto = personaEditada.contacto;
+        if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null) {
+            personaEditada.contacto = null;
+        }
 
-                if (response.status === 200) {
-                    console.log('Persona usuario guardada correctamente:', response.data);
-                } else {
-                    console.error('Error al guardar la persona usuario:', response);
-                }
-            },
-            error: (error) => {
-                console.error('Error al guardar la persona usuario:', error);
-            },
+        // Convertir campos que deben ser números
+        const personal = personaEditada.personal;
+        personal.genero_id = personal.genero_id !== null ? Number(personal.genero_id) : null;
+        personal.tipo_id_id = personal.tipo_id_id !== null ? Number(personal.tipo_id_id) : null;
+        personal.canton_id = personal.canton_id !== null ? Number(personal.canton_id) : null;
+        personal.pais_id = personal.pais_id !== null ? Number(personal.pais_id) : null;
+        personal.donde_dormi_id = personal.donde_dormi_id !== null ? Number(personal.donde_dormi_id) : null;
+        personal.tiempo_calle_id = personal.tiempo_calle_id !== null ? Number(personal.tiempo_calle_id) : null;
+
+        // Convertir arrays de strings a arrays de números
+        const catalogos = personaEditada.catalogos;
+        catalogos.tipos_ayuda = catalogos.tipos_ayuda.map((id: string) => Number(id));
+        catalogos.tipos_violencia = catalogos.tipos_violencia.map((id: string) => Number(id));
+        catalogos.instituciones_violencia = catalogos.instituciones_violencia.map((id: string) => Number(id));
+
+        // Mostrar en consola para depuración
+        console.log('Objeto final a enviar:', personaEditada);
+
+        // Enviar la solicitud
+        this.clientService.editClient(personaEditada).subscribe((response) => {
+            this.cargando = false;
+
+            if (response.status === 200) {
+                console.log('Persona usuario guardada correctamente:', response.data);
+            } else {
+                console.error('Error al guardar la persona usuario:', response);
+            }
         });
     }
 }

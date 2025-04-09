@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'shared-button',
-  standalone: true,
-  templateUrl: './button.component.html',
-  styleUrl: './button.component.css',
+    selector: 'shared-button',
+    standalone: true,
+    templateUrl: './button.component.html',
+    styleUrl: './button.component.css',
 })
 export class ButtonComponent {
-  @Input() text: string = '';
-  @Output() click = new EventEmitter<void>(); // Importante
+    @Input() text: string = '';
+    @Output() buttonClick = new EventEmitter<void>();
 }
