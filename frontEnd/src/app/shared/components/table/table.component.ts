@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ClienteServicio } from '../../../interfaces/clienteServicio.interface';
 
 @Component({
   selector: 'shared-table',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './table.component.css'
 })
 export class TableComponent {
-
+  @Input()
+  public data: ClienteServicio[] = [];
 }

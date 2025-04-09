@@ -32,10 +32,39 @@ const catalogosCtr = {};
  * @returns {Error} 500 - Error al obtener los catalagos
  */
 
+
+catalogosCtr.getClientService = async (req, res) => {
+    const p_id = req.query.p_id || ""; 
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = parseInt(req.query.offset) || 0;
+
+    console.log("Parámetros recibidos:", { p_id, limit, offset });
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+
+        const clientService = await sequelize.query(
+            'SELECT * FROM buscar_clientes(:p_id, :p_limit, :p_offset)',
+            {
+                replacements: { p_id, p_limit: limit, p_offset: offset },
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        console.log("Resultados del procedimiento:", clientService);
+
+        res.status(200).json(clientService);
+    } catch (error) {
+        console.error('Error al obtener el cliente y servicio:', error);
+        res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
+    }
+};
+
+
 catalogosCtr.getCatalogos = async (req, res) => {
     try {
         const db = dbConnection.getInstance();
-        console.log(db)
+        //console.log(db)
         const Droga = defineDroga(db.Sequelize,db.dataType);
         const DondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
         const TiposAyuda = defineTiposAyuda(db.Sequelize,db.dataType);

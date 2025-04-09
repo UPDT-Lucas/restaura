@@ -1,3 +1,10 @@
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .table-container {
     padding: 24px;
     width: 750px;

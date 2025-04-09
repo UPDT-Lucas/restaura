@@ -1,8 +1,11 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'shared-dropdown',
-  imports: [],
+  imports: [
+    RouterModule
+  ],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.css'
 })

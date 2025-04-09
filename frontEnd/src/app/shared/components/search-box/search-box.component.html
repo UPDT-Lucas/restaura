@@ -3,9 +3,13 @@
 }
 <div class="search-box">
     @if(placeholder){
-        <input type="text" placeholder="Buscar..."/>
+        <input type="text" 
+        placeholder="Buscar..."
+        (input)="onInputChange($event)" />
+        />
     }@else {
-        <input type="text"/>
+        <input type="text"
+        (input)="onInputChange($event)" />
     }
     @if(searchIcon){
         <span class="material-icons md-36">search</span>

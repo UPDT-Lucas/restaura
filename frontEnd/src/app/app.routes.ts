@@ -7,7 +7,7 @@ import { RegisterComponent } from './admin/pages/register/register.component';
 export const routes: Routes = [
     {
         path: '',
-        component: LoginComponent
+        component: LogComponent
     },
     {
         path: 'log',
@@ -18,7 +18,7 @@ export const routes: Routes = [
         component: RegisterComponent
     },
     {
-    path: 'nueva-persona-usuario',
+    path: 'add',
     component: AddPersonComponent,
-  },
+    },
 ];

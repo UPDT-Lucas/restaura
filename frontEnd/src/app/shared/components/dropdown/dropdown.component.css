@@ -15,6 +15,7 @@ h2 {
 
 li {
     color: #8AF7FF;
+    cursor: pointer;
 }
 
 hr {

@@ -1,5 +1,11 @@
-<div class="table-container">
-    <shared-search-box [searchIcon]="true"></shared-search-box>
-    <shared-table>  
-    </shared-table>
+<div class="container">
+    <div class="table-container">
+        <shared-search-box [searchIcon]="true"
+        (onValue)="searchClientById($event)">
+        </shared-search-box>
+        <shared-table
+        [data]="clients">  
+        </shared-table>
+    </div>
 </div>
+
