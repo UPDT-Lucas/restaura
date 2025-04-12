@@ -1,17 +1,28 @@
-span, h1 {
-    color: #21438C;
+span,
+h1 {
+    color: #21438c;
 }
 
 .container {
-    padding: 0 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
-    height: 80px;
+    height: 60px;
     align-items: center;
+    background-color: white;
+    box-shadow: 0 6px 10px rgba(85, 85, 85, 0.1);
 }
+
 
 .logo-list {
     display: flex;
+    justify-content: center;
+    justify-items: center;
     gap: 12px;
 }
 
@@ -20,6 +31,11 @@ ul {
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+li {
+    display: flex;
+    justify-content: center;
 }
 
 img {

@@ -1,4 +1,8 @@
 <div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    
     <div class="table-container">
         <shared-search-box [searchIcon]="true"
         (onValue)="searchClientById($event)">

@@ -1,152 +1,155 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow-x: hidden;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 .container {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .menu-options {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 350px;
-  background-color: #14213D;
-  border-radius: 10px 0 0 10px;
-  padding: 32px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  pointer-events: none;
-  z-index: 1000;
-  overflow-y: auto;
-  max-height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 350px;
+    background-color: #14213d;
+    border-radius: 10px 0 0 10px;
+    padding: 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    pointer-events: none;
+    z-index: 1000;
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 .menu-options.open {
-  transform: translateX(0);
-  opacity: 1;
-  pointer-events: auto;
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .material-icons {
-  cursor: pointer;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
 }
 
 p {
-  color: white;
-  font-weight: bold;
+    color: white;
+    font-weight: bold;
 }
 
 h2 {
-  color: #FCA311;
+    color: #fca311;
 }
 
 li {
-  color: #8AF7FF;
-  cursor: pointer;
+    color: #8af7ff;
+    cursor: pointer;
 }
 
 hr {
-  width: 100%;
-  background-color: #FCA311;
-  height: 1px;
-  border: none;
+    width: 100%;
+    background-color: #fca311;
+    height: 1px;
+    border: none;
 }
 
 .top {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-grow: 1;
 }
 
 .name {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .start-info {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
 }
 
 .start-info li {
-  margin-left: 24px;
-  font-size: 14px;
+    margin-left: 24px;
+    font-size: 14px;
 }
 
 .functions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .functions-list {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
 }
 
 .each-list {
-  display: flex;
-  gap: 12px;
-  color: white;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 10px;
+    display: flex;
+    gap: 12px;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
 
-  &:hover {
-    cursor: pointer;
-    background-color: #2a4682;
-  }
+    &:hover {
+        cursor: pointer;
+        background-color: #2a4682;
+    }
 }
 
 .each-list p {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .session-option {
-  display: flex;
-  width: 100%;
-  color: #FF6262;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    width: 100%;
+    color: #ff6262;
+    align-items: center;
+    gap: 12px;
 }
 
 .session-option p {
-  font-size: 14px;
-  color: #FF6262;
+    font-size: 14px;
+    color: #ff6262;
 }
 
 /* Overlay para sombra */
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 900;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 900;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
 }
 
 .overlay.show {
-  opacity: 1;
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
