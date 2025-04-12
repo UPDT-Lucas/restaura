@@ -350,6 +350,23 @@ export class EditPersonComponent {
         }
     }
 
+    onIdentificacionChange(value: string): void {
+        if (value !== null && value !== '') {
+            this.clientService.getClientExist(value).subscribe({
+                next: (response) => {
+                    if (response.status === 200) {
+                        console.log('Identificación ya existe:', response.data);
+                    } else {
+                        console.log('Identificación no existe, puedes continuar.');
+                    }
+                },
+                error: (error) => {
+                    console.error('Error al verificar la identificación:', error);
+                },
+            });
+        }
+    }
+
     editarPersonaUsuario() {
         this.cargando = true;
 

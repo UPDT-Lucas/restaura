@@ -148,6 +148,7 @@
 
         <!-- Empresa -->
         <shared-input-text
+            *ngIf="formPersonaUsuario.personal.sitrabaja"
             [label]="'Empresa'"
             [placeholder]="'Ingrese la empresa'"
             [error]="'*Campo requerido'"
@@ -157,6 +158,7 @@
 
         <!-- Ocupación -->
         <shared-input-text
+            *ngIf="formPersonaUsuario.personal.sitrabaja"
             [label]="'Ocupación'"
             [placeholder]="'Ingrese la ocupación'"
             [error]="'*Campo requerido'"
@@ -449,8 +451,8 @@
     </div>
 
     <!-- CONTACTO -->
-    <shared-subtitle [text]="'Contacto'" />
-    <div class="form-wrap">
+    <shared-subtitle [text]="'Contacto'" *ngIf="contacto_informacion" />
+    <div class="form-wrap" *ngIf="contacto_informacion">
         <!-- Nombre -->
         <shared-input-text
             [label]="'Nombre'"

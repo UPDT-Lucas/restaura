@@ -15,7 +15,6 @@ import { CantonesService } from '../../../services/cantones.service';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../services/client.service';
 
-
 @Component({
     selector: 'nueva-persona-usuario',
     imports: [
@@ -129,6 +128,7 @@ export class ViewPersonComponent {
 
     provinciaId: any = null;
     inamu_informacion: boolean = false;
+    contacto_informacion: boolean = false;
 
     cargando: boolean = true;
 
@@ -261,12 +261,6 @@ export class ViewPersonComponent {
                     razon_drogas: data.info3meses_id?.razon_drogas ?? null,
                 };
 
-                this.formPersonaUsuario.contacto = {
-                    nombre: data.contacto?.nombre ?? null,
-                    telefono: data.contacto?.telefono ?? null,
-                    relacion: data.contacto?.relacion ?? null,
-                };
-
                 this.inamu_informacion = !!data.inamu;
                 this.formPersonaUsuario.inamu = data.inamu
                     ? {
@@ -277,6 +271,15 @@ export class ViewPersonComponent {
                           parejacentro: data.inamu.parejacentro ?? false,
                           parejano: data.inamu.parejano ?? null,
                           solucionesdetalle: data.inamu.solucionesdetalle ?? null,
+                      }
+                    : null;
+
+                this.contacto_informacion = !!data.contacto;
+                this.formPersonaUsuario.contacto = data.contacto
+                    ? {
+                          nombre: data.contacto.nombre ?? null,
+                          telefono: data.contacto.telefono ?? null,
+                          relacion: data.contacto.relacion ?? null,
                       }
                     : null;
 
