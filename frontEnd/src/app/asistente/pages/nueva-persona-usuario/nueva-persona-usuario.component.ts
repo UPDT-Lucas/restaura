@@ -110,8 +110,6 @@ export class AddPersonComponent {
         },
     };
 
-    // Variables Formulario
-
     // Variables API
     catalogos: any[] = [];
     tipoIdentificacionOptions: { label: string; value: string }[] = [];
@@ -129,6 +127,7 @@ export class AddPersonComponent {
     institucionesAyudaOptions: { label: string; value: string }[] = [];
     tipoViolenciaOptions: { label: string; value: string }[] = [];
 
+    // Variables de control
     provinciaId: any = null;
     inamu_informacion: boolean = false;
 
@@ -261,6 +260,23 @@ export class AddPersonComponent {
             });
         } else {
             this.cantonOptions = []; // Si no hay provincia, vaciar cantones
+        }
+    }
+
+    onIdentificacionChange(value: string): void {
+        if (value !== null && value !== '') {
+            this.clientService.getClientExist(value).subscribe({
+                next: (response) => {
+                    if (response.status === 200) {
+                        console.log('Identificación ya existe:', response.data);
+                    } else {
+                        console.log('Identificación no existe, puedes continuar.');
+                    }
+                },
+                error: (error) => {
+                    console.error('Error al verificar la identificación:', error);
+                },
+            });
         }
     }
 

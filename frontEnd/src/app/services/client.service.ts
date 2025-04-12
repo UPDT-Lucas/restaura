@@ -24,6 +24,10 @@ export class ClientService {
         return this.http.put<any>(`${this.apiUrl}/updateCliente`, cliente);
     }
 
+    getClientExist(id: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClienteExist/${id}`);
+    }
+
     // deleteClient(text: id){
     //     return this.http.delete(`${this.apiUrl}/deleteCliente`);
     // }

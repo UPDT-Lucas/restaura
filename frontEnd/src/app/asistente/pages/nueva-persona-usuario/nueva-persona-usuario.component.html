@@ -41,10 +41,11 @@
         />
         <!-- Identificacion -->
         <shared-input-text
-            [label]="'Identificación'"
+            [label]="'Identificación(sin guiones)'"
             [placeholder]="'Ingrese el Identificación'"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.id"
+            (blurChange)="onIdentificacionChange($event)"
         />
         <!-- Edad -->
         <shared-input-number

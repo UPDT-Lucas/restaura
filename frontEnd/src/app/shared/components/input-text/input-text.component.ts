@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 export class InputTextComponent {
     @Input() value: any;
     @Output() valueChange = new EventEmitter<any>();
+    @Output() blurChange = new EventEmitter<string>();
     @Input() label: string = '';
     @Input() placeholder: string = '';
     @Input() disabled: boolean = false;
@@ -26,5 +27,7 @@ export class InputTextComponent {
 
     onBlur(): void {
         this.touched = true;
+        this.blurChange.emit(this.value);
     }
+
 }
