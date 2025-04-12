@@ -53,9 +53,9 @@ clienteCtr.getClienteExist = async (req,res)=> {
             where: { id: p_id }
         });
         if(cliente !== undefined && cliente !== null){
-            res.status(409).json({ clienteServicio:cliente,status: 409});
+            res.status(200).json({ clienteServicio:cliente,status: 200});
         }else{
-            res.status(200).json({ status: 200});
+            res.status(404).json({ status: 404});
         }
     }catch(error){
         console.error("Error al obtener cliente:", error);
