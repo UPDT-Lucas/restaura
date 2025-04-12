@@ -41,12 +41,31 @@ function compararListas(listaOriginal, listaNueva) {
  * @returns {Error} 400 - Error al guardar el cliente
  * @returns {Error} 500 - Error al obtener los catalagos
  */
+clienteCtr.getClienteExist = async (req,res)=> {
+    try{
+        const db = dbConnection.getInstance();
+        const p_id = req.params.id;
+        const clienteServicio = defineClienteServicio(db.Sequelize,db.dataType);
+        let depurateString = p_id.replaceAll(" ","").replaceAll("\n","");
+        console.log(p_id);
+        console.log(depurateString);
+        const cliente = await clienteServicio.findOne({
+            where: { id: p_id }
+        });
+        if(cliente !== undefined && cliente !== null){
+            res.status(200).json({ cliente: cliente,status: 200});
+        }
+    }catch(error){
+        console.error("Error al obtener cliente:", error);
+        res.status(500).json({ message: "Error al obtener cliente", error,status:500 });
+    }
+}
 
 clienteCtr.saveCliente = async (req,res)=> {
     try {
         const db = dbConnection.getInstance();
-        const data = req.body;
-        console.log("data",data);
+        let data = req.body;
+        data.personal.id = data.personal.id.replaceAll(" ","").replaceAll("\n","");
 
         const clienteServicio = defineClienteServicio(db.Sequelize,db.dataType);
         const nuevoCliente = await clienteServicio.create(data.personal);
@@ -70,7 +89,7 @@ clienteCtr.saveCliente = async (req,res)=> {
             const info3MesesAdd = defineInfo3Meses(db.Sequelize,db.dataType);
             let dataInfo3Meses = data.info3meses_id;
             dataInfo3Meses.cliente_servicio_id = nuevoCliente.id;
-            console.log("dataInfo3Meses",dataInfo3Meses);
+
             const nuevoInfo3Meses = await info3MesesAdd.create(dataInfo3Meses);
 
             const  academicoxcliente = defineAcademicoXCliente(db.Sequelize,db.dataType); 
@@ -177,7 +196,6 @@ clienteCtr.saveCliente = async (req,res)=> {
 
 clienteCtr.getClienteAll = async (req,res)=> {
     const p_id = req.params.id; 
-    console.log("Parametros recibidos:", req.params.id ,p_id); 
     try {
         const sequelize = dbConnection.getInstance().Sequelize; 
         let finalRes = {};
@@ -300,12 +318,9 @@ clienteCtr.getClienteAll = async (req,res)=> {
 
         
 
-
+        res.status(200).json(finalRes);
         
 
-        console.log("Resultados del procedimiento:", finalRes);
-
-    res.status(200).json(finalRes); 
     } catch (error) {
         console.error('Error al obtener el cliente y servicio:', error);
         res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
@@ -318,7 +333,6 @@ clienteCtr.getClientService = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
 
-    console.log("Parámetros recibidos:", { p_id, limit, offset });
 
     try {
         const sequelize = dbConnection.getInstance().Sequelize;
@@ -331,7 +345,6 @@ clienteCtr.getClientService = async (req, res) => {
             }
         );
 
-        console.log("Resultados del procedimiento:", clientService);
 
         res.status(200).json(clientService);
     } catch (error) {
