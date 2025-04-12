@@ -1,60 +1,43 @@
 <div class="container">
     <!-- icon to open -->
-    <span class="material-icons" (click)="toggleDropdown()" #toggle>
-        menu
-    </span>
+    <span class="material-icons" (click)="toggleDropdown()" #toggle>menu</span>
 
     <!-- options container -->
-    @if(isOpen){
-        <div class="menu-options">
-            <div class="top">
-                <div class="start-info">
-                    <div class="name">
-                        <h2>Jonathan Porras Sandi</h2>
-                        <hr>
-                    </div>
-                    <ul>
-                        <li>Asistente Administrativo</li>
-                    </ul>
+    <div class="menu-options" [ngClass]="{ open: isOpen }" #menu>
+        <div class="top">
+            <div class="start-info">
+                <div class="name">
+                    <h2>Jonathan Porras Sandi</h2>
+                    <hr />
                 </div>
-                <div class="functions">
-                    <p> Funciones </p>
-                    <ul class="functions-list">
-                        <li class="each-list" routerLink="">
-                            <span class="material-icons md-16">
-                                auto_stories
-                            </span> 
-                            <p>
-                                Bitácora
-                            </p>
-                        </li>
-                        <li class="each-list" routerLink="/add">
-                            <span class="material-icons md-16">
-                                groups
-                            </span> 
-                            <p>
-                                Agregar Habitante
-                            </p>
-                        </li>
-                        <li class="each-list">
-                            <span class="material-icons md-16">
-                                person_add
-                            </span> 
-                            <p>
-                                Agregar Funcionario
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+                <ul>
+                    <li>Asistente Administrativo</li>
+                </ul>
             </div>
-            <div class="session-option">
-                <span class="material-icons">
-                    door_front
-                </span>
-                <p>
-                    Cerrar Sesión
-                </p>
+            <div class="functions">
+                <p>Funciones</p>
+                <ul class="functions-list">
+                    <li class="each-list" routerLink="/">
+                        <span class="material-icons md-16">auto_stories</span>
+                        <p>Bitácora</p>
+                    </li>
+                    <li class="each-list" routerLink="/add">
+                        <span class="material-icons md-16">groups</span>
+                        <p>Agregar Persona Usuario</p>
+                    </li>
+                    <li class="each-list">
+                        <span class="material-icons md-16">person_add</span>
+                        <p>Agregar Funcionario</p>
+                    </li>
+                </ul>
             </div>
         </div>
-    }
+        <div class="session-option">
+            <span class="material-icons">door_front</span>
+            <p>Cerrar Sesión</p>
+        </div>
+    </div>
+
+    <!-- sombra -->
+    <div class="overlay" [ngClass]="{ show: isOpen }" (click)="toggleDropdown()"></div>
 </div>

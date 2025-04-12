@@ -75,7 +75,12 @@
         <!-- Pais -->
         <shared-select [label]="'Pais'" [options]="paisOptions" [(value)]="formPersonaUsuario.personal.pais_id" />
         <!-- Provincia -->
-        <shared-select [label]="'Provincia'" [options]="provinciaOptions" [(value)]="provinciaId" (valueChange)="onProvinciaChange($event)" />
+        <shared-select
+            [label]="'Provincia'"
+            [options]="provinciaOptions"
+            [(value)]="provinciaId"
+            (valueChange)="onProvinciaChange($event)"
+        />
         <!-- Cantón -->
         <shared-select [label]="'Cantón'" [options]="cantonOptions" [(value)]="formPersonaUsuario.personal.canton_id" />
     </div>
@@ -112,6 +117,7 @@
 
         <!-- Empresa -->
         <shared-input-text
+            *ngIf="formPersonaUsuario.personal.sitrabaja"
             [label]="'Empresa'"
             [placeholder]="'Ingrese la empresa'"
             [error]="'*Campo requerido'"
@@ -120,6 +126,7 @@
 
         <!-- Ocupación -->
         <shared-input-text
+            *ngIf="formPersonaUsuario.personal.sitrabaja"
             [label]="'Ocupación'"
             [placeholder]="'Ingrese la ocupación'"
             [error]="'*Campo requerido'"
@@ -326,6 +333,7 @@
 
         <!-- Internamientos -->
         <shared-input-number
+            *ngIf="formPersonaUsuario.personal.consumodrogas"
             [label]="'Número internamientos'"
             [placeholder]="'Ingrese el número de internamientos'"
             [(value)]="formPersonaUsuario.personal.numerointernamientos"
@@ -364,27 +372,24 @@
     </div>
 
     <!-- CONTACTO -->
-    <shared-subtitle [text]="'Contacto'" />
+    <shared-subtitle [text]="'Contacto(opcional)'" />
     <div class="form-wrap">
         <!-- Nombre -->
         <shared-input-text
             [label]="'Nombre'"
             [placeholder]="'Ingrese el nombre'"
-            [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.contacto.nombre"
         />
         <!-- Telefono -->
         <shared-input-text
             [label]="'Teléfono'"
             [placeholder]="'Ingrese el teléfono'"
-            [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.contacto.telefono"
         />
         <!-- Parentesco -->
         <shared-input-text
             [label]="'Parentesco'"
             [placeholder]="'Ingrese el Parentesco'"
-            [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.contacto.relacion"
         />
     </div>
