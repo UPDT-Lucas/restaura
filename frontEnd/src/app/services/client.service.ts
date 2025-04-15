@@ -36,7 +36,7 @@ export class ClientService {
         return this.http.get<AllInfoClient>(`${this.apiUrl}/getClienteAll/${id}`);
     }
 
-    deleteClient(cliente_servicio_id: string, informacion_inamu_id: string): Observable<any> {
+    deleteClient(cliente_servicio_id: string, informacion_inamu_id: string|null): Observable<any> {
         return this.http.delete(`${this.apiUrl}/deleteCliente`, {
             body: {
                 cliente_servicio_id,

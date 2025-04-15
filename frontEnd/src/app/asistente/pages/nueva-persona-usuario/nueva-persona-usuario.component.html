@@ -472,10 +472,18 @@
 
     <div class="buttons">
         <div class="button-container">
-            <shared-button text="Crear Persona Usuario" (click)="crearPersonaUsuario()"></shared-button>
+            <shared-button text="Crear Persona Usuario" (click)="confirmUpdate()"></shared-button>
         </div>
         <div class="button-container">
             <shared-secondary-button text="Cancelar Creación"></shared-secondary-button>
         </div>
     </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Agregar cliente'"
+  [text]="'¿Estás seguro de que deseas agregar al usuario: ' + formPersonaUsuario.personal.id + '? Confirme que el numero de cedula ingresado es correcto'"
+  [actionType]="'add'"
+  (confirmed)="crearPersonaUsuario($event)">
+</app-confirm-dialog>

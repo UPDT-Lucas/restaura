@@ -31,7 +31,7 @@
                 </span>
             </td>
             <td>
-                <span class="material-icons" (click)="getInamu(client.id)">
+                <span class="material-icons" (click)="confirmDelete(client.id)">
                     delete_forever
                 </span>
             </td>
@@ -44,3 +44,11 @@
         }
     </table>
 </div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Eliminar cliente'"
+  [text]="'¿Estás seguro de que deseas eliminar al usuario: ' + clientIdToDelete + '?'"
+  [actionType]="'delete'"
+  (confirmed)="onConfirmDelete($event)">
+</app-confirm-dialog>
