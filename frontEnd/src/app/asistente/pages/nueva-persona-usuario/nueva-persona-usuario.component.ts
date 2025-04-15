@@ -15,6 +15,8 @@ import { SecondaryButtonComponent } from '../../../shared/components/secondary-b
 import { CatalogoService } from '../../../services/catalogo.service';
 import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+
 
 @Component({
     selector: 'nueva-persona-usuario',
@@ -32,6 +34,7 @@ import { CantonesService } from '../../../services/cantones.service';
         ButtonComponent,
         SecondaryButtonComponent,
         ReactiveFormsModule,
+        ConfirmDialogComponent
     ],
     templateUrl: './nueva-persona-usuario.component.html',
     styleUrls: ['./nueva-persona-usuario.component.css'],
@@ -279,29 +282,37 @@ export class AddPersonComponent {
             });
         }
     }
+    public showModal: boolean = false;
+    confirmUpdate() {
+        this.showModal = true;
 
-    crearPersonaUsuario() {
-        this.cargando = true;
+    }
 
-        if (!this.inamu_informacion) {
-            this.formPersonaUsuario.inamu = null;
+    crearPersonaUsuario(confirmed: boolean): void {
+        this.showModal = false;
+        if (confirmed) {
+            this.cargando = true;
+
+            if (!this.inamu_informacion) {
+                this.formPersonaUsuario.inamu = null;
+            }
+            console.log('Objeto final:', this.formPersonaUsuario);
+            // Aquí podrías hacer una petición POST si querés
+
+            this.clientService.addClient(this.formPersonaUsuario).subscribe({
+                next: (response) => {
+                    this.cargando = false;
+
+                    if (response.status === 200) {
+                        console.log('Persona usuario guardada correctamente:', response.data);
+                    } else {
+                        console.error('Error al guardar la persona usuario:', response);
+                    }
+                },
+                error: (error) => {
+                    console.error('Error al guardar la persona usuario:', error);
+                },
+            });
         }
-        console.log('Objeto final:', this.formPersonaUsuario);
-        // Aquí podrías hacer una petición POST si querés
-
-        this.clientService.addClient(this.formPersonaUsuario).subscribe({
-            next: (response) => {
-                this.cargando = false;
-
-                if (response.status === 200) {
-                    console.log('Persona usuario guardada correctamente:', response.data);
-                } else {
-                    console.error('Error al guardar la persona usuario:', response);
-                }
-            },
-            error: (error) => {
-                console.error('Error al guardar la persona usuario:', error);
-            },
-        });
     }
 }

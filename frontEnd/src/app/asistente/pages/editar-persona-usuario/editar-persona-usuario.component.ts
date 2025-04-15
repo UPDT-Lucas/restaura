@@ -17,6 +17,7 @@ import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
 import { ActivatedRoute } from '@angular/router';
 import { __param } from 'tslib';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'editar-persona-usuario',
@@ -34,6 +35,7 @@ import { __param } from 'tslib';
         ButtonComponent,
         SecondaryButtonComponent,
         ReactiveFormsModule,
+        ConfirmDialogComponent
     ],
     templateUrl: './editar-persona-usuario.component.html',
     styleUrls: ['./editar-persona-usuario.component.css'],
@@ -141,7 +143,7 @@ export class EditPersonComponent {
         private clientService: ClientService,
         private cantonesService: CantonesService,
         private route: ActivatedRoute,
-    ) {}
+    ) { }
 
     // Llamada API
     ngOnInit(): void {
@@ -275,15 +277,15 @@ export class EditPersonComponent {
                 this.inamu_informacion = !!data.inamu;
                 this.formPersonaUsuario.inamu = data.inamu
                     ? {
-                          id: data.inamu.id ?? null,
-                          jefehogar: data.inamu.jefehogar ?? false,
-                          contactofamilia: data.inamu.contactofamilia ?? false,
-                          apoyoeconomico: data.inamu.apoyoeconomico ?? false,
-                          pareja: data.inamu.pareja ?? false,
-                          parejacentro: data.inamu.parejacentro ?? false,
-                          parejano: data.inamu.parejano ?? null,
-                          solucionesdetalle: data.inamu.solucionesdetalle ?? null,
-                      }
+                        id: data.inamu.id ?? null,
+                        jefehogar: data.inamu.jefehogar ?? false,
+                        contactofamilia: data.inamu.contactofamilia ?? false,
+                        apoyoeconomico: data.inamu.apoyoeconomico ?? false,
+                        pareja: data.inamu.pareja ?? false,
+                        parejacentro: data.inamu.parejacentro ?? false,
+                        parejano: data.inamu.parejano ?? null,
+                        solucionesdetalle: data.inamu.solucionesdetalle ?? null,
+                    }
                     : null;
 
                 // 2. Secciones tipo lista (IDs en string)
@@ -366,51 +368,59 @@ export class EditPersonComponent {
             });
         }
     }
+    public showModal: boolean = false;
+    confirmUpdate() {
+        this.showModal = true;
 
-    editarPersonaUsuario() {
-        this.cargando = true;
+    }
 
-        // Hacer una copia profunda del objeto para no modificar el original
-        const personaEditada = JSON.parse(JSON.stringify(this.formPersonaUsuario));
+    editarPersonaUsuario(confirmed: boolean): void {
+        this.showModal = false;
+        if (confirmed) {
+            this.cargando = true;
 
-        // Si no hay información del INAMU, eliminarla
-        if (!this.inamu_informacion) {
-            personaEditada.inamu = null;
-        }
+            // Hacer una copia profunda del objeto para no modificar el original
+            const personaEditada = JSON.parse(JSON.stringify(this.formPersonaUsuario));
 
-        // Si contacto está completamente vacío, eliminar el objeto contacto
-        const contacto = personaEditada.contacto;
-        if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null) {
-            personaEditada.contacto = null;
-        }
-
-        // Convertir campos que deben ser números
-        const personal = personaEditada.personal;
-        personal.genero_id = personal.genero_id !== null ? Number(personal.genero_id) : null;
-        personal.tipo_id_id = personal.tipo_id_id !== null ? Number(personal.tipo_id_id) : null;
-        personal.canton_id = personal.canton_id !== null ? Number(personal.canton_id) : null;
-        personal.pais_id = personal.pais_id !== null ? Number(personal.pais_id) : null;
-        personal.donde_dormi_id = personal.donde_dormi_id !== null ? Number(personal.donde_dormi_id) : null;
-        personal.tiempo_calle_id = personal.tiempo_calle_id !== null ? Number(personal.tiempo_calle_id) : null;
-
-        // Convertir arrays de strings a arrays de números
-        const catalogos = personaEditada.catalogos;
-        catalogos.tipos_ayuda = catalogos.tipos_ayuda.map((id: string) => Number(id));
-        catalogos.tipos_violencia = catalogos.tipos_violencia.map((id: string) => Number(id));
-        catalogos.instituciones_violencia = catalogos.instituciones_violencia.map((id: string) => Number(id));
-
-        // Mostrar en consola para depuración
-        console.log('Objeto final a enviar:', personaEditada);
-
-        // Enviar la solicitud
-        this.clientService.editClient(personaEditada).subscribe((response) => {
-            this.cargando = false;
-
-            if (response.status === 200) {
-                console.log('Persona usuario guardada correctamente:', response.data);
-            } else {
-                console.error('Error al guardar la persona usuario:', response);
+            // Si no hay información del INAMU, eliminarla
+            if (!this.inamu_informacion) {
+                personaEditada.inamu = null;
             }
-        });
+
+            // Si contacto está completamente vacío, eliminar el objeto contacto
+            const contacto = personaEditada.contacto;
+            if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null) {
+                personaEditada.contacto = null;
+            }
+
+            // Convertir campos que deben ser números
+            const personal = personaEditada.personal;
+            personal.genero_id = personal.genero_id !== null ? Number(personal.genero_id) : null;
+            personal.tipo_id_id = personal.tipo_id_id !== null ? Number(personal.tipo_id_id) : null;
+            personal.canton_id = personal.canton_id !== null ? Number(personal.canton_id) : null;
+            personal.pais_id = personal.pais_id !== null ? Number(personal.pais_id) : null;
+            personal.donde_dormi_id = personal.donde_dormi_id !== null ? Number(personal.donde_dormi_id) : null;
+            personal.tiempo_calle_id = personal.tiempo_calle_id !== null ? Number(personal.tiempo_calle_id) : null;
+
+            // Convertir arrays de strings a arrays de números
+            const catalogos = personaEditada.catalogos;
+            catalogos.tipos_ayuda = catalogos.tipos_ayuda.map((id: string) => Number(id));
+            catalogos.tipos_violencia = catalogos.tipos_violencia.map((id: string) => Number(id));
+            catalogos.instituciones_violencia = catalogos.instituciones_violencia.map((id: string) => Number(id));
+
+            // Mostrar en consola para depuración
+            console.log('Objeto final a enviar:', personaEditada);
+
+            // Enviar la solicitud
+            this.clientService.editClient(personaEditada).subscribe((response) => {
+                this.cargando = false;
+
+                if (response.status === 200) {
+                    console.log('Persona usuario guardada correctamente:', response.data);
+                } else {
+                    console.error('Error al guardar la persona usuario:', response);
+                }
+            });
+        }
     }
 }

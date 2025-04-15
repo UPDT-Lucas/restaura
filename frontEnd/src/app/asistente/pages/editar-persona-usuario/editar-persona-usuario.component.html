@@ -467,10 +467,19 @@
 
     <div class="buttons">
         <div class="button-container">
-            <shared-button text="Editar Persona Usuario" (buttonClick)="editarPersonaUsuario()"></shared-button>
+            <shared-button text="Editar Persona Usuario" (buttonClick)="confirmUpdate()"></shared-button>
         </div>
         <div class="button-container">
             <shared-secondary-button text="Cancelar Creación"></shared-secondary-button>
         </div>
     </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Actualizar cliente'"
+  [text]="'¿Estás seguro de que deseas actualizar al usuario: ' + formPersonaUsuario.personal.id + '?'"
+  [actionType]="'update'"
+  (confirmed)="editarPersonaUsuario($event)">
+</app-confirm-dialog>
+

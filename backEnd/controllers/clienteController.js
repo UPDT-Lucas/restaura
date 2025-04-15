@@ -62,14 +62,30 @@ clienteCtr.getClienteExist = async (req,res)=> {
         res.status(500).json({ message: "Error al obtener cliente", error,status:500 });
     }
 }
+function convertirFechaADate(fecha) {
+    if (!fecha) return null; // Manejar fechas nulas o indefinidas
 
+    // Verificar si la fecha ya está en formato YYYY-MM-DD
+    const formatoYYYYMMDD = /^\d{4}-\d{2}-\d{2}$/; // Expresión regular para validar el formato
+    if (formatoYYYYMMDD.test(fecha)) {
+        return fecha; // Si ya está en el formato correcto, devolver la fecha
+    }
+
+    // Si no está en el formato correcto, convertirla
+    const [dia, mes, ano] = fecha.split('-'); // Dividir la fecha en partes
+    return `${ano}-${mes}-${dia}`; // Reorganizar en formato YYYY-MM-DD
+}
 clienteCtr.saveCliente = async (req,res)=> {
     try {
         const db = dbConnection.getInstance();
-        let data = req.body;
+        const data = req.body;
+        data.personal.fechanacimiento = convertirFechaADate(data.personal.fechanacimiento);
+        
+        data.personal.fechaingreso = convertirFechaADate(data.personal.fechaingreso);
         data.personal.id = data.personal.id.replaceAll(" ","").replaceAll("\n","");
-
+        console.log(data.personal);
         const clienteServicio = defineClienteServicio(db.Sequelize,db.dataType);
+        data.personal
         const nuevoCliente = await clienteServicio.create(data.personal);
         
         if( nuevoCliente !== undefined && nuevoCliente !== null){
