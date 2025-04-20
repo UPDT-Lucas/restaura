@@ -487,3 +487,11 @@
   [actionType]="'add'"
   (confirmed)="crearPersonaUsuario($event)">
 </app-confirm-dialog>
+
+<app-confirm-dialog
+  *ngIf="showModalInfo"
+  [title]="'Datos Recuperados'"
+  [text]="'¿Deseas recuperar los datos ingresados? Sino, se iniciara un formulario nuevo'"
+  [actionType]="'info'"
+  (confirmed)="cargarPersonaUsuario($event)">
+</app-confirm-dialog>

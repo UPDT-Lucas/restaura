@@ -13,7 +13,7 @@ export class ConfirmDialogComponent {
   @Input() 
   title: string = '';
   @Input()
-  actionType: 'delete' | 'update' | 'add' = 'delete';
+  actionType: 'delete' | 'update' | 'info' | 'add' = 'delete';
 
   @Output() 
   confirmed = new EventEmitter<boolean>();
@@ -26,7 +26,8 @@ export class ConfirmDialogComponent {
     return {
       delete: 'confirm-btn-delete',
       update: 'confirm-btn-update',
-      add: 'confirm-btn-add'
+      add: 'confirm-btn-add',
+      info: 'confirm-btn-info'
     }[this.actionType];
   }
 }
