@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TitleOneComponent } from '../../../shared/components/title/title.component';
@@ -16,6 +16,8 @@ import { CatalogoService } from '../../../services/catalogo.service';
 import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.component';
+
 
 
 @Component({
@@ -34,7 +36,8 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
         ButtonComponent,
         SecondaryButtonComponent,
         ReactiveFormsModule,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        SnackbarComponent
     ],
     templateUrl: './nueva-persona-usuario.component.html',
     styleUrls: ['./nueva-persona-usuario.component.css'],
@@ -287,7 +290,7 @@ export class AddPersonComponent {
         this.showModal = true;
 
     }
-
+    @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     crearPersonaUsuario(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
@@ -305,8 +308,10 @@ export class AddPersonComponent {
 
                     if (response.status === 200) {
                         console.log('Persona usuario guardada correctamente:', response.data);
+                        this.snackbar.show('Persona usuario guardada correctamente',3000);
                     } else {
                         console.error('Error al guardar la persona usuario:', response);
+                        this.snackbar.show('Error al guardar la persona usuario',3000);
                     }
                 },
                 error: (error) => {

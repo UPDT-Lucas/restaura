@@ -1,16 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ClienteServicio } from '../../../interfaces/clienteServicio.interface';
 import { ClientService } from '../../../services/client.service';
 import { AllInfoClient } from '../../../interfaces/allClient.interface';
 import { RouterModule } from '@angular/router';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { CommonModule } from '@angular/common';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 @Component({
   selector: 'shared-table',
   imports: [
     RouterModule,
     ConfirmDialogComponent,
-    CommonModule
+    CommonModule,
+    SnackbarComponent
 
   ],
   templateUrl: './table.component.html',
@@ -24,6 +26,7 @@ export class TableComponent {
 
   @Input()
   public data: ClienteServicio[] = [];
+  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
 
   confirmDelete(clientId: string) {
     
@@ -31,6 +34,7 @@ export class TableComponent {
     this.showModal = true;
     
   }
+  
 
   onConfirmDelete(confirmed: boolean): void {
     this.showModal = false;
@@ -46,7 +50,17 @@ export class TableComponent {
         }
         
         this.clientService.deleteClient(id, inamu_id).subscribe((response) => {
-          console.log(response);
+          
+          if(response.status === 200){ 
+
+            this.snackbar.show('Usuario eliminado correctamente',3000);
+
+          }else{
+
+            this.snackbar.show('Error al eliminar el cliente', 3000);
+
+          }
+
         });
      });
      this.clientIdToDelete = null;

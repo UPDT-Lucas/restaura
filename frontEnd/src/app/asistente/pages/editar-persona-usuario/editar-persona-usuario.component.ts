@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TitleOneComponent } from '../../../shared/components/title/title.component';
@@ -18,6 +18,7 @@ import { CantonesService } from '../../../services/cantones.service';
 import { ActivatedRoute } from '@angular/router';
 import { __param } from 'tslib';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.component';
 
 @Component({
     selector: 'editar-persona-usuario',
@@ -35,7 +36,8 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
         ButtonComponent,
         SecondaryButtonComponent,
         ReactiveFormsModule,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        SnackbarComponent
     ],
     templateUrl: './editar-persona-usuario.component.html',
     styleUrls: ['./editar-persona-usuario.component.css'],
@@ -373,7 +375,7 @@ export class EditPersonComponent {
         this.showModal = true;
 
     }
-
+    @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     editarPersonaUsuario(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
@@ -416,9 +418,11 @@ export class EditPersonComponent {
                 this.cargando = false;
 
                 if (response.status === 200) {
-                    console.log('Persona usuario guardada correctamente:', response.data);
+                    console.log('Persona usuario editada correctamente:', response.data);
+                    this.snackbar.show('Usuario editado correctamente',3000);
                 } else {
-                    console.error('Error al guardar la persona usuario:', response);
+                    console.error('Error al editar la persona usuario:', response);
+                    this.snackbar.show('Error al editar el usuario',3000);
                 }
             });
         }
