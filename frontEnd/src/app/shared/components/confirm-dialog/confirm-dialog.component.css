@@ -64,6 +64,10 @@ html, body {
   .add-header {
     background-color: #5cb85c; /* verde */
   }
+
+  .info-header {
+    background-color: #6b6b6b; /* gris */
+  } 
 #modal-close {
     position: absolute;
     right: 15px;
@@ -126,6 +130,12 @@ html, body {
   color: white;
 }
 
+.confirm-btn-info {
+  border: 2px solid #9b9999;
+  background: #dadada;
+  color: white;
+}
+
 .confirm-btn-update {
   border: 2px solid #f7b731;
   background: #f7b731;
@@ -145,6 +155,10 @@ html, body {
 
 .confirm-btn-update:hover {
   background: #e0a819;
+}
+
+.confirm-btn-info:hover {
+  background: #b7b7b7;
 }
 
 .confirm-btn-add:hover {

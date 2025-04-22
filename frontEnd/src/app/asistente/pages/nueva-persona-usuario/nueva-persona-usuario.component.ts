@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+
+import { Component, ViewChild,DoCheck } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TitleOneComponent } from '../../../shared/components/title/title.component';
@@ -17,7 +18,6 @@ import { ClientService } from '../../../services/client.service';
 import { CantonesService } from '../../../services/cantones.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.component';
-
 
 
 @Component({
@@ -43,6 +43,8 @@ import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.
     styleUrls: ['./nueva-persona-usuario.component.css'],
 })
 export class AddPersonComponent {
+    public showModal: boolean = false;
+    public showModalInfo: boolean = false;
     // Formulario
     formPersonaUsuario: any = {
         personal: {
@@ -115,6 +117,88 @@ export class AddPersonComponent {
             razon_servicio: [],
         },
     };
+
+    ngDoCheck(): void {
+        if (
+            !this.showModalInfo &&
+            !(
+                JSON.stringify(this.formPersonaUsuario) ===
+                JSON.stringify({
+                    personal: {
+                        nombre: null,
+                        tipo_id_id: null,
+                        id: null,
+                        nombreentrevistador: null,
+                        fechaingreso: null,
+                        edad: null,
+                        fechanacimiento: null,
+                        genero_id: null,
+                        cantidadhijos: null,
+                        pais_id: null,
+                        canton_id: null,
+                        donde_dormi_id: null,
+                        tiempo_calle_id: null,
+                        sitrabaja: false,
+                        empresa: null,
+                        ocupacion: null,
+                        licencia: false,
+                        tipo_licencia: null,
+                        observacion: null,
+                        tosflemafiebre: false,
+                        condicionespecial: null,
+                        discapacidad: false,
+                        medicacion: false,
+                        detallemedicamento: null,
+                        leerescribir: false,
+                        nombretecnico: null,
+                        consumodrogas: false,
+                        droga_principal: null,
+                        edadiniciodrogas: null,
+                        numerointernamientos: null,
+                        carcel: false,
+                        razoncarcel: null,
+                        pendienteresolucion: false,
+                        edadiniciocarcel: null,
+                    },
+                    info3meses_id: {
+                        carcel: false,
+                        razoncarcel: null,
+                        tratamiento_medico: false,
+                        razon_trat: null,
+                        tratamiento_psiq: false,
+                        razon_psiq: null,
+                        tratamiento_drogas: false,
+                        razon_drogas: null,
+                    },
+                    contacto: {
+                        nombre: null,
+                        telefono: null,
+                        relacion: null,
+                    },
+                    inamu: {
+                        jefehogar: false,
+                        contactofamilia: false,
+                        apoyoeconomico: false,
+                        pareja: false,
+                        parejacentro: false,
+                        parejano: null,
+                        solucionesdetalle: null,
+                    },
+                    catalogos: {
+                        tipos_ayuda: [],
+                        tipos_violencia: [],
+                        instituciones_violencia: [],
+                        gradosacademicos: [],
+                        drogas: [],
+                        pensiones: [],
+                        razon_servicio: [],
+                    },
+                })
+            )
+        ) {
+            localStorage.setItem('personaUsuario', JSON.stringify(this.formPersonaUsuario));
+        }
+    }
 
     // Variables API
     catalogos: any[] = [];
@@ -224,6 +308,11 @@ export class AddPersonComponent {
                 this.cargando = false;
             },
         });
+
+        if (localStorage.getItem('personaUsuario')) {
+            this.showModalInfo = true;
+            //console.log('Hay datos en localStorage:', localStorage.getItem('personaUsuario'));
+        }
     }
 
     onInamuInformacionChange(value: boolean): void {
@@ -285,28 +374,47 @@ export class AddPersonComponent {
             });
         }
     }
-    public showModal: boolean = false;
-    confirmUpdate() {
-        this.showModal = true;
 
+    confirmUpdate() {
+        const data = localStorage.getItem('personaUsuario');
+        const usuario = data ? JSON.parse(data) : null;
+
+        console.log('Objeto guardado en localStorage:', usuario);
+
+        this.showModal = true;
+    }
+
+    cargarPersonaUsuario(confirmed: boolean): void {
+        this.showModalInfo = false;
+
+        if (confirmed) {
+            const datos = localStorage.getItem('personaUsuario');
+
+            if (datos) {
+                this.formPersonaUsuario = JSON.parse(datos);
+            }
+        } else {
+            localStorage.removeItem('personaUsuario');
+        }
     }
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     crearPersonaUsuario(confirmed: boolean): void {
-        this.showModal = false;
+        this.showModalInfo = false;
         if (confirmed) {
             this.cargando = true;
 
             if (!this.inamu_informacion) {
                 this.formPersonaUsuario.inamu = null;
             }
-            console.log('Objeto final:', this.formPersonaUsuario);
-            // Aquí podrías hacer una petición POST si querés
+
+            
 
             this.clientService.addClient(this.formPersonaUsuario).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
+                        localStorage.removeItem('personaUsuario');
                         console.log('Persona usuario guardada correctamente:', response.data);
                         this.snackbar.show('Persona usuario guardada correctamente',3000);
                     } else {

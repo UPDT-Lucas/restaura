@@ -3,7 +3,8 @@
         <div id="modal-header" [ngClass]="{
             'delete-header': actionType === 'delete',
             'update-header': actionType === 'update',
-            'add-header': actionType === 'add'
+            'add-header': actionType === 'add',
+            'info-header': actionType === 'info'
           }">
             <h3><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{title}}</h3>
             <span (click)="close(false)" class="modal-action" id="modal-close">
