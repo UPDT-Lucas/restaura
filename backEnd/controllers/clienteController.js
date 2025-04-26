@@ -83,7 +83,7 @@ clienteCtr.saveCliente = async (req,res)=> {
         
         data.personal.fechaingreso = convertirFechaADate(data.personal.fechaingreso);
         data.personal.id = data.personal.id.replaceAll(" ","").replaceAll("\n","");
-        console.log(data.personal);
+       
         const clienteServicio = defineClienteServicio(db.Sequelize,db.dataType);
         data.personal
         const nuevoCliente = await clienteServicio.create(data.personal);
