@@ -3,8 +3,7 @@ import { DataTypes } from "@sequelize/core";
 export default function defineUsuarioSistema(sequelize) {
   return sequelize.define('usuario_sistema', {
     id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       allowNull: false,
       primaryKey: true,
     },
