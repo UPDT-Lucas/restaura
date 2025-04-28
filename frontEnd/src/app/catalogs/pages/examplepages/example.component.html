@@ -1,0 +1,12 @@
+<div class="container">
+    <shared-dynamic-table
+        [tableData]="tableData"
+        [editLink]="'/editar'"
+        [deleteLink]="'/delete'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
