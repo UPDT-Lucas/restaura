@@ -1,7 +1,9 @@
 import server from "./server.js";
 import config from "./config.js";
 import dbConnection from "./DB/dbConnection.js";
-
+import {createWindow} from "../main.js";
+import electron from "electron"
+const {app} = electron;
 
 (async () => {
     try {
@@ -21,3 +23,8 @@ import dbConnection from "./DB/dbConnection.js";
         console.error("Unable to connect to the database:", error);
     }
 })();
+
+app.whenReady().then(() => {
+    createWindow();
+
+});
