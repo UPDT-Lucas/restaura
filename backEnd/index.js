@@ -22,9 +22,8 @@ const {app} = electron;
     } catch (error) {
         console.error("Unable to connect to the database:", error);
     }
+    app.whenReady().then(() => {
+        createWindow();
+    });
 })();
 
-app.whenReady().then(() => {
-    createWindow();
-
-});
