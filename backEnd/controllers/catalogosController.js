@@ -120,5 +120,4 @@ catalogosCtr.getCantones = async (req,res)=> {
         res.status(500).json({ message: 'Error al obtener el canton de la provincia', error: error.message });
     }
 }
-
 export default catalogosCtr;
