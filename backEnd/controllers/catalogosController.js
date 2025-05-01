@@ -283,10 +283,73 @@ catalogosCtr.deleteTipoId = async (req,res)=>{
     }
 }
 
+catalogosCtr.addDondeDormi = async (req,res)=>{
+    try{
+        const nombreDondeDormi = req.body.nombreDondeDormi;
+        const db = dbConnection.getInstance();
+        const dondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
+        const resultDondeDormi = await dondeDormi.create({
+            nombre: nombreDondeDormi,
+        })
+        res.status(200).json({message: "Tipo de donde dormi creado", resultDondeDormi: resultDondeDormi,status: 200});
+    }catch(error){
+        console.error("Error al crear el tipo de donde dormi:", error);
+        res.status(500).json({message: "Error al crear el tipo de donde dormi", error: error.message, status: 500});
+    }
+}
+
+catalogosCtr.deleteDondeDormi = async (req,res)=>{
+    try{
+        const idDondeDormi = req.body.idDondeDormi;
+        const db = dbConnection.getInstance();
+        const dondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
+        const rowAffected = await dondeDormi.destroy({
+            where: {
+                id: idDondeDormi
+            }
+        })
+        res.status(200).json({message: "Tipo de donde dormi eliminado", rowAffected: rowAffected,status: 200});
+    }catch(error){
+        console.error("Error al eliminar:", error);
+        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+    }
+}
+
+
+catalogosCtr.addTiempoCalle = async (req,res)=>{
+    try{
+        const nombreTiempoCalle = req.body.nombreTiempoCalle;
+        const db = dbConnection.getInstance();
+        const tiempoCalle = defineTiempoCalle(db.Sequelize,db.dataType);
+        const resultTiempoCalle = await tiempoCalle.create({
+            nombre: nombreTiempoCalle,
+        })
+        res.status(200).json({message: "Tipo de tiempo de calle creado", resultTiempoCalle: resultTiempoCalle,status: 200});
+    }catch(error){
+        console.error("Error al crear el tipo de tiempo de calle:", error);
+        res.status(500).json({message: "Error al crear el tipo de tiempo de calle", error: error.message, status: 500});
+    }
+}
+
+catalogosCtr.deleteDondeDormi = async (req,res)=>{
+    try{
+        const idDondeDormi = req.body.idDondeDormi;
+        const db = dbConnection.getInstance();
+        const dondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
+        const rowAffected = await dondeDormi.destroy({
+            where: {
+                id: idDondeDormi
+            }
+        })
+        res.status(200).json({message: "Tipo de donde dormi eliminado", rowAffected: rowAffected,status: 200});
+    }catch(error){
+        console.error("Error al eliminar:", error);
+        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+    }
+}
+
 
 /*
-const DondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
-const TipoId = defineTipoId(db.Sequelize,db.dataType);
 const TiempoCalle = defineTiempoCalle(db.Sequelize,db.dataType);
 const RazonServicio = defineRazonServicio(db.Sequelize,db.dataType);
 const Provincia = defineProvincia(db.Sequelize,db.dataType);

@@ -15,6 +15,8 @@ api.post('/addTipoPension', catalogosCtr.addTipoPension);
 api.delete('/deleteTipoPension', catalogosCtr.deleteTipoPension);
 api.post('/addTipoId', catalogosCtr.addTipoId);
 api.delete('/deleteTipoId', catalogosCtr.deleteTipoId);
+api.post('/addDondeDormi', catalogosCtr.addDondeDormi);
+api.delete('/deleteDondeDormi', catalogosCtr.deleteDondeDormi);
 
 
 
