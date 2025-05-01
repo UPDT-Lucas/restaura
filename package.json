@@ -1,0 +1,52 @@
+{
+  "name": "tu-app",
+  "version": "1.0.0",
+  "main": "electron/electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-front": "cd frontEnd && ng build --prod --output-path ../dist/frontEnd && cd ..",
+    "pack": "electron-builder --dir",
+    "dist": "npm run build-front && electron-builder"
+  },
+  "dependencies": {
+    "@sequelize/core": "^7.0.0-alpha.46",
+    "@sequelize/postgres": "^7.0.0-alpha.46",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "electron-packager": "^17.1.2",
+    "express": "^5.1.0",
+    "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.tuapp.example",
+    "productName": "Tu App",
+    "extraResources": [
+      {
+        "from": "dist/frontEnd/dist/restaura-app/browser",
+        "to": "dist/frontEnd/dist/restaura-app/browser"
+      }
+    ],
+    "directories": {
+      "output": "dist-build"
+    },
+    "files": [
+      "electron/**/*",
+      "backEnd/**/*",
+      "dist/frontEnd/**/*"
+    ],
+    "win": {
+      "target": "portable",
+      "requestedExecutionLevel": "asInvoker",
+      "verifyUpdateCodeSignature": false,
+      "signingHashAlgorithms": [],
+      "icon": "assets/icon.ico"
+    }
+  }
+}
