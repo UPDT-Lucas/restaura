@@ -54,11 +54,9 @@ bitacoraCtr.getBitacora = async(req,res) =>{
             clienteData.dataValues.numeroCuarto= cliente.dataValues.numerocuarto;
             bitacoraList.push(clienteData.dataValues);
           }
-          const bitacoraData = {
-            bitacora:bitacoraList
-          };
+          
 
-          res.status(200).json({bitacora: bitacoraData, status: 200});
+          res.status(200).json({bitacora: bitacoraList, status: 200});
         }
           
         
