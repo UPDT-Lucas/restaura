@@ -397,9 +397,82 @@ export class AddPersonComponent {
             localStorage.removeItem('personaUsuario');
         }
     }
+    resetForm(): void {
+        this.formPersonaUsuario = {
+            personal: {
+                nombre: null,
+                tipo_id_id: null,
+                id: null,
+                nombreentrevistador: null,
+                fechaingreso: null,
+                edad: null,
+                fechanacimiento: null,
+                genero_id: null,
+                cantidadhijos: null,
+                pais_id: null,
+                canton_id: null,
+                donde_dormi_id: null,
+                tiempo_calle_id: null,
+                sitrabaja: false,
+                empresa: null,
+                ocupacion: null,
+                licencia: false,
+                tipo_licencia: null,
+                observacion: null,
+                tosflemafiebre: false,
+                condicionespecial: null,
+                discapacidad: false,
+                medicacion: false,
+                detallemedicamento: null,
+                leerescribir: false,
+                nombretecnico: null,
+                consumodrogas: false,
+                droga_principal: null,
+                edadiniciodrogas: null,
+                numerointernamientos: null,
+                carcel: false,
+                razoncarcel: null,
+                pendienteresolucion: false,
+                edadiniciocarcel: null,
+            },
+            info3meses_id: {
+                carcel: false,
+                razoncarcel: null,
+                tratamiento_medico: false,
+                razon_trat: null,
+                tratamiento_psiq: false,
+                razon_psiq: null,
+                tratamiento_drogas: false,
+                razon_drogas: null,
+            },
+            contacto: {
+                nombre: null,
+                telefono: null,
+                relacion: null,
+            },
+            inamu: {
+                jefehogar: false,
+                contactofamilia: false,
+                apoyoeconomico: false,
+                pareja: false,
+                parejacentro: false,
+                parejano: null,
+                solucionesdetalle: null,
+            },
+            catalogos: {
+                tipos_ayuda: [],
+                tipos_violencia: [],
+                instituciones_violencia: [],
+                gradosacademicos: [],
+                drogas: [],
+                pensiones: [],
+                razon_servicio: [],
+            },
+        };
+    }
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     crearPersonaUsuario(confirmed: boolean): void {
-        this.showModalInfo = false;
+        this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
@@ -417,6 +490,7 @@ export class AddPersonComponent {
                         localStorage.removeItem('personaUsuario');
                         console.log('Persona usuario guardada correctamente:', response.data);
                         this.snackbar.show('Persona usuario guardada correctamente',3000);
+                        this.resetForm();
                     } else {
                         console.error('Error al guardar la persona usuario:', response);
                         this.snackbar.show('Error al guardar la persona usuario',3000);

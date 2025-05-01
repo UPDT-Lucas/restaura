@@ -25,14 +25,14 @@ bitacoraCtr.getBitacora = async(req,res) =>{
       const db = dbConnection.getInstance();
       const bitacora = defineBitacora(db.Sequelize,db.dataType);
       const {bitacora_date} = req.params
-      console.log(bitacora_date)
-      let fecha = convertirFechaADate(bitacora_date);
       
+      let fecha = convertirFechaADate(bitacora_date);
+      console.log(fecha)
       
       const bitacoraResult = await bitacora.findOne({
         where:{fecha: fecha}
       });
-      console.log("Bitacora encontrada:", bitacoraResult.dataValues);
+      console.log("Bitacora encontrada:", bitacoraResult);
       if(bitacoraResult !== undefined && bitacoraResult !== null){
         const defineList = defineClienteXBitacora(db.Sequelize,db.dataType);
         
@@ -42,14 +42,23 @@ bitacoraCtr.getBitacora = async(req,res) =>{
         
         if(clienteList.length !== 0) {
           const clienteOR = defineCliente(db.Sequelize,db.dataType);
+          console.log(clienteList.length)
+          let bitacoraList =[];
           for (let i = 0; i < clienteList.length; i++) {
             const cliente = clienteList[i];
             const clienteId = cliente.dataValues.cliente_servicio_id;
             const clienteData = await clienteOR.findOne({
+              attributes: ["id","nombre","edad","fechaingreso"],
               where: { id: clienteId },
             });
-            console.log(clienteData);
+            clienteData.dataValues.numeroCuarto= cliente.dataValues.numerocuarto;
+            bitacoraList.push(clienteData.dataValues);
           }
+          const bitacoraData = {
+            bitacora:bitacoraList
+          };
+
+          res.status(200).json({bitacora: bitacoraData, status: 200});
         }
           
         
