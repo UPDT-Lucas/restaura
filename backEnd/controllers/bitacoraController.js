@@ -57,9 +57,8 @@ bitacoraCtr.getBitacora = async(req,res) =>{
           const bitacoraData = {
             bitacora:bitacoraList
           };
-          console.log(bitacoraData);
 
-
+          res.status(200).json({bitacora: bitacoraData, status: 200});
         }
           
         
