@@ -344,17 +344,29 @@ clienteCtr.getClienteAll = async (req,res)=> {
         res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
     }
 }
+clienteCtr.getCountCliente = async (rec,res)=>{
+    try{
+        const db = dbConnection.getInstance();
+        const serdef = defineClienteServicio(db.Sequelize, db.dataType);
+        const clientCount = await serdef.count();
+        
+        res.status(200).json(clientCount);
+    }catch(error){
+        console.error("Error al obtener el conteo de clientes:", error);
+        res.status(500).json({ message: "Error al obtener el conteo de clientes", error,status:500 });
+    }
+}
 
 
 clienteCtr.getClientService = async (req, res) => {
     const p_id = req.query.p_id || ""; 
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
-
-
+   
     try {
         const sequelize = dbConnection.getInstance().Sequelize;
-
+       
+        
         const clientService = await sequelize.query(
             'SELECT * FROM buscar_clientes(:p_id, :p_limit, :p_offset)',
             {
@@ -363,7 +375,7 @@ clienteCtr.getClientService = async (req, res) => {
             }
         );
 
-
+        
         res.status(200).json(clientService);
     } catch (error) {
         console.error('Error al obtener el cliente y servicio:', error);
