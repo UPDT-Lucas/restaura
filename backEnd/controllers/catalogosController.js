@@ -73,7 +73,7 @@ catalogosCtr.getCatalogos = async (req, res) => {
         ]);
 
         // Enviar la respuesta con los datos
-        res.status(200).json({
+        return res.status(200).json({
             droga,
             dondeDormi,
             tiposAyuda,
@@ -114,7 +114,7 @@ catalogosCtr.getCantones = async (req,res)=> {
 
         console.log("Resultados del procedimiento:", cantonesProvincia);
 
-    res.status(200).json(cantonesProvincia); 
+    return res.status(200).json(cantonesProvincia); 
     } catch (error) {
         console.error('Error al obtener el canton de la provincia:', error);
         res.status(500).json({ message: 'Error al obtener el canton de la provincia', error: error.message });
