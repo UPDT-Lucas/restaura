@@ -13,9 +13,9 @@
             </label>
         </div>
 
-        <div class="top-actions">
+        <div class="top-actions" *ngIf="showButton">
             <shared-button [text]="buttonText" [routerLink]="buttonLink"></shared-button>
-        </div>
+        </div>          
     </div>
 
     <!-- Tabla -->

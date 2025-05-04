@@ -1,0 +1,56 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Consultas Generales'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Fecha Desde -->
+        <shared-input-date
+            [label]="'Fecha Desde'"
+            [placeholder]="'Ingrese el Fecha'"
+            [(value)]="formFiltros.fechaDesde"
+        />
+
+        <!-- Fecha Hasta -->
+        <shared-input-date
+            [label]="'Fecha Hasta'"
+            [placeholder]="'Ingrese el Fecha'"
+            [(value)]="formFiltros.fechaHasta"
+        />
+
+        <!-- Género -->
+        <shared-select [label]="'Género'" [options]="generoOptions" [(value)]="formFiltros.genero_id" />
+
+        <!-- Edad -->
+        <shared-input-range
+            [desde]="10"
+            [hasta]="50"
+            [labelDesde]="'Edad mínima'"
+            [labelHasta]="'Edad máxima'"
+            (rangeChange)="actualizarRango($event)"
+        />
+    </div>
+
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Filtrar" (buttonClick)="filter()"></shared-button>
+        </div>
+        <div class="button-container">
+            <shared-secondary-button text="Limpiar Filtros" (buttonClick)="clearFilters()"></shared-secondary-button>
+        </div>
+    </div>
+
+    <shared-dynamic-table
+        [tableData]="tableData"
+        [editLink]="'/editar'"
+        [deleteLink]="'/delete'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [showButton]="false"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
