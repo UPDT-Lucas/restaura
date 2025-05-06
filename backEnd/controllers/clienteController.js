@@ -53,9 +53,9 @@ clienteCtr.getClienteExist = async (req,res)=> {
             where: { id: p_id }
         });
         if(cliente !== undefined && cliente !== null){
-            res.status(200).json({ clienteServicio:cliente,status: 200});
+            return res.status(200).json({ clienteServicio:cliente,status: 200});
         }else{
-            res.status(404).json({ status: 404});
+            return res.status(404).json({ status: 404});
         }
     }catch(error){
         console.error("Error al obtener cliente:", error);
@@ -198,7 +198,7 @@ clienteCtr.saveCliente = async (req,res)=> {
             }
         }
         
-        res.status(200).json({ message: "Usuario correctamente guardado",
+        return res.status(200).json({ message: "Usuario correctamente guardado",
             cliente: nuevoCliente,status: 200});
         
         
@@ -336,7 +336,7 @@ clienteCtr.getClienteAll = async (req,res)=> {
 
         
 
-        res.status(200).json(finalRes);
+        return res.status(200).json(finalRes);
         
 
     } catch (error) {
@@ -350,7 +350,7 @@ clienteCtr.getCountCliente = async (rec,res)=>{
         const serdef = defineClienteServicio(db.Sequelize, db.dataType);
         const clientCount = await serdef.count();
         
-        res.status(200).json(clientCount);
+        return res.status(200).json(clientCount);
     }catch(error){
         console.error("Error al obtener el conteo de clientes:", error);
         res.status(500).json({ message: "Error al obtener el conteo de clientes", error,status:500 });
