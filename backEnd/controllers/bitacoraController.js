@@ -82,7 +82,7 @@ bitacoraCtr.clienteSaveBitacora = async(req,res) =>{
         cliente_servicio_id:data.cliente_servicio_id
       }
     });
-    console.log(resultFind)
+    
     if(resultFind){
       return res.status(409).json({message: "El usuario ya existe en esta bitacora",status:409});
     }
@@ -129,6 +129,15 @@ bitacoraCtr.getLastRoom = async(req,res) =>{
     const idCliente = req.params.id;
     const db = dbConnection.getInstance();
     const defineList = defineClienteXBitacora(db.Sequelize,db.dataType);
+    const resultFind = await defineList.findOne({
+      where:{
+        bitacora_id:data.bitacora_id,
+        cliente_servicio_id:data.cliente_servicio_id
+      }
+    });
+    if(resultFind){
+      return res.status(409).json({message: "El usuario ya existe en esta bitacora",status:409});
+    }
 
     const lastRoom = await defineList.findOne({
       where: { cliente_servicio_id: idCliente },
