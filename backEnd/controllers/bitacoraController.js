@@ -20,14 +20,41 @@ function convertirFechaADate(fecha) {
   return `${ano}-${mes}-${dia}`; // Reorganizar en formato YYYY-MM-DD
 }
 
+
+bitacoraCtr.createBitacora = async(req,res) =>{
+  try{
+    const db = dbConnection.getInstance();
+    const bitacora = defineBitacora(db.Sequelize,db.dataType);
+    const bitacora_date = req.params.bitacora_date;
+    let fecha = convertirFechaADate(bitacora_date);
+
+    const bitacoraFindResult = await bitacora.findOne({
+      where:{fecha: fecha}
+    });
+    if(bitacoraFindResult){
+      return res.status(409).json({ message: "Esta bitacora con la fecha ingresada ya existe en el sistema",status:409});
+    }
+
+    const bitacoraCreateResult = await bitacora.create({fecha:fecha});
+
+    return res.status(200).json({message: "Bitacora Creada",data:bitacoraCreateResult,status:200});
+
+
+
+
+  }catch(error){
+    console.log(error)
+    res.status(500).json({ message: "Error al obtener la crear una nueva entidad de la bitacora",status:500});
+  }
+}
 bitacoraCtr.getBitacora = async(req,res) =>{
   try{
       const db = dbConnection.getInstance();
       const bitacora = defineBitacora(db.Sequelize,db.dataType);
-      const {bitacora_date} = req.params
+      const bitacora_date = req.params
       
       let fecha = convertirFechaADate(bitacora_date);
-      console.log(fecha)
+      
       
       const bitacoraResult = await bitacora.findOne({
         where:{fecha: fecha}
@@ -95,44 +122,48 @@ bitacoraCtr.clienteSaveBitacora = async(req,res) =>{
   }
 }
 
-bitacoraCtr.clienteDeleteBitacora = async(req,res) =>{
-  try{
+bitacoraCtr.clienteDeleteBitacora = async (req, res) => {
+  try {
     const db = dbConnection.getInstance();
-    const data = req.body 
-    const defineList =  defineClienteXBitacora(db.Sequelize,db.dataType);
-    const resultFind = await defineList.findOne({
-      where:{
-        bitacora_id:data.bitacora_id,
-        cliente_servicio_id:data.cliente_servicio_id
-      }
-    });
-    if(resultFind){
-      const destroyedValue = await defineList.destroy({
-        where:{
-          bitacora_id:data.bitacora_id,
-          cliente_servicio_id:data.cliente_servicio_id
-        }
-      });
-      return res.status(200).json({message: "El usuario se borro de la bitacora",data:destroyedValue,status:200});
-    }
-    
-    return res.status(404).json({message: "El usuario no existe en la bitacora",status:404});
+    const data = req.body;
+    const defineList = defineClienteXBitacora(db.Sequelize, db.dataType);
 
-  }catch(error){
-    console.error("Error al guardar el cliente:", error)
-    res.status(500).json({ message: "Error al obtener la informacion del usuario a buscar en la bitacora",status:500 });
+    // Usar Promise.all para esperar a que todas las eliminaciones se completen
+    const destroyedValues = await Promise.all(
+      data.deleteList.map(async (item) => {
+        return await defineList.destroy({
+          where: {
+            bitacora_id: data.bitacora_id,
+            cliente_servicio_id: item.cliente_servicio_id,
+          },
+        });
+      })
+    );
+
+    return res.status(200).json({
+      message: "Los usuarios o el usuario se borraron de la bitacora",
+      data: destroyedValues,
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error al borrar el cliente:", error);
+    res.status(500).json({
+      message: "Error al borrar la información del usuario en la bitacora",
+      status: 500,
+    });
   }
-}
+};
 
 bitacoraCtr.getLastRoom = async(req,res) =>{
   try{
     const idCliente = req.params.id;
+    const idBitacora = req.params.idBitacora;
     const db = dbConnection.getInstance();
     const defineList = defineClienteXBitacora(db.Sequelize,db.dataType);
     const resultFind = await defineList.findOne({
       where:{
-        bitacora_id:data.bitacora_id,
-        cliente_servicio_id:data.cliente_servicio_id
+        bitacora_id:idBitacora,
+        cliente_servicio_id:idCliente
       }
     });
     if(resultFind){
