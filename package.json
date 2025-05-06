@@ -6,7 +6,12 @@
     "start": "electron .",
     "build-front": "cd frontEnd && ng build --prod --output-path ../dist/frontEnd && cd ..",
     "pack": "electron-builder --dir",
-    "dist": "npm run build-front && electron-builder"
+    "dist": "npm run build-front && electron-builder",
+    "dist-only": "electron-builder"
+  },
+  "nsis": {
+  "oneClick": false,  
+  "allowToChangeInstallationDirectory": true
   },
   "dependencies": {
     "@sequelize/core": "^7.0.0-alpha.46",
@@ -42,7 +47,7 @@
       "dist/frontEnd/**/*"
     ],
     "win": {
-      "target": "portable",
+      "target": "nsis",
       "requestedExecutionLevel": "asInvoker",
       "verifyUpdateCodeSignature": false,
       "signingHashAlgorithms": [],
