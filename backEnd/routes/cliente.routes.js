@@ -9,6 +9,7 @@ api.put('/updateCliente', clienteCtr.updateCliente);
 api.post('/saveCliente', clienteCtr.saveCliente);
 api.delete('/deleteCliente', clienteCtr.deleteCliente);
 api.get('/getClienteExist/:id', clienteCtr.getClienteExist);
-api.get('/getCountCliente', clienteCtr.getCountCliente);
+api.get('/getClientCount', clienteCtr.getClientCount);
+api.get('/getClientCountByName/:id', clienteCtr.getClientCountByName);
  
 export default api;

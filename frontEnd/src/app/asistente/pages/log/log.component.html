@@ -2,14 +2,89 @@
     <div *ngIf="cargando" class="overlay">
         <div class="spinner"></div>
     </div>
+
+    <!-- <shared-search-box [searchIcon]="true"
+    (onValue)="searchClientById($event)">
+    </shared-search-box> -->
+
     
     <div class="table-container">
-        <shared-search-box [searchIcon]="true"
-        (onValue)="searchClientById($event)">
-        </shared-search-box>
+        <!-- <shared-search-box 
+            [searchIcon]="true"
+            (onValue)="searchClientById($event)">
+        </shared-search-box> -->
+        <shared-search-box
+            [label]="'Buscar persona'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            (valueChange)="searchClient($event, page)"
+            [searchIcon]="true"
+        />
         <shared-table
-        [data]="clients">  
+            [headers]="headers"
+            [data]="data"
+            (selectedIdChange)="onSelectedIdChange($event)">  
         </shared-table>
+
+        <div class="pagination">
+            <span class="material-icons md-36" (click)="prevPage()">
+                arrow_back_ios
+            </span>
+            <span class="material-icons md-36" (click)="nextPage()">
+                arrow_forward_ios
+            </span>
+        </div>
+
+    </div>
+
+    <div class="buttons-container">
+        <span class="material-icons md-36 getout"
+        (click)="getInClient(selectedId!)">
+            east
+        </span>
+        <span class="material-icons md-36 getin"
+        (click)="getOutClient()">
+            west
+        </span>
+    </div>
+
+    <div class="table-container">
+        <div class="options">
+            <shared-search-box
+            [label]="'Buscar persona'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [searchIcon]="true"
+        />
+            <shared-input-date
+            [label]="'Fecha Ingreso'"
+            [placeholder]="'Fecha Ingreso'"
+            (valueChange)="getDate($event)">
+            </shared-input-date>
+        </div>
+        
+        <shared-table
+            [headers]="headersLog"
+            [data]="logClients"
+            (selectedIdChange)="onSelectedOutIdChange($event)">  
+            >  
+        </shared-table>
+
+        <div class="pagination">
+            <span class="material-icons md-36" (click)="prevPage()">
+                arrow_back_ios
+            </span>
+            <span class="material-icons md-36" (click)="nextPage()">
+                arrow_forward_ios
+            </span>
+        </div>
     </div>
 </div>
 
+<shared-confirm-dialog-input
+  *ngIf="showAddRoomDialog"
+  [title]="'Ingrese el Cuarto'"
+  [text]="'Por favor ingrese el numero de cuarto a asginar.'"
+  [actionType]="'add'"
+  (confirmed)="handleInputResult($event)">
+</shared-confirm-dialog-input>

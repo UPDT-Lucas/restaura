@@ -1,17 +1,22 @@
-@if(!placeholder){
-    <p>{{searchTitle}}</p>
-}
-<div class="search-box">
-    @if(placeholder){
-        <input type="text" 
-        placeholder="Buscar..."
-        (input)="onInputChange($event)" />
-        />
-    }@else {
-        <input type="text"
-        (input)="onInputChange($event)" />
-    }
-    @if(searchIcon){
-        <span class="material-icons md-36">search</span>
-    }
-</div>
+<div class="input-container">
+    <label class="input-label">{{ label }}</label>
+    <div class="input-wrapper">
+      <input
+        type="text"
+        class="custom-input"
+        [value]="value"
+        (input)="onInputChange($event)"
+        (blur)="onBlur()"
+        [placeholder]="placeholder"
+        [disabled]="disabled"
+        required
+      />
+      @if(searchIcon){
+        <span class="material-icons search-icon">search</span>
+      }
+    </div>
+    <p class="error-message" *ngIf="touched && (value === null || value === '')">
+      {{ error }}
+    </p>
+  </div>
+  

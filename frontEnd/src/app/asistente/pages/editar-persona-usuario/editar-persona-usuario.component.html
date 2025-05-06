@@ -18,7 +18,7 @@
         <!-- Fecha -->
         <shared-input-date
             [label]="'Fecha Ingreso'"
-            [placeholder]="'Ingrese el Fecha'"
+            [placeholder]="'Ingrese la fecha'"
             [(value)]="formPersonaUsuario.personal.fechaingreso"
         />
     </div>
@@ -470,7 +470,7 @@
             <shared-button text="Editar Persona Usuario" (buttonClick)="confirmUpdate()"></shared-button>
         </div>
         <div class="button-container">
-            <shared-secondary-button text="Cancelar Edición"></shared-secondary-button>
+            <shared-secondary-button text="Cancelar Creación" (buttonClick)="confirmDelete()"></shared-secondary-button>
         </div>
     </div>
 </div>
@@ -482,5 +482,14 @@
   [actionType]="'update'"
   (confirmed)="editarPersonaUsuario($event)">
 </app-confirm-dialog>
+
+<app-confirm-dialog
+  *ngIf="showModalDelete"
+  [title]="'Eliminar cliente'"
+  [text]="'¿Estás seguro de que deseas eliminar el usuario: ' + formPersonaUsuario.personal.id + '?'"
+  [actionType]="'delete'"
+  (confirmed)="deleteClient($event)">
+</app-confirm-dialog>
+
 <app-snackbar></app-snackbar>
 
