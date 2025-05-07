@@ -4,10 +4,46 @@
             <img src="restaura-logo.png" alt="Logo Asociación Restaura San José">
             <div class="inputs-container">
                 <h2>Crear Cuenta</h2>
-                <shared-search-box searchTitle="Correo"></shared-search-box>
-                <shared-search-box searchTitle="Contraseña"></shared-search-box>
-                <shared-search-box searchTitle="Confirmar Contraseña"></shared-search-box>
-                <shared-button text="Registrar"></shared-button>
+                <shared-input-text 
+                    label="Ingrese la identificación" 
+                    value=""
+                    (valueChange)="onIdChange($event)">
+                </shared-input-text>
+                <div class="name">
+                    <shared-input-text 
+                    label="Ingrese el nombre" 
+                    value=""
+                    (valueChange)="onNameChange($event)">
+                    </shared-input-text>
+                    <shared-input-text 
+                        label="Ingrese los apellidos" 
+                        value=""
+                        (valueChange)="onLastNameChange($event)">
+                    </shared-input-text>
+                </div>
+                <shared-input-text 
+                    label="Ingrese el correo" 
+                    value=""
+                    (valueChange)="onEmailChange($event)">
+                </shared-input-text>
+                <div class="passwords">
+                    <shared-input-text 
+                        label="Ingrese la contraseña" 
+                        [isPassword]="true"
+                        value=""
+                        (valueChange)="onPasswordChange($event)">
+                    </shared-input-text>
+                    <shared-input-text 
+                        label="Confirme la contraseña" 
+                        [isPassword]="true"
+                        value=""
+                        (valueChange)="onConfirmPasswordChange($event)">
+                    </shared-input-text>
+                </div>
+                <shared-button 
+                    text="Registrar"
+                    (click)="addUser()">
+                </shared-button>
             </div>
         </div>
     </div>
@@ -21,3 +57,11 @@
         </div>
     </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="showNewUser"
+  [title]="'Agregar nuevo usuario'"
+  [text]="`¿Está seguro de que desea agregar un nuevo usuario con identificación ${this.id}?`"
+  [actionType]="'add'"
+  (confirmed)="onRegister($event)">
+</app-confirm-dialog>

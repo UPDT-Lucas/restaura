@@ -15,6 +15,7 @@ export class InputTextComponent {
     @Input() placeholder: string = '';
     @Input() disabled: boolean = false;
     @Input() error: string = '';
+    @Input() isPassword: boolean = false;
     touched: boolean = false;
 
     // Método para manejar el evento de input

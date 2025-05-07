@@ -8,6 +8,7 @@ adminCtr.saveAsistente = async (req,res)=> {
     try{
         const db = dbConnection.getInstance();
         const data = req.body;
+        console.log("Data:",data);
         data.id= data.id.replaceAll(" ","").replaceAll("\n","");
         const UsuarioSistema = defineUsuarioSistema(db.Sequelize,db.dataType);
        
