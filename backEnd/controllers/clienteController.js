@@ -345,16 +345,58 @@ clienteCtr.getClienteAll = async (req,res)=> {
     }
 }
 
+clienteCtr.getClientCountByName = async (req, res) => {
+    const p_id = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+
+        clientService = await sequelize.query(
+            'SELECT count_clients_by_name(:p_id) AS count',
+            {
+                replacements: { p_id },
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
+    }
+};
+
+clienteCtr.getClientCount = async (req, res) => {
+    const p_id = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+        clientService = await sequelize.query(
+            'SELECT count_clients() AS count',
+            {
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
+    }
+};
+
 
 clienteCtr.getClientService = async (req, res) => {
     const p_id = req.query.p_id || ""; 
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
-
-
+   
     try {
         const sequelize = dbConnection.getInstance().Sequelize;
-
+       
+        
         const clientService = await sequelize.query(
             'SELECT * FROM buscar_clientes(:p_id, :p_limit, :p_offset)',
             {
@@ -363,7 +405,7 @@ clienteCtr.getClientService = async (req, res) => {
             }
         );
 
-
+        
         res.status(200).json(clientService);
     } catch (error) {
         console.error('Error al obtener el cliente y servicio:', error);

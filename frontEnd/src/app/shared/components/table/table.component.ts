@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ClienteServicio } from '../../../interfaces/clienteServicio.interface';
 import { ClientService } from '../../../services/client.service';
 import { AllInfoClient } from '../../../interfaces/allClient.interface';
@@ -10,10 +10,7 @@ import { SnackbarComponent } from '../snackbar/snackbar.component';
   selector: 'shared-table',
   imports: [
     RouterModule,
-    ConfirmDialogComponent,
-    CommonModule,
-    SnackbarComponent
-
+    CommonModule
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
@@ -24,51 +21,23 @@ export class TableComponent {
 
   constructor(private clientService: ClientService){}
 
-  @Input()
-  public data: ClienteServicio[] = [];
-  @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
+  @Input() headers: string[] = [];
+  @Input() data: any[] = [];
+  @Output() selectedIdChange = new EventEmitter<string>();
+  selectedId: string | null = null; // ✅ Selección única
 
-  confirmDelete(clientId: string) {
-    
-    this.clientIdToDelete = clientId;
-    this.showModal = true;
-    
+  ngOnInit() {
+    console.log(this.data);
+    console.log(this.headers); 
+  }
+
+  onCheckboxChange(selectedRow: any): void {
+    this.data.forEach(row => {
+      row.checked = row === selectedRow;
+    });
+  
+    this.selectedId = selectedRow.id;
+    this.selectedIdChange.emit(this.selectedId!); // 👈 Emitimos el valor
   }
   
-
-  onConfirmDelete(confirmed: boolean): void {
-    this.showModal = false;
-    
-    if( confirmed && this.clientIdToDelete) {
-      const id = this.clientIdToDelete;
-      this.clientService.getAllInfoClient(id).subscribe((data: AllInfoClient) => {
-        let inamu_id: string | null = null;
-        if(data.inamu !== null && data.inamu !== undefined) {
-          inamu_id = data.inamu.id.toString();
-        }else{
-          inamu_id = null;
-        }
-        
-        this.clientService.deleteClient(id, inamu_id).subscribe((response) => {
-          
-          if(response.status === 200){ 
-
-            this.snackbar.show('Usuario eliminado correctamente',3000);
-
-          }else{
-
-            this.snackbar.show('Error al eliminar el cliente', 3000);
-
-          }
-
-        });
-     });
-     this.clientIdToDelete = null;
-    }
-    
-  }
-
-  // deleteClient(id: string): void {
-  //   this.clientService.
-  // }
 }

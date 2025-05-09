@@ -21,6 +21,8 @@ export class DynamicTableComponent {
     @Input() totalItems: number = 32;
     @Input() buttonText: string = 'Nuevo Cantón';
     @Input() buttonLink: string = '';
+    @Input() showButton: boolean = true;
+
 
     @Output() deleteRow = new EventEmitter<string>();
     @Output() updatePage = new EventEmitter<number>();
