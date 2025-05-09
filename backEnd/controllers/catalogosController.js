@@ -331,34 +331,227 @@ catalogosCtr.addTiempoCalle = async (req,res)=>{
     }
 }
 
-catalogosCtr.deleteDondeDormi = async (req,res)=>{
-    try{
-        const idDondeDormi = req.body.idDondeDormi;
+catalogosCtr.deleteTiempoCalle = async (req, res) => {
+    try {
+        const idTiempoCalle = req.body.idTiempoCalle;
         const db = dbConnection.getInstance();
-        const dondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
-        const rowAffected = await dondeDormi.destroy({
-            where: {
-                id: idDondeDormi
-            }
-        })
-        res.status(200).json({message: "Tipo de donde dormi eliminado", rowAffected: rowAffected,status: 200});
-    }catch(error){
-        console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        const tiempoCalle = defineTiempoCalle(db.Sequelize, db.dataType);
+        const rowAffected = await tiempoCalle.destroy({ where: { id: idTiempoCalle } });
+        res.status(200).json({ message: "Tiempo de calle eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el tiempo de calle:", error);
+        res.status(500).json({ message: "Error al eliminar el tiempo de calle", error: error.message, status: 500 });
     }
-}
+};
 
 
-/*
-const TiempoCalle = defineTiempoCalle(db.Sequelize,db.dataType);
-const RazonServicio = defineRazonServicio(db.Sequelize,db.dataType);
-const Provincia = defineProvincia(db.Sequelize,db.dataType);
-const Pais = definePais(db.Sequelize,db.dataType);
-const InstitucionesViolencia = defineInstitucionesViolencia(db.Sequelize,db.dataType);
-const GradoAcademico = defineGradoAcademico(db.Sequelize,db.dataType);
-const Genero = defineGenero(db.Sequelize,db.dataType);
-const EstadoCivil = defineEstadoCivil(db.Sequelize,db.dataType);
-const TipoViolencia = defineTipoViolencia(db.Sequelize,db.dataType);
-*/
+catalogosCtr.addRazonServicio = async (req, res) => {
+    try {
+        const nombreRazonServicio = req.body.nombreRazonServicio;
+        const db = dbConnection.getInstance();
+        const razonServicio = defineRazonServicio(db.Sequelize, db.dataType);
+        const resultRazonServicio = await razonServicio.create({ nombre: nombreRazonServicio });
+        res.status(200).json({ message: "Razón de servicio creada", resultRazonServicio, status: 200 });
+    } catch (error) {
+        console.error("Error al crear la razón de servicio:", error);
+        res.status(500).json({ message: "Error al crear la razón de servicio", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteRazonServicio = async (req, res) => {
+    try {
+        const idRazonServicio = req.body.idRazonServicio;
+        const db = dbConnection.getInstance();
+        const razonServicio = defineRazonServicio(db.Sequelize, db.dataType);
+        const rowAffected = await razonServicio.destroy({ where: { id: idRazonServicio } });
+        res.status(200).json({ message: "Razón de servicio eliminada", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar la razón de servicio:", error);
+        res.status(500).json({ message: "Error al eliminar la razón de servicio", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.addProvincia = async (req, res) => {
+    try {
+        const nombreProvincia = req.body.nombreProvincia;
+        const db = dbConnection.getInstance();
+        const provincia = defineProvincia(db.Sequelize, db.dataType);
+        const resultProvincia = await provincia.create({ nombre: nombreProvincia });
+        res.status(200).json({ message: "Provincia creada", resultProvincia, status: 200 });
+    } catch (error) {
+        console.error("Error al crear la provincia:", error);
+        res.status(500).json({ message: "Error al crear la provincia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteProvincia = async (req, res) => {
+    try {
+        const idProvincia = req.body.idProvincia;
+        const db = dbConnection.getInstance();
+        const provincia = defineProvincia(db.Sequelize, db.dataType);
+        const rowAffected = await provincia.destroy({ where: { id: idProvincia } });
+        res.status(200).json({ message: "Provincia eliminada", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar la provincia:", error);
+        res.status(500).json({ message: "Error al eliminar la provincia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.addPais = async (req, res) => {
+    try {
+        const nombrePais = req.body.nombrePais;
+        const db = dbConnection.getInstance();
+        const pais = definePais(db.Sequelize, db.dataType);
+        const resultPais = await pais.create({ nombre: nombrePais });
+        res.status(200).json({ message: "País creado", resultPais, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el país:", error);
+        res.status(500).json({ message: "Error al crear el país", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deletePais = async (req, res) => {
+    try {
+        const idPais = req.body.idPais;
+        const db = dbConnection.getInstance();
+        const pais = definePais(db.Sequelize, db.dataType);
+        const rowAffected = await pais.destroy({ where: { id: idPais } });
+        res.status(200).json({ message: "País eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el país:", error);
+        res.status(500).json({ message: "Error al eliminar el país", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.addInstitucionesViolencia = async (req, res) => {
+    try {
+        const nombreInstitucionesViolencia = req.body.nombreInstitucionesViolencia;
+        const db = dbConnection.getInstance();
+        const institucionesViolencia = defineInstitucionesViolencia(db.Sequelize, db.dataType);
+        const resultInstitucionesViolencia = await institucionesViolencia.create({ nombre: nombreInstitucionesViolencia });
+        res.status(200).json({ message: "Institución de violencia creada", resultInstitucionesViolencia, status: 200 });
+    } catch (error) {
+        console.error("Error al crear la institución de violencia:", error);
+        res.status(500).json({ message: "Error al crear la institución de violencia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteInstitucionesViolencia = async (req, res) => {
+    try {
+        const idInstitucionesViolencia = req.body.idInstitucionesViolencia;
+        const db = dbConnection.getInstance();
+        const institucionesViolencia = defineInstitucionesViolencia(db.Sequelize, db.dataType);
+        const rowAffected = await institucionesViolencia.destroy({ where: { id: idInstitucionesViolencia } });
+        res.status(200).json({ message: "Institución de violencia eliminada", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar la institución de violencia:", error);
+        res.status(500).json({ message: "Error al eliminar la institución de violencia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.addGradoAcademico = async (req, res) => {
+    try {
+        const nombreGradoAcademico = req.body.nombreGradoAcademico;
+        const db = dbConnection.getInstance();
+        const gradoAcademico = defineGradoAcademico(db.Sequelize, db.dataType);
+        const resultGradoAcademico = await gradoAcademico.create({ nombre: nombreGradoAcademico });
+        res.status(200).json({ message: "Grado académico creado", resultGradoAcademico, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el grado académico:", error);
+        res.status(500).json({ message: "Error al crear el grado académico", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteGradoAcademico = async (req, res) => {
+    try {
+        const idGradoAcademico = req.body.idGradoAcademico;
+        const db = dbConnection.getInstance();
+        const gradoAcademico = defineGradoAcademico(db.Sequelize, db.dataType);
+        const rowAffected = await gradoAcademico.destroy({ where: { id: idGradoAcademico } });
+        res.status(200).json({ message: "Grado académico eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el grado académico:", error);
+        res.status(500).json({ message: "Error al eliminar el grado académico", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.addGenero = async (req, res) => {
+    try {
+        const nombreGenero = req.body.nombreGenero;
+        const db = dbConnection.getInstance();
+        const genero = defineGenero(db.Sequelize, db.dataType);
+        const resultGenero = await genero.create({ nombre: nombreGenero });
+        res.status(200).json({ message: "Género creado", resultGenero, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el género:", error);
+        res.status(500).json({ message: "Error al crear el género", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteGenero = async (req, res) => {
+    try {
+        const idGenero = req.body.idGenero;
+        const db = dbConnection.getInstance();
+        const genero = defineGenero(db.Sequelize, db.dataType);
+        const rowAffected = await genero.destroy({ where: { id: idGenero } });
+        res.status(200).json({ message: "Género eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el género:", error);
+        res.status(500).json({ message: "Error al eliminar el género", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.addEstadoCivil = async (req, res) => {
+    try {
+        const nombreEstadoCivil = req.body.nombreEstadoCivil;
+        const db = dbConnection.getInstance();
+        const estadoCivil = defineEstadoCivil(db.Sequelize, db.dataType);
+        const resultEstadoCivil = await estadoCivil.create({ nombre: nombreEstadoCivil });
+        res.status(200).json({ message: "Estado civil creado", resultEstadoCivil, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el estado civil:", error);
+        res.status(500).json({ message: "Error al crear el estado civil", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteEstadoCivil = async (req, res) => {
+    try {
+        const idEstadoCivil = req.body.idEstadoCivil;
+        const db = dbConnection.getInstance();
+        const estadoCivil = defineEstadoCivil(db.Sequelize, db.dataType);
+        const rowAffected = await estadoCivil.destroy({ where: { id: idEstadoCivil } });
+        res.status(200).json({ message: "Estado civil eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el estado civil:", error);
+        res.status(500).json({ message: "Error al eliminar el estado civil", error: error.message, status: 500 });
+    }
+};
+
+// Add and Delete functions for TipoViolencia
+catalogosCtr.addTipoViolencia = async (req, res) => {
+    try {
+        const nombreTipoViolencia = req.body.nombreTipoViolencia;
+        const db = dbConnection.getInstance();
+        const tipoViolencia = defineTipoViolencia(db.Sequelize, db.dataType);
+        const resultTipoViolencia = await tipoViolencia.create({ nombre: nombreTipoViolencia });
+        res.status(200).json({ message: "Tipo de violencia creado", resultTipoViolencia, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el tipo de violencia:", error);
+        res.status(500).json({ message: "Error al crear el tipo de violencia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.deleteTipoViolencia = async (req, res) => {
+    try {
+        const idTipoViolencia = req.body.idTipoViolencia;
+        const db = dbConnection.getInstance();
+        const tipoViolencia = defineTipoViolencia(db.Sequelize, db.dataType);
+        const rowAffected = await tipoViolencia.destroy({ where: { id: idTipoViolencia } });
+        res.status(200).json({ message: "Tipo de violencia eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el tipo de violencia:", error);
+        res.status(500).json({ message: "Error al eliminar el tipo de violencia", error: error.message, status: 500 });
+    }
+};
 
 export default catalogosCtr;
