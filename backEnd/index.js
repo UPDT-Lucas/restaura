@@ -16,6 +16,10 @@ import dbConnection from "./DB/dbConnection.js";
         // Iniciar el servidor
         server.listen(config.PORT, () => {
             console.log(`Servidor corriendo en http://localhost:${config.PORT}`);
+
+            if(process.send){
+                process.send('backend-started')
+            }
         });
     } catch (error) {
         console.error("Unable to connect to the database:", error);

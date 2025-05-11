@@ -15,7 +15,7 @@
         </shared-search-box> -->
         <shared-search-box
             [label]="'Buscar persona'"
-            [placeholder]="'Ingrese el nombre'"
+            [placeholder]="'Ingrese la cedula de la persona'"
             [error]="'*Campo requerido'"
             (valueChange)="searchClient($event, page)"
             [searchIcon]="true"
@@ -79,6 +79,10 @@
             </span>
         </div>
     </div>
+
+    
+
+    
 </div>
 
 <shared-confirm-dialog-input
