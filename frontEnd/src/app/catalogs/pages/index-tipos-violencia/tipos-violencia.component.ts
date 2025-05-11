@@ -52,10 +52,17 @@ export class TipoViolenciaComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.tiposViolencia = data.tipoViolencia.map((item: any) => {
@@ -86,7 +93,7 @@ export class TipoViolenciaComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/tipo-violencia'], {
+                        this.router.navigate(['/tipos-violencia'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {

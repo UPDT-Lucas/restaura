@@ -18,17 +18,17 @@ import { Router } from '@angular/router';
         ConfirmDialogComponent,
         SnackbarComponent,
     ],
-    templateUrl: './add-donde-durmi.component.html',
-    styleUrls: ['./add-donde-durmi.component.css'],
+    templateUrl: './add-droga.component.html',
+    styleUrls: ['./add-droga.component.css'],
 })
-export class AddDondeDurmiComponent {
+export class AddDrogaComponent {
     constructor(private collectionsService: CollectionsService, private router: Router) {}
 
     cargando: boolean = false;
     showModal: boolean = false;
 
     formData: any = {
-        nombreDondeDormi: null,
+        nombreDroga: null,
     };
 
     confirmUpdate() {
@@ -37,33 +37,33 @@ export class AddDondeDurmiComponent {
 
     resetForm() {
         this.formData = {
-            nombreDondeDormi: null,
+            nombreDroga: null,
         };
     }
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    crearDondeDurmio(confirmed: boolean): void {
+    crearDroga(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.collectionsService.addDondeDormi(this.formData).subscribe({
+            this.collectionsService.addDroga(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
                         this.resetForm();
-                        this.router.navigate(['/donde-dormi'], {
+                        this.router.navigate(['/drogas'], {
                             queryParams: { 'type-response': '1' },
                         });
                     } else {
-                        console.error('Error al guardar el dato:', response);
-                        this.snackbar.show('Error al guardar el dato', 3000);
+                        console.error('Error al guardar la droga:', response);
+                        this.snackbar.show('Error al guardar la droga', 3000);
                     }
                 },
                 error: (error) => {
-                    console.error('Error al guardar:', error);
-                    this.snackbar.show('Error al guardar el dato', 3000);
+                    console.error('Error al guardar la droga:', error);
+                    this.snackbar.show('Error al guardar la droga', 3000);
                 },
             });
         }

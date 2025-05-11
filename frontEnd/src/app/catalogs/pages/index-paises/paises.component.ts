@@ -52,10 +52,17 @@ export class PaisComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.paises = data.pais.map((item: any) => {
@@ -86,7 +93,7 @@ export class PaisComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/pais'], {
+                        this.router.navigate(['/paises'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {

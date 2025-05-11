@@ -19,10 +19,10 @@ import { ActivatedRoute, Router } from '@angular/router';
         ConfirmDialogComponent,
         SnackbarComponent,
     ],
-    templateUrl: './edit-donde-durmi.component.html',
-    styleUrls: ['./edit-donde-durmi.component.css'],
+    templateUrl: './edit-droga.component.html',
+    styleUrls: ['./edit-droga.component.css'],
 })
-export class EditDondeDurmiComponent {
+export class EditDrogaComponent {
     constructor(
         private collectionsService: CollectionsService,
         private route: ActivatedRoute,
@@ -33,19 +33,19 @@ export class EditDondeDurmiComponent {
     showModal: boolean = false;
 
     formData: any = {
-        nombreDondeDormi: null,
-        idDondeDormi: null,
+        nombreDroga: null,
+        idDroga: null,
     };
 
     ngOnInit(): void {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
-                this.formData.idDondeDormi = this.route.snapshot.paramMap.get('id') || '0';
+                this.formData.idDroga = this.route.snapshot.paramMap.get('id') || '0';
 
-                let lista = data.dondeDormi;
-                const item = lista.find((d: any) => d.id.toString() === this.formData.idDondeDormi);
+                let lista = data.droga;
+                const item = lista.find((d: any) => d.id.toString() === this.formData.idDroga);
                 if (item) {
-                    this.formData.nombreDondeDormi = item.nombre;
+                    this.formData.nombreDroga = item.nombre;
                 } else {
                     console.error('Dato no encontrado');
                 }
@@ -65,24 +65,24 @@ export class EditDondeDurmiComponent {
 
     resetForm() {
         this.formData = {
-            nombreDondeDormi: null,
-            idDondeDormi: null,
+            nombreDroga: null,
+            idDroga: null,
         };
     }
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    editarDondeDormi(confirmed: boolean): void {
+    editarDroga(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.collectionsService.editDondeDormi(this.formData).subscribe({
+            this.collectionsService.editDroga(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
                         this.resetForm();
-                        this.router.navigate(['/donde-dormi'], {
+                        this.router.navigate(['/drogas'], {
                             queryParams: { 'type-response': '2' },
                         });
                     } else {

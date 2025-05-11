@@ -53,10 +53,17 @@ export class DrogasComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.drogas = data.droga.map((droga: any) => {

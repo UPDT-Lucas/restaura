@@ -52,10 +52,17 @@ export class GradoAcademicoComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.gradosAcademicos = data.gradoAcademico.map((item: any) => {
@@ -86,7 +93,7 @@ export class GradoAcademicoComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/grado-academico'], {
+                        this.router.navigate(['/grados-academicos'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {

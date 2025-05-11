@@ -52,10 +52,17 @@ export class RazonServicioComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.razonServicio = data.razonServicio.map((item: any) => {
@@ -86,7 +93,7 @@ export class RazonServicioComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/razon-servicio'], {
+                        this.router.navigate(['/razones-servicio'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {
