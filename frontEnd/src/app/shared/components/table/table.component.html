@@ -1,55 +1,37 @@
 <div class="table-container">
     <h2>Personas encontradas</h2>
     <hr>
-    <table>
-        <tr>
-            <th>Cedula</th>
-            <th>Nombre</th>
-            <th>Edad</th>
-            <th>Ingreso</th>
-            <th>Ver</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-           <!-- 
-            <th>Agregar</th>
-            -->
-        </tr>
-        @for (client of data; track $index) {
-        <tr>
-            <td>{{client.id}}</td>
-            <td>{{client.nombre}}</td>
-            <td>{{client.edad}}</td>
-            <td>{{client.fechaingreso}}</td>
-            <td>
-                <span class="material-icons" routerLink="/view/{{client.id}}">
-                    visibility
-                </span>
-            </td>
-            <td>
-                <span class="material-icons" routerLink="/edit/{{client.id}}">
-                    edit
-                </span>
-            </td>
-            <td>
-                <span class="material-icons" (click)="confirmDelete(client.id)">
-                    delete_forever
-                </span>
-            </td>
-            <!--
-            <td>
-                <input type="checkbox" id="person1" name="person1">
-            </td>
-            -->
-        </tr>
-        }
-    </table>
-</div>
 
-<app-confirm-dialog
-  *ngIf="showModal"
-  [title]="'Eliminar cliente'"
-  [text]="'¿Estás seguro de que deseas eliminar al usuario: ' + clientIdToDelete + '?'"
-  [actionType]="'delete'"
-  (confirmed)="onConfirmDelete($event)">
-</app-confirm-dialog>
-<app-snackbar></app-snackbar>
+    @if(headers.length && data.length) {
+        <table>
+            <thead>
+                <tr>
+                    <th>Cedula</th>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (row of data; track $index) {
+                  <tr>
+                    
+                    @for (header of headers; track $index) {
+                        <td [routerLink]="'/view/' + row.id">
+                            {{ row[header] }}
+                        </td>
+                    }
+                        <td>
+                            <span class="material-icons" routerLink="/edit/{{ row.id}}">
+                                edit
+                            </span>
+                        </td>
+                  </tr>
+                }
+              </tbody>
+    
+        </table>
+    }
+
+</div>

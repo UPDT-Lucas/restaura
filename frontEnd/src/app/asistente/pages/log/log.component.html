@@ -2,14 +2,43 @@
     <div *ngIf="cargando" class="overlay">
         <div class="spinner"></div>
     </div>
+
+    <!-- <shared-search-box [searchIcon]="true"
+    (onValue)="searchClientById($event)">
+    </shared-search-box> -->
+
     
     <div class="table-container">
-        <shared-search-box [searchIcon]="true"
-        (onValue)="searchClientById($event)">
-        </shared-search-box>
+        <!-- <shared-search-box 
+            [searchIcon]="true"
+            (onValue)="searchClientById($event)">
+        </shared-search-box> -->
+        <shared-search-box
+            [label]="'Buscar persona'"
+            [placeholder]="'Ingrese la cedula de la persona'"
+            [error]="'*Campo requerido'"
+            (valueChange)="searchClient($event, page)"
+            [searchIcon]="true"
+        />
         <shared-table
-        [data]="clients">  
+            [headers]="headers"
+            [data]="data"
+            (selectedIdChange)="onSelectedIdChange($event)">  
         </shared-table>
+
+        <div class="pagination">
+            <span class="material-icons md-36" (click)="prevPage()">
+                arrow_back_ios
+            </span>
+            <span class="material-icons md-36" (click)="nextPage()">
+                arrow_forward_ios
+            </span>
+        </div>
+
     </div>
+
+    
+
+    
 </div>
 

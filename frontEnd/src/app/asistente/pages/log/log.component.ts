@@ -17,14 +17,67 @@ export class LogComponent {
 
     clients: ClienteServicio[] = [];
 
+    limit: number = 5;
+    total: number = 0;
+    page: number = 0;
+    maxPage: number = 0;
+    data: any[] = [];
+    headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Ingreso'];
+    selectedId: string | null = null;
+
     ngOnInit() {
-        this.searchClientById('');
+        this.searchClient("", this.page);
     }
 
-    searchClientById(id: string): void {
-        this.clientService.getClients(id, '10', '0').subscribe((data: ClienteServicio[]) => {
-            this.clients = data;
-            this.cargando = false;
-        });
+   
+    searchClient(id: string, offset: number): void {
+        if (id) {
+            this.clientService.getClientCountByName(id).subscribe((countData: any) => {
+                this.total = countData.count;
+                this.maxPage = Math.ceil(this.total / this.limit);
+                this.clientService.getClients(id, this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
+                    const rows = this.mapClientesToGenericRows(clientsData);
+                    this.data = rows;
+                    this.headers = Object.keys(rows[0] ?? {}); // En caso de array vacío
+                    this.cargando = false;
+                });
+            });
+        } else {
+            this.clientService.getClientCount().subscribe((countData: any) => {
+                this.total = countData.count;
+                this.maxPage = Math.ceil(this.total / this.limit);
+                this.clientService.getClients('', this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
+                    const rows = this.mapClientesToGenericRows(clientsData);
+                    this.data = rows;
+                    this.headers = Object.keys(rows[0] ?? {}); // En caso de array vacío
+                    this.cargando = false;
+                });
+            });
+        }
+    }
+    mapClientesToGenericRows(clientes: ClienteServicio[]) {
+        return clientes.map(c => ({
+          id: c.id,
+          nombre: c.nombre,
+          edad: c.edad,
+          fechaIngreso: c.fechaingreso,
+        }));
+      }
+    
+    prevPage(){
+        if (this.page > 0) {
+            this.page -= 1;
+            this.searchClient('', this.page * this.limit);
+        }
+    }
+    onSelectedIdChange(selectedId: string) {
+        this.selectedId = selectedId;
+      }
+    nextPage(){
+        if (this.page >= this.maxPage - 1) {
+            return;
+        }
+        this.page += 1;
+        this.searchClient('', this.page * this.limit);
     }
 }

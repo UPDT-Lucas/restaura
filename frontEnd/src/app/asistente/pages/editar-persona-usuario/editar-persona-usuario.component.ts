@@ -97,6 +97,7 @@ export class EditPersonComponent {
             relacion: null,
         },
         inamu: {
+            id:null,
             jefehogar: false,
             contactofamilia: false,
             apoyoeconomico: false,
@@ -375,6 +376,26 @@ export class EditPersonComponent {
         this.showModal = true;
 
     }
+    public showModalDelete: boolean = false;
+    confirmDelete() {
+        this.showModalDelete = true;
+    }
+    
+    deleteClient(confirmed: boolean): void {
+        this.showModalDelete = false;
+        
+        if(confirmed) {
+            const id = this.formPersonaUsuario.personal.id;
+            const inamuId = this.formPersonaUsuario.inamu? this.formPersonaUsuario.inamu.id: null;
+            this.clientService.deleteClient(id, inamuId).subscribe((response) => {
+                if(response.status === 200){ 
+                this.snackbar.show('Usuario eliminado correctamente',3000);
+                }else{
+                this.snackbar.show('Error al eliminar el cliente', 3000);
+                }});   
+        }
+                
+    }
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     editarPersonaUsuario(confirmed: boolean): void {
         this.showModal = false;
@@ -391,7 +412,8 @@ export class EditPersonComponent {
 
             // Si contacto está completamente vacío, eliminar el objeto contacto
             const contacto = personaEditada.contacto;
-            if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null) {
+            console.log('Contacto:', contacto);
+            if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null&& contacto?.id === null) {
                 personaEditada.contacto = null;
             }
 

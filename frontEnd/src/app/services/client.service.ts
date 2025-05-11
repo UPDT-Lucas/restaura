@@ -20,6 +20,14 @@ export class ClientService {
         return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clients/?p_id=${text}&limit=${limit}&offset=${offset}`);
     }
 
+    getClientCountByName(id: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClientCountByName/${id}`);
+    }
+
+    getClientCount(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClientCount`);
+    }
+
     editClient(cliente: ClienteServicio): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/updateCliente`, cliente);
     }
