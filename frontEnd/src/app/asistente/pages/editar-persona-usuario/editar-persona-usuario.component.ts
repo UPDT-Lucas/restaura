@@ -441,7 +441,8 @@ export class EditPersonComponent {
         this.showModalDelete = false;
         if(confirmed) {
             const id = this.formPersonaUsuario.personal.id;
-            this.clientService.deleteClient(id, this.formPersonaUsuario.personal.id).subscribe((response) => {
+            const inamuId = this.formPersonaUsuario.inamu? this.formPersonaUsuario.inamu.id: null;
+            this.clientService.deleteClient(id, inamuId).subscribe((response) => {
                 if(response.status === 200){ 
                 this.snackbar.show('Usuario eliminado correctamente',3000);
                 }else{

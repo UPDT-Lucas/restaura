@@ -38,13 +38,6 @@ export class LogComponent {
     idBitacora: string | null = null;
     showAddRoomDialog: boolean = false;
 
-    limit: number = 5;
-    total: number = 0;
-    page: number = 0;
-    maxPage: number = 0;
-    data: any[] = [];
-    headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Ingreso'];
-    selectedId: string | null = null;
 
     ngOnInit() {
         this.cargando = true;
