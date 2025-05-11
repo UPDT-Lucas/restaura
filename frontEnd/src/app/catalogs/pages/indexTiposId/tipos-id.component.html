@@ -1,0 +1,29 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Tipos de ID'"
+        [buttonText]="'Nuevo Tipo de ID'"
+        [buttonLink]="'/nuevo-tipo-id'"
+        [tableData]="tableData"
+        [editLink]="'/editar-tipo-id/'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Tipo de ID'"
+    [text]="'¿Estás seguro de que deseas eliminar este tipo de ID?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarTipoId($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

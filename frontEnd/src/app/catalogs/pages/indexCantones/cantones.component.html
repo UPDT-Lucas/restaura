@@ -1,0 +1,29 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Cantones'"
+        [buttonText]="'Nuevo Cantón'"
+        [buttonLink]="'/nuevo-canton'"
+        [tableData]="tableData"
+        [editLink]="'/editar-canton/'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Cantón'"
+    [text]="'¿Estás seguro de que eliminar el cantón?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarCanton($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

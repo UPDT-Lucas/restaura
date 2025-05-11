@@ -1,0 +1,29 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Tiempo en Calle'"
+        [buttonText]="'Nuevo Tiempo en Calle'"
+        [buttonLink]="'/nuevo-tiempo-calle'"
+        [tableData]="tableData"
+        [editLink]="'/editar-tiempo-calle/'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Tiempo en Calle'"
+    [text]="'¿Estás seguro de que deseas eliminar este registro de tiempo en calle?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarTiempoCalle($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

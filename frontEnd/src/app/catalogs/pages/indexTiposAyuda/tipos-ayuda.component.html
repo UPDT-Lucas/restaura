@@ -1,0 +1,29 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Tipos de Ayuda'"
+        [buttonText]="'Nuevo Tipo de Ayuda'"
+        [buttonLink]="'/nuevo-tipo-ayuda'"
+        [tableData]="tableData"
+        [editLink]="'/editar-tipo-ayuda/'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Tipo de Ayuda'"
+    [text]="'¿Estás seguro de que deseas eliminar este tipo de ayuda?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarTiposAyuda($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>
