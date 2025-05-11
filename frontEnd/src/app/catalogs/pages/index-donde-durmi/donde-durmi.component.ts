@@ -9,10 +9,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'table-example',
     imports: [DynamicTableComponent, CommonModule, ConfirmDialogComponent, SnackbarComponent],
-    templateUrl: './donde-durmio.component.html',
-    styleUrls: ['./donde-durmio.component.css'],
+    templateUrl: './donde-durmi.component.html',
+    styleUrls: ['./donde-durmi.component.css'],
 })
-export class DondeDurmioComponent {
+export class DondeDurmiComponent {
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     constructor(
         private collectionsService: CollectionsService,
@@ -36,11 +36,11 @@ export class DondeDurmioComponent {
             const typeMessage = params.get('type-response');
 
             if (typeMessage === '1') {
-                this.snackbar.show('Lugar creado correctamente', 3000);
+                this.snackbar.show('Como conoció el dormitorio creado correctamente', 3000);
             } else if (typeMessage === '2') {
-                this.snackbar.show('Lugar editado correctamente', 3000);
+                this.snackbar.show('Como conoció el dormitorio editado correctamente', 3000);
             } else if (typeMessage === '3') {
-                this.snackbar.show('Lugar eliminado correctamente', 3000);
+                this.snackbar.show('Como conoció el dormitorio eliminado correctamente', 3000);
             }
 
             if (['1', '2', '3'].includes(typeMessage || '')) {
@@ -86,7 +86,7 @@ export class DondeDurmioComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/donde-durmio'], {
+                        this.router.navigate(['/donde-durmi'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {

@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { TitleOneComponent } from '../../../shared/components/title/title.component';
 import { InputTextComponent } from '../../../shared/components/input-text/input-text.component';
-import { SelectComponent } from '../../../shared/components/select/select.component';
 import { CollectionsService } from '../../../services/collections.service';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -11,19 +10,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'table-example',
+    standalone: true,
     imports: [
         CommonModule,
         TitleOneComponent,
         InputTextComponent,
-        SelectComponent,
         ButtonComponent,
         ConfirmDialogComponent,
         SnackbarComponent,
     ],
-    templateUrl: './editcanton.component.html',
-    styleUrls: ['./editcanton.component.css'],
+    templateUrl: './edit-grado-academico.component.html',
+    styleUrls: ['./edit-grado-academico.component.css'],
 })
-export class EditCantonComponent {
+export class EditGradoAcademicoComponent {
     constructor(
         private collectionsService: CollectionsService,
         private route: ActivatedRoute,
@@ -32,38 +31,29 @@ export class EditCantonComponent {
 
     cargando: boolean = true;
     showModal: boolean = false;
-    provinciaOptions: { label: string; value: string }[] = [];
 
     formData: any = {
-        nombreCanton: null,
-        idProvincia: null,
-        idCanton: null,
+        nombreGradoAcademico: null,
+        idGradoAcademico: null,
     };
 
     ngOnInit(): void {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
-                this.formData.idCanton = this.route.snapshot.paramMap.get('id') || '0';
+                this.formData.idGradoAcademico = this.route.snapshot.paramMap.get('id') || '0';
 
-                this.provinciaOptions = data.provincia.map((item: any) => ({
-                    label: item.nombre,
-                    value: item.id.toString(),
-                }));
-
-                let cantones = data.canton;
-                const cantonEncontrado = cantones.find((c: any) => c.id.toString() === this.formData.idCanton);
-                if (cantonEncontrado) {
-                    this.formData.nombreCanton = cantonEncontrado.nombre;
-                    this.formData.idProvincia = cantonEncontrado.provincia_id.toString();
+                const item = data.gradoAcademico.find((g: any) => g.id.toString() === this.formData.idGradoAcademico);
+                if (item) {
+                    this.formData.nombreGradoAcademico = item.nombre;
                 } else {
-                    console.error('Canton no encontrado');
+                    console.error('Grado académico no encontrado');
                 }
 
                 this.cargando = false;
             },
             error: (error) => {
                 this.cargando = false;
-                console.error('Error al obtener los catalogos:', error);
+                console.error('Error al obtener los catálogos:', error);
             },
         });
     }
@@ -74,34 +64,34 @@ export class EditCantonComponent {
 
     resetForm() {
         this.formData = {
-            nombreCanton: null,
-            idProvincia: null,
+            nombreGradoAcademico: null,
+            idGradoAcademico: null,
         };
     }
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    editarCanton(confirmed: boolean): void {
+    editarGradoAcademico(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.collectionsService.editCanton(this.formData).subscribe({
+            this.collectionsService.editGradoAcademico(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
                         this.resetForm();
-                        this.router.navigate(['/cantones'], {
+                        this.router.navigate(['/grados-academicos'], {
                             queryParams: { 'type-response': '2' },
                         });
                     } else {
-                        console.error('Error al guardar el cantón:', response);
-                        this.snackbar.show('Error al guardar el cantón', 3000);
+                        console.error('Error al guardar el grado académico:', response);
+                        this.snackbar.show('Error al guardar el grado académico', 3000);
                     }
                 },
                 error: (error) => {
-                    console.error('Error al guardar el canton:', error);
-                    this.snackbar.show('Error al guardar el cantón', 3000);
+                    console.error('Error al guardar el grado académico:', error);
+                    this.snackbar.show('Error al guardar el grado académico', 3000);
                 },
             });
         }

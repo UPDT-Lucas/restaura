@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { TitleOneComponent } from '../../../shared/components/title/title.component';
 import { InputTextComponent } from '../../../shared/components/input-text/input-text.component';
-import { SelectComponent } from '../../../shared/components/select/select.component';
 import { CollectionsService } from '../../../services/collections.service';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -15,41 +14,22 @@ import { Router } from '@angular/router';
         CommonModule,
         TitleOneComponent,
         InputTextComponent,
-        SelectComponent,
         ButtonComponent,
         ConfirmDialogComponent,
         SnackbarComponent,
     ],
-    templateUrl: './addcanton.component.html',
-    styleUrls: ['./addcanton.component.css'],
+    templateUrl: './add-pais.component.html',
+    styleUrls: ['./add-pais.component.css'],
 })
-export class AddCantonComponent {
+export class AddPaisComponent {
     constructor(private collectionsService: CollectionsService, private router: Router) {}
 
     cargando: boolean = false;
     showModal: boolean = false;
-    provinciaOptions: { label: string; value: string }[] = [];
 
     formData: any = {
-        nombreCanton: null,
-        idProvincia: null,
+        nombrePais: null,
     };
-
-    ngOnInit(): void {
-        this.collectionsService.getCatalogos().subscribe({
-            next: (data) => {
-                this.provinciaOptions = data.provincia.map((item: any) => ({
-                    label: item.nombre,
-                    value: item.id.toString(),
-                }));
-
-                this.cargando = false;
-            },
-            error: (error) => {
-                console.error('Error al obtener los catalogos:', error);
-            },
-        });
-    }
 
     confirmUpdate() {
         this.showModal = true;
@@ -57,34 +37,33 @@ export class AddCantonComponent {
 
     resetForm() {
         this.formData = {
-            nombreCanton: null,
-            idProvincia: null,
+            nombrePais: null,
         };
     }
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    crearCanton(confirmed: boolean): void {
+    crearPais(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.collectionsService.addCanton(this.formData).subscribe({
+            this.collectionsService.addPais(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
                         this.resetForm();
-                        this.router.navigate(['/cantones'], {
-                            queryParams: { 'type-response': '2' },
+                        this.router.navigate(['/paises'], {
+                            queryParams: { 'type-response': '1' },
                         });
                     } else {
-                        console.error('Error al guardar el cantón:', response);
-                        this.snackbar.show('Error al guardar el cantón', 3000);
+                        console.error('Error al guardar el país:', response);
+                        this.snackbar.show('Error al guardar el país', 3000);
                     }
                 },
                 error: (error) => {
-                    console.error('Error al guardar el canton:', error);
-                    this.snackbar.show('Error al guardar el cantón', 3000);
+                    console.error('Error al guardar el país:', error);
+                    this.snackbar.show('Error al guardar el país', 3000);
                 },
             });
         }

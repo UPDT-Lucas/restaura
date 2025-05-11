@@ -1,0 +1,34 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nueva Razón de Servicio'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese la razón'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreRazonServicio"
+        />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Nueva Razón" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Crear Nueva Razón de Servicio'"
+  [text]="'¿Estás seguro de que deseas crear la razón: ' + formData.nombreRazonServicio + '?'"
+  [actionType]="'add'"
+  (confirmed)="crearRazonServicio($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>
