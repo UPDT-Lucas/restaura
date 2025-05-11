@@ -8,22 +8,22 @@ import { ViewPersonComponent } from './asistente/pages/ver-persona-usuario/ver-p
 import { ConsultasComponent } from './admin/pages/consultar/consultas.component';
 
 /* Catálogos */
-import { CantonesComponent } from './catalogs/pages/indexCantones/cantones.component';
-import { AddCantonComponent } from './catalogs/pages/addCanton/addcanton.component';
-import { EditCantonComponent } from './catalogs/pages/editCanton/editcanton.component';
+import { CantonesComponent } from './catalogs/pages/index-cantones/cantones.component';
+import { AddCantonComponent } from './catalogs/pages/add-canton/addcanton.component';
+import { EditCantonComponent } from './catalogs/pages/edit-canton/editcanton.component';
 
-import { TiposPensionComponent } from './catalogs/pages/indexTiposPension/tipos-pension.component';
-import { TiposIdComponent } from './catalogs/pages/indexTiposId/tipos-id.component';
-import { DondeDurmioComponent } from './catalogs/pages/indexDondeDurmio/donde-durmio.component';
-import { TiempoCalleComponent } from './catalogs/pages/indexTiempoCalle/tiempo-calle.component';
-import { RazonServicioComponent } from './catalogs/pages/indexRazonServicio/razon-servicio.component';
-import { ProvinciaComponent } from './catalogs/pages/indexProvincias/provincias.component';
-import { PaisComponent } from './catalogs/pages/indexPaises/paises.component';
-import { InstitucionesViolenciaComponent } from './catalogs/pages/indexInstitucionesViolencia/instituciones-violencia.component';
-import { GeneroComponent } from './catalogs/pages/indexGeneros/generos.component';
-import { EstadoCivilComponent } from './catalogs/pages/indexEstadoCivil/estado-civil.component';
-import { GradoAcademicoComponent } from './catalogs/pages/indexGradosAcademicos/grados-academicos.component';
-import { TipoViolenciaComponent } from './catalogs/pages/indexTiposViolencia/tipos-violencia.component';
+import { TiposPensionComponent } from './catalogs/pages/index-tipos-pension/tipos-pension.component';
+import { TiposIdComponent } from './catalogs/pages/index-tipos-id/tipos-id.component';
+import { DondeDurmioComponent } from './catalogs/pages/index-donde-durmio/donde-durmio.component';
+import { TiempoCalleComponent } from './catalogs/pages/index-tiempo-calle/tiempo-calle.component';
+import { RazonServicioComponent } from './catalogs/pages/index-razon-servicio/razon-servicio.component';
+import { ProvinciaComponent } from './catalogs/pages/index-provincias/provincias.component';
+import { PaisComponent } from './catalogs/pages/index-paises/paises.component';
+import { InstitucionesViolenciaComponent } from './catalogs/pages/index-instituciones-violencia/instituciones-violencia.component';
+import { GeneroComponent } from './catalogs/pages/index-generos/generos.component';
+import { EstadoCivilComponent } from './catalogs/pages/index-estado-civil/estado-civil.component';
+import { GradoAcademicoComponent } from './catalogs/pages/index-grados-academicos/grados-academicos.component';
+import { TipoViolenciaComponent } from './catalogs/pages/index-tipos-violencia/tipos-violencia.component';
 
 export const routes: Routes = [
     { path: '', component: LogComponent },
