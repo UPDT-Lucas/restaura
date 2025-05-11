@@ -7,14 +7,27 @@ import { Component, EventEmitter, Input, input, Output } from '@angular/core';
   styleUrl: './search-box.component.css'
 })
 export class SearchBoxComponent {
-  @Input() searchIcon: boolean = false;
-  @Input() placeholder: string = '';
-  @Input() searchTitle: string = '';
+    @Input() searchIcon: boolean = false;
+    @Input() value: string = '';
+    @Output() valueChange = new EventEmitter<any>();
+    @Output() blurChange = new EventEmitter<string>();
+    @Input() label: string = '';
+    @Input() placeholder: string = '';
+    @Input() disabled: boolean = false;
+    @Input() error: string = '';
+    touched: boolean = false;
 
-  @Output() onValue = new EventEmitter<string>();
+    // Método para manejar el evento de input
+    onInputChange(event: Event): void {
+        const input = event.target as HTMLInputElement;
 
-  onInputChange(event: Event){
-    const input = event.target as HTMLInputElement;
-    this.onValue.emit(input.value);
-  }
+        const value = input.value === '' ? null : input.value;
+        this.valueChange.emit(value);
+    }
+
+    onBlur(): void {
+        this.touched = true;
+        this.blurChange.emit(this.value);
+    }
+
 }

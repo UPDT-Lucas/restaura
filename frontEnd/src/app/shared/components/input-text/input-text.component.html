@@ -1,6 +1,18 @@
 <div class="input-container">
     <label class="input-label">{{ label }}</label>
-    <input
+    @if (isPassword) {
+        <input
+        type="password"
+        class="custom-input"
+        [value]="value"
+        (input)="onInputChange($event)"
+        (blur)="onBlur()"
+        [placeholder]="placeholder"
+        [disabled]="disabled"
+        required
+        />    
+    }@else {
+        <input
         type="text"
         class="custom-input"
         [value]="value"
@@ -9,7 +21,9 @@
         [placeholder]="placeholder"
         [disabled]="disabled"
         required
-    />
+        />
+    }
+
     <p class="error-message" *ngIf="touched && (value === null || value === '')">
         {{ error }}
     </p>

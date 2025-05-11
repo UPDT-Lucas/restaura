@@ -53,9 +53,9 @@ clienteCtr.getClienteExist = async (req,res)=> {
             where: { id: p_id }
         });
         if(cliente !== undefined && cliente !== null){
-            return res.status(200).json({ clienteServicio:cliente,status: 200});
+            res.status(200).json({ clienteServicio:cliente,status: 200});
         }else{
-            return res.status(404).json({ status: 404});
+            res.status(404).json({ status: 404});
         }
     }catch(error){
         console.error("Error al obtener cliente:", error);
@@ -198,7 +198,7 @@ clienteCtr.saveCliente = async (req,res)=> {
             }
         }
         
-        return res.status(200).json({ message: "Usuario correctamente guardado",
+        res.status(200).json({ message: "Usuario correctamente guardado",
             cliente: nuevoCliente,status: 200});
         
         
@@ -336,7 +336,7 @@ clienteCtr.getClienteAll = async (req,res)=> {
 
         
 
-        return res.status(200).json(finalRes);
+        res.status(200).json(finalRes);
         
 
     } catch (error) {
@@ -344,18 +344,48 @@ clienteCtr.getClienteAll = async (req,res)=> {
         res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
     }
 }
-clienteCtr.getCountCliente = async (rec,res)=>{
-    try{
-        const db = dbConnection.getInstance();
-        const serdef = defineClienteServicio(db.Sequelize, db.dataType);
-        const clientCount = await serdef.count();
-        
-        return res.status(200).json(clientCount);
-    }catch(error){
-        console.error("Error al obtener el conteo de clientes:", error);
-        res.status(500).json({ message: "Error al obtener el conteo de clientes", error,status:500 });
+
+clienteCtr.getClientCountByName = async (req, res) => {
+    const p_id = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+
+        clientService = await sequelize.query(
+            'SELECT count_clients_by_name(:p_id) AS count',
+            {
+                replacements: { p_id },
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
     }
-}
+};
+
+clienteCtr.getClientCount = async (req, res) => {
+    const p_id = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+        clientService = await sequelize.query(
+            'SELECT count_clients() AS count',
+            {
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
+    }
+};
 
 
 clienteCtr.getClientService = async (req, res) => {

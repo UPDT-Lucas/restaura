@@ -1,0 +1,29 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Drogas'"
+        [buttonText]="'Nueva Droga'"
+        [buttonLink]="'/nueva-droga'"
+        [tableData]="tableData"
+        [editLink]="'/editar-droga/'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Droga'"
+    [text]="'¿Estás seguro de que deseas eliminar esta droga?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarDroga($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

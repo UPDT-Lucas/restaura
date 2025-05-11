@@ -1,0 +1,29 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Tipos de Violencia'"
+        [buttonText]="'Nuevo Tipo de Violencia'"
+        [buttonLink]="'/nuevo-tipo-violencia'"
+        [tableData]="tableData"
+        [editLink]="'/editar-tipo-violencia/'"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Tipo de Violencia'"
+    [text]="'¿Estás seguro de que deseas eliminar este tipo de violencia?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarTipoViolencia($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

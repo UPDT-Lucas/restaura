@@ -20,17 +20,21 @@ export class ClientService {
         return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clients/?p_id=${text}&limit=${limit}&offset=${offset}`);
     }
 
+    getClientCountByName(id: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClientCountByName/${id}`);
+    }
+
+    getClientCount(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClientCount`);
+    }
+
     editClient(cliente: ClienteServicio): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/updateCliente`, cliente);
     }
 
     getClientExist(id: string): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/getClienteExist/${id}`);
+        return this.http.get<any>(`${this.apiUrl}/getClienteExist/?p_id=${id}`);
     }
-
-    // deleteClient(text: id){
-    //     return this.http.delete(`${this.apiUrl}/deleteCliente`);
-    // }
 
     getAllInfoClient(id: string): Observable<AllInfoClient> {
         return this.http.get<AllInfoClient>(`${this.apiUrl}/getClienteAll/${id}`);

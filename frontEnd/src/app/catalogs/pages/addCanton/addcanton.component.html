@@ -1,0 +1,41 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nuevo Cantón'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreCanton"
+        />
+
+        <!-- Provincia -->
+        <shared-select
+            [label]="'Provincia'"
+            [options]="provinciaOptions"
+            [(value)]="formData.idProvincia"
+        />
+
+    </div>
+    <!-- Boton -->
+      <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Nuevo Cantón" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Crear Nuevo Cantón'"
+  [text]="'¿Estás seguro de que deseas crear el cantón: ' + formData.nombreCanton + '?'"
+  [actionType]="'add'"
+  (confirmed)="crearCanton($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>
