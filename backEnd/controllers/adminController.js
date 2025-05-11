@@ -28,15 +28,15 @@ adminCtr.auth = async (req,res)=> {
         
         const UsuarioSistema = defineUsuarioSistema(db.Sequelize,db.dataType);
        //agregar encriptación al sistema por mientras tenerlo ahi por parte
-        const resultAsistente = await UsuarioSistema.findOne(
+        const resultAsistente = await UsuarioSistema.findOne({
             where:{
-                id:data.id
-            });
+                id:data.correo
+            }});
         if(resultAsistente && resultAsistente.dataValues.contrasena === data.contrasena){
             
             return res.status(200).json({message:"Ingreso Correcto",status:200,rol:resultAsistente.rol});
         }else{
-            return return res.status(404).json({message:"Error con el usuario o contrasena",status:404});
+            return res.status(404).json({message:"Error con el usuario o contrasena",status:404});
         }
         
     } catch(error){
