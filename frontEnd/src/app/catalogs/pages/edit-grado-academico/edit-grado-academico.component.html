@@ -1,0 +1,34 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Editar Grado Académico'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el grado académico'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreGradoAcademico"
+        />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Editar Grado Académico" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Editar Grado Académico'"
+  [text]="'¿Estás seguro de que deseas editar el grado académico: ' + formData.nombreGradoAcademico + '?'"
+  [actionType]="'update'"
+  (confirmed)="editarGradoAcademico($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>
