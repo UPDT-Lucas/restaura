@@ -53,21 +53,21 @@ catalogosCtr.getCatalogos = async (req, res) => {
 
         // Obtener los datos de cada modelo
         const [droga, dondeDormi, tiposAyuda, tipoPension, tipoId, tiempoCalle, razonServicio, provincia, pais, institucionesViolencia, gradoAcademico, genero, estadoCivil, canton,tipoViolencia] = await Promise.all([
-            Droga.findAll(),
-            DondeDormi.findAll(),
-            TiposAyuda.findAll(),
-            TipoPension.findAll(),
-            TipoId.findAll(),
-            TiempoCalle.findAll(),
-            RazonServicio.findAll(),
-            Provincia.findAll(),
-            Pais.findAll(),
-            InstitucionesViolencia.findAll(),
-            GradoAcademico.findAll(),
-            Genero.findAll(),
-            EstadoCivil.findAll(),
-            Canton.findAll(),
-            TipoViolencia.findAll()
+            Droga.findAll({ order: [['id', 'ASC']] }),
+            DondeDormi.findAll({ order: [['id', 'ASC']] }),
+            TiposAyuda.findAll({ order: [['id', 'ASC']] }),
+            TipoPension.findAll({ order: [['id', 'ASC']] }),
+            TipoId.findAll({ order: [['id', 'ASC']] }),
+            TiempoCalle.findAll({ order: [['id', 'ASC']] }),
+            RazonServicio.findAll({ order: [['id', 'ASC']] }),
+            Provincia.findAll({ order: [['id', 'ASC']] }),
+            Pais.findAll({ order: [['id', 'ASC']] }),
+            InstitucionesViolencia.findAll({ order: [['id', 'ASC']] }),
+            GradoAcademico.findAll({ order: [['id', 'ASC']] }),
+            Genero.findAll({ order: [['id', 'ASC']] }),
+            EstadoCivil.findAll({ order: [['id', 'ASC']] }),
+            Canton.findAll({ order: [['id', 'ASC']] }),
+            TipoViolencia.findAll({ order: [['id', 'ASC']] })
         ]);
 
         // Enviar la respuesta con los datos
