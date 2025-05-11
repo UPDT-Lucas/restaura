@@ -90,9 +90,9 @@ clienteCtr.saveCliente = async (req,res)=> {
         
         if( nuevoCliente !== undefined && nuevoCliente !== null){
 
-
+            const contactoAdd = defineContacto(db.Sequelize,db.dataType);
             if(data.contacto !== undefined && data.contacto !== null){
-                const contactoAdd = defineContacto(db.Sequelize,db.dataType);
+                
                 const datanuevoContacto = {
                     cliente_servicio_id: nuevoCliente.id,
                     nombre: data.contacto.nombre,
@@ -101,14 +101,22 @@ clienteCtr.saveCliente = async (req,res)=> {
                 }
                 const nuevoContacto = await contactoAdd.create(datanuevoContacto);
 
+            }else{
+                const datanuevoContacto = {
+                    cliente_servicio_id: nuevoCliente.id,
+                    nombre: null,
+                    telefono: null,
+                    relacion: null
+                }
+                const nuevoContacto = await contactoAdd.create(datanuevoContacto);
             }
 
 
             const info3MesesAdd = defineInfo3Meses(db.Sequelize,db.dataType);
             let dataInfo3Meses = data.info3meses_id;
             dataInfo3Meses.cliente_servicio_id = nuevoCliente.id;
-
             const nuevoInfo3Meses = await info3MesesAdd.create(dataInfo3Meses);
+        
 
             const  academicoxcliente = defineAcademicoXCliente(db.Sequelize,db.dataType); 
 
@@ -196,10 +204,14 @@ clienteCtr.saveCliente = async (req,res)=> {
 
         
             }
+            return res.status(200).json({ message: "Usuario correctamente guardado",
+                cliente: nuevoCliente,status: 200});
+        }else{
+            return res.status(404).json({ message: "Usuario no guardado error en el servidor",
+                cliente: nuevoCliente,status: 404});
         }
         
-        res.status(200).json({ message: "Usuario correctamente guardado",
-            cliente: nuevoCliente,status: 200});
+        
         
         
         
@@ -237,13 +249,14 @@ clienteCtr.getClienteAll = async (req,res)=> {
         
         finalRes.info3meses_id = clientService1;
         
-        const [clientService2, metadata2] = await sequelize.query(
+        const [clientService2] = await sequelize.query(
             'SELECT * FROM fn_get_contacto(:p_id)',
             {
                 replacements: { p_id},
                 type: sequelize.QueryTypes.SELECT, 
             }
         );
+        
         if(clientService2 !== undefined && clientService2 !== null){
             finalRes.contacto= clientService2;
         }else{
@@ -410,6 +423,47 @@ clienteCtr.getClientService = async (req, res) => {
     } catch (error) {
         console.error('Error al obtener el cliente y servicio:', error);
         res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
+    }
+};
+clienteCtr.getClientCountByName = async (req, res) => {
+    const p_id = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+
+        clientService = await sequelize.query(
+            'SELECT count_clients_by_name(:p_id) AS count',
+            {
+                replacements: { p_id },
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
+    }
+};
+
+clienteCtr.getClientCount = async (req, res) => {
+    const p_id = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+        clientService = await sequelize.query(
+            'SELECT count_clients() AS count',
+            {
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
     }
 };
 
@@ -615,12 +669,30 @@ clienteCtr.updateCliente = async (req,res)=> {
         ///////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////// 
         
+        
         if(data.inamu !== undefined && data.inamu !== null){
 
+            
+
             const informacionInamu = defineInformacionInamu(db.Sequelize,db.dataType);
-            const updatedRows3 = await informacionInamu.update(data.inamu, {
+
+            const searchDataI = await informacionInamu.findOne({
+                where: {
+                    cliente_servicio_id: data.personal.id
+                }
+            })
+            if(searchDataI === null){
+                let dataInamu = data.inamu;
+                dataInamu.cliente_servicio_id = data.personal.id;
+                const nuevoInformacionInamu = await informacionInamu.create(dataInamu);
+                console.log("nuevoInformacionInamu",nuevoInformacionInamu);
+                data.inamu.id = nuevoInformacionInamu.id;
+            }else{
+                const updatedRows3 = await informacionInamu.update(data.inamu, {
                 where: { id: data.inamu.id }
             });
+            }
+            
 
             //Relaciones de inamu 
 
@@ -778,8 +850,8 @@ clienteCtr.updateCliente = async (req,res)=> {
         res.status(200).json({ message: "Cliente actualizado correctamente", updatedRows,status:200 });
 
     }catch(error){
-        console.error("Error al eliminar cliente:", error);
-        res.status(500).json({ message: "Error al eliminar cliente", error,status:500 });
+        console.error("Error al actualizar cliente:", error);
+        res.status(500).json({ message: "Error al actualizar cliente", error,status:500 });
     }
 }
 

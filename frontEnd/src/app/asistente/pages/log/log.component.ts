@@ -38,6 +38,7 @@ export class LogComponent {
     idBitacora: string | null = null;
     showAddRoomDialog: boolean = false;
 
+
     ngOnInit() {
         this.cargando = true;
         this.searchClient("", this.page);

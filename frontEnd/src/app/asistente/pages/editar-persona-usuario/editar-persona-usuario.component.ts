@@ -97,6 +97,7 @@ export class EditPersonComponent {
             relacion: null,
         },
         inamu: {
+            id:null,
             jefehogar: false,
             contactofamilia: false,
             apoyoeconomico: false,
@@ -398,7 +399,8 @@ export class EditPersonComponent {
 
             // Si contacto está completamente vacío, eliminar el objeto contacto
             const contacto = personaEditada.contacto;
-            if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null) {
+            console.log('Contacto:', contacto);
+            if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null&& contacto?.id === null) {
                 personaEditada.contacto = null;
             }
 
@@ -439,7 +441,8 @@ export class EditPersonComponent {
         this.showModalDelete = false;
         if(confirmed) {
             const id = this.formPersonaUsuario.personal.id;
-            this.clientService.deleteClient(id, this.formPersonaUsuario.personal.id).subscribe((response) => {
+            const inamuId = this.formPersonaUsuario.inamu? this.formPersonaUsuario.inamu.id: null;
+            this.clientService.deleteClient(id, inamuId).subscribe((response) => {
                 if(response.status === 200){ 
                 this.snackbar.show('Usuario eliminado correctamente',3000);
                 }else{
