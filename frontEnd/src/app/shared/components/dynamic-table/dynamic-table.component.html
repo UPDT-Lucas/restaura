@@ -1,0 +1,70 @@
+<div class="container">
+    <!-- Controles de cantidad de registros ARRIBA -->
+    <div class="top-controls">
+        <div class="top-limit">
+            <label
+                >Mostrar
+                <select (change)="onLimitChange($event)">
+                    <option [selected]="limitPerPage === 5" value="5">5</option>
+                    <option [selected]="limitPerPage === 10" value="10">10</option>
+                    <option [selected]="limitPerPage === 20" value="20">20</option>
+                </select>
+                registros
+            </label>
+        </div>
+
+        <div class="top-actions" *ngIf="showButton">
+            <shared-button [text]="buttonText" [routerLink]="buttonLink"></shared-button>
+        </div>          
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-container">
+        <h2>Cantones</h2>
+        <hr />
+        <table>
+            <thead>
+                <tr>
+                    <th *ngFor="let title of header">{{ title }}</th>
+                    <th *ngIf="editLink || deleteLink">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of rows">
+                    <td *ngFor="let cell of row">{{ cell }}</td>
+                    <td *ngIf="editLink || deleteLink">
+                        <span *ngIf="editLink" class="material-icons" [routerLink]="[editLink, row[0]]">edit</span>
+                        <span *ngIf="deleteLink" class="material-icons" [routerLink]="[deleteLink, row[0]]"
+                            >delete_forever</span
+                        >
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Controles de paginacion -->
+    <div class="pagination-controls">
+        <div class="pagination-description">
+            <p>{{ rangeText }}</p>
+        </div>
+
+        <div class="pagination-buttons">
+            <button (click)="changePage(currentPage - 1)" [disabled]="currentPage <= 1">Anterior</button>
+
+            <ng-container *ngFor="let page of pages">
+                <ng-container *ngIf="isNumber(page); else dots">
+                    <button (click)="goToPage(page)" [class.active]="currentPage === page">
+                        {{ page }}
+                    </button>
+                </ng-container>
+            </ng-container>
+
+            <ng-template #dots>
+                <span class="ellipsis">...</span>
+            </ng-template>
+
+            <button (click)="changePage(currentPage + 1)" [disabled]="currentPage >= totalPages">Siguiente</button>
+        </div>
+    </div>
+</div>

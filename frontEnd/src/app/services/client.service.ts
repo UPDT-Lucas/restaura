@@ -33,12 +33,8 @@ export class ClientService {
     }
 
     getClientExist(id: string): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/getClienteExist/${id}`);
+        return this.http.get<any>(`${this.apiUrl}/getClienteExist/?p_id=${id}`);
     }
-
-    // deleteClient(text: id){
-    //     return this.http.delete(`${this.apiUrl}/deleteCliente`);
-    // }
 
     getAllInfoClient(id: string): Observable<AllInfoClient> {
         return this.http.get<AllInfoClient>(`${this.apiUrl}/getClienteAll/${id}`);

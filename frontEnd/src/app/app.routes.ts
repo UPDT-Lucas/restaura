@@ -5,6 +5,8 @@ import { LoginComponent } from './admin/pages/login/login.component';
 import { RegisterComponent } from './admin/pages/register/register.component';
 import { EditPersonComponent } from './asistente/pages/editar-persona-usuario/editar-persona-usuario.component';
 import { ViewPersonComponent } from './asistente/pages/ver-persona-usuario/ver-persona-usuario.component';
+import { ParentComponent } from './catalogs/pages/examplepages/example.component';
+import { ConsultasComponent } from './admin/pages/consultar/consultas.component';
 
 export const routes: Routes = [
     {
@@ -31,4 +33,12 @@ export const routes: Routes = [
         path: 'view/:id',
         component: ViewPersonComponent,
     },
+    {
+        path: 'example',
+        component: ParentComponent,
+    },
+    {
+        path: 'consultas',
+        component: ConsultasComponent,
+    }
 ];

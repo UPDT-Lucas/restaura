@@ -1,0 +1,27 @@
+<div class="range-container">
+    <div class="range-input">
+        <label>{{ labelDesde }}</label>
+        <input
+            type="number"
+            class="custom-input"
+            [placeholder]="placeholderDesde"
+            [(ngModel)]="desde"
+            (input)="onInputChange()"
+        />
+    </div>
+
+    <div class="range-input">
+        <label>{{ labelHasta }}</label>
+        <input
+            type="number"
+            class="custom-input"
+            [placeholder]="placeholderHasta"
+            [(ngModel)]="hasta"
+            (input)="onInputChange()"
+        />
+    </div>
+</div>
+
+<p class="error-message" *ngIf="showError">
+    {{ error }}
+</p>

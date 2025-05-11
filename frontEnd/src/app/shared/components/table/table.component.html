@@ -6,17 +6,19 @@
         <table>
             <thead>
                 <tr>
-                    <th>Cedula</th>
-                    <th>Nombre</th>
-                    <th>Edad</th>
-                    <th>Fecha Ingreso</th>
+                    <th>Mover</th>
+                  @for (header of headers; track $index) {
+                    <th>{{ header }}</th>
+                  }
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @for (row of data; track $index) {
                   <tr>
-                    
+                    <td>
+                        <input type="checkbox" [checked]="row.checked" (change)="onCheckboxChange(row)" />
+                    </td>
                     @for (header of headers; track $index) {
                         <td [routerLink]="'/view/' + row.id">
                             {{ row[header] }}

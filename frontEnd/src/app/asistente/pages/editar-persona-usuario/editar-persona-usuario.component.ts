@@ -140,6 +140,7 @@ export class EditPersonComponent {
     inamu_informacion: boolean = false;
 
     cargando: boolean = true;
+    showModalDelete: boolean = false;
 
     constructor(
         private catalogoService: CatalogoService,
@@ -372,30 +373,16 @@ export class EditPersonComponent {
         }
     }
     public showModal: boolean = false;
+
     confirmUpdate() {
         this.showModal = true;
-
     }
-    public showModalDelete: boolean = false;
+
+    
     confirmDelete() {
         this.showModalDelete = true;
     }
-    
-    deleteClient(confirmed: boolean): void {
-        this.showModalDelete = false;
-        
-        if(confirmed) {
-            const id = this.formPersonaUsuario.personal.id;
-            const inamuId = this.formPersonaUsuario.inamu? this.formPersonaUsuario.inamu.id: null;
-            this.clientService.deleteClient(id, inamuId).subscribe((response) => {
-                if(response.status === 200){ 
-                this.snackbar.show('Usuario eliminado correctamente',3000);
-                }else{
-                this.snackbar.show('Error al eliminar el cliente', 3000);
-                }});   
-        }
-                
-    }
+
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     editarPersonaUsuario(confirmed: boolean): void {
         this.showModal = false;
@@ -447,6 +434,19 @@ export class EditPersonComponent {
                     this.snackbar.show('Error al editar el usuario',3000);
                 }
             });
+        }
+    }
+
+    deleteClient(confirmed: boolean): void {
+        this.showModalDelete = false;
+        if(confirmed) {
+            const id = this.formPersonaUsuario.personal.id;
+            this.clientService.deleteClient(id, this.formPersonaUsuario.personal.id).subscribe((response) => {
+                if(response.status === 200){ 
+                this.snackbar.show('Usuario eliminado correctamente',3000);
+                }else{
+                this.snackbar.show('Error al eliminar el cliente', 3000);
+                }});   
         }
     }
 }
