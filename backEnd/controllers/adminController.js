@@ -65,8 +65,8 @@ adminCtr.getConsulta = async (req,res)=>{
                 type: sequelize.QueryTypes.SELECT, 
             }
         );
-        console.log(filters);
         
+        res.status(200).json({message:"Consulta realizada correctamente",status:200,filters,count:filters.length});
         
     }catch(error){
         console.error("Error al realizar la consulta:", error);
