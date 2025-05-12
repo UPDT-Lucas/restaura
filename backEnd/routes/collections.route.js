@@ -3,52 +3,74 @@ import catalogosCtr from '../controllers/catalogosController.js';
 
 var api = express.Router();
 
+// GET endpoints
 api.get('/catalogos', catalogosCtr.getCatalogos);
 api.get('/cantones/:p_provincia_id', catalogosCtr.getCantones);
-api.post('/addCanton/', catalogosCtr.addCanton);
-api.put("/editCanton", catalogosCtr.editCanton);
-api.delete('/deleteCanton', catalogosCtr.deleteCanton);
+api.get('/getAllDrogas', catalogosCtr.getAllDrogas);
+api.get('/getAllDondeDormi', catalogosCtr.getAllDondeDormi);
+api.get('/getAllTiposAyuda', catalogosCtr.getAllTiposAyuda);
+api.get('/getAllTiposPension', catalogosCtr.getAllTiposPension);
+api.get('/getAllTiposId', catalogosCtr.getAllTiposId);
+api.get('/getAllTiempoCalle', catalogosCtr.getAllTiempoCalle);
+api.get('/getAllRazonServicio', catalogosCtr.getAllRazonServicio);
+api.get('/getAllProvincias', catalogosCtr.getAllProvincias);
+api.get('/getAllPaises', catalogosCtr.getAllPaises);
+api.get('/getAllInstitucionesViolencia', catalogosCtr.getAllInstitucionesViolencia);
+api.get('/getAllGradosAcademicos', catalogosCtr.getAllGradosAcademicos);
+api.get('/getAllGeneros', catalogosCtr.getAllGeneros);
+api.get('/getAllEstadosCiviles', catalogosCtr.getAllEstadosCiviles);
+api.get('/getAllTiposViolencia', catalogosCtr.getAllTiposViolencia);
+
+// POST endpoints
 api.post('/addDroga', catalogosCtr.addDroga);
-api.put("/editDroga", catalogosCtr.editDroga);
-api.delete('/deleteDroga', catalogosCtr.deleteDroga);
-api.post('/addTiposAyuda', catalogosCtr.addTiposAyuda);
-api.put("/editTiposAyuda", catalogosCtr.editTiposAyuda);
-api.delete('/deleteTiposAyuda', catalogosCtr.deleteTiposAyuda);
-api.post('/addTipoPension', catalogosCtr.addTipoPension);
-api.put("/editTipoPension", catalogosCtr.editTipoPension);
-api.delete('/deleteTipoPension', catalogosCtr.deleteTipoPension);
-api.post('/addTipoId', catalogosCtr.addTipoId);
-api.put("/editTipoId", catalogosCtr.editTipoId);
-api.delete('/deleteTipoId', catalogosCtr.deleteTipoId);
 api.post('/addDondeDormi', catalogosCtr.addDondeDormi);
-api.put("/editDondeDormi", catalogosCtr.editDondeDormi);
-api.delete('/deleteDondeDormi', catalogosCtr.deleteDondeDormi);
+api.post('/addTiposAyuda', catalogosCtr.addTiposAyuda);
+api.post('/addTipoPension', catalogosCtr.addTipoPension);
+api.post('/addTipoId', catalogosCtr.addTipoId);
 api.post('/addTiempoCalle', catalogosCtr.addTiempoCalle);
-api.put("/editTiempoCalle", catalogosCtr.editTiempoCalle);
-api.delete('/deleteTiempoCalle', catalogosCtr.deleteTiempoCalle);
 api.post('/addRazonServicio', catalogosCtr.addRazonServicio);
-api.put("/editRazonServicio", catalogosCtr.editRazonServicio);
-api.delete('/deleteRazonServicio', catalogosCtr.deleteRazonServicio);
 api.post('/addProvincia', catalogosCtr.addProvincia);
-api.put("/editProvincia", catalogosCtr.editProvincia);
-api.delete('/deleteProvincia', catalogosCtr.deleteProvincia);
 api.post('/addPais', catalogosCtr.addPais);
-api.put("/editPais", catalogosCtr.editPais);
-api.delete('/deletePais', catalogosCtr.deletePais);
 api.post('/addInstitucionesViolencia', catalogosCtr.addInstitucionesViolencia);
-api.put("/editInstitucionesViolencia", catalogosCtr.editInstitucionesViolencia);
-api.delete('/deleteInstitucionesViolencia', catalogosCtr.deleteInstitucionesViolencia);
 api.post('/addGradoAcademico', catalogosCtr.addGradoAcademico);
-api.put("/editGradoAcademico", catalogosCtr.editGradoAcademico);
-api.delete('/deleteGradoAcademico', catalogosCtr.deleteGradoAcademico);
 api.post('/addGenero', catalogosCtr.addGenero);
-api.put("/editGenero", catalogosCtr.editGenero);
-api.delete('/deleteGenero', catalogosCtr.deleteGenero);
 api.post('/addEstadoCivil', catalogosCtr.addEstadoCivil);
-api.put("/editEstadoCivil", catalogosCtr.editEstadoCivil);
-api.delete('/deleteEstadoCivil', catalogosCtr.deleteEstadoCivil);
 api.post('/addTipoViolencia', catalogosCtr.addTipoViolencia);
-api.put("/editTipoViolencia", catalogosCtr.editTipoViolencia);
+api.post('/addCanton', catalogosCtr.addCanton);
+
+// PUT endpoints
+api.put('/editDroga', catalogosCtr.editDroga);
+api.put('/editDondeDormi', catalogosCtr.editDondeDormi);
+api.put('/editTiposAyuda', catalogosCtr.editTiposAyuda);
+api.put('/editTipoPension', catalogosCtr.editTipoPension);
+api.put('/editTipoId', catalogosCtr.editTipoId);
+api.put('/editTiempoCalle', catalogosCtr.editTiempoCalle);
+api.put('/editRazonServicio', catalogosCtr.editRazonServicio);
+api.put('/editProvincia', catalogosCtr.editProvincia);
+api.put('/editPais', catalogosCtr.editPais);
+api.put('/editInstitucionesViolencia', catalogosCtr.editInstitucionesViolencia);
+api.put('/editGradoAcademico', catalogosCtr.editGradoAcademico);
+api.put('/editGenero', catalogosCtr.editGenero);
+api.put('/editEstadoCivil', catalogosCtr.editEstadoCivil);
+api.put('/editTipoViolencia', catalogosCtr.editTipoViolencia);
+api.put('/editCanton', catalogosCtr.editCanton);
+
+// DELETE endpoints
+api.delete('/deleteDroga', catalogosCtr.deleteDroga);
+api.delete('/deleteDondeDormi', catalogosCtr.deleteDondeDormi);
+api.delete('/deleteTiposAyuda', catalogosCtr.deleteTiposAyuda);
+api.delete('/deleteTipoPension', catalogosCtr.deleteTipoPension);
+api.delete('/deleteTipoId', catalogosCtr.deleteTipoId);
+api.delete('/deleteTiempoCalle', catalogosCtr.deleteTiempoCalle);
+api.delete('/deleteRazonServicio', catalogosCtr.deleteRazonServicio);
+api.delete('/deleteProvincia', catalogosCtr.deleteProvincia);
+api.delete('/deletePais', catalogosCtr.deletePais);
+api.delete('/deleteInstitucionesViolencia', catalogosCtr.deleteInstitucionesViolencia);
+api.delete('/deleteGradoAcademico', catalogosCtr.deleteGradoAcademico);
+api.delete('/deleteGenero', catalogosCtr.deleteGenero);
+api.delete('/deleteEstadoCivil', catalogosCtr.deleteEstadoCivil);
 api.delete('/deleteTipoViolencia', catalogosCtr.deleteTipoViolencia);
+api.delete('/deleteCanton', catalogosCtr.deleteCanton);
+
 
 export default api;

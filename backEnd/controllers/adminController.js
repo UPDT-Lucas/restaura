@@ -30,7 +30,7 @@ adminCtr.auth = async (req,res)=> {
        //agregar encriptación al sistema por mientras tenerlo ahi por parte
         const resultAsistente = await UsuarioSistema.findOne({
             where:{
-                id:data.correo
+                correo:data.correo
             }});
         if(resultAsistente && resultAsistente.dataValues.contrasena === data.contrasena){
             
@@ -44,5 +44,36 @@ adminCtr.auth = async (req,res)=> {
         res.status(500).json({message:"Error al crear asistente",status:500});
     }
 }
+
+adminCtr.getConsulta = async (req,res)=>{
+    try{
+        const {p_genero_id, p_canton_id, p_edad_desde, p_edad_hasta, 
+            p_discapacidad, p_tipo_pension_id, 
+            p_fecha_ingreso_desde, p_fecha_ingreso_hasta, p_carcel, 
+            p_razon_servicio_id, p_grado_academico_id} = req.body;
+        
+        console.log("Data:",req.body);
+        const db = dbConnection.getInstance();
+        const sequelize = db.Sequelize;
+        const filters = await sequelize.query(
+            "SELECT * FROM buscar_porfiltros(:p_genero_id, :p_canton_id, :p_edad_desde, :p_edad_hasta, :p_discapacidad, :p_tipo_pension_id, :p_fecha_ingreso_desde, :p_fecha_ingreso_hasta, :p_carcel, :p_razon_servicio_id, :p_grado_academico_id);",
+            {
+                replacements: {p_genero_id, p_canton_id, p_edad_desde, p_edad_hasta, 
+                                p_discapacidad, p_tipo_pension_id, 
+                                p_fecha_ingreso_desde, p_fecha_ingreso_hasta, p_carcel, 
+                                p_razon_servicio_id, p_grado_academico_id},
+                type: sequelize.QueryTypes.SELECT, 
+            }
+        );
+        console.log(filters);
+        
+        
+    }catch(error){
+        console.error("Error al realizar la consulta:", error);
+        res.status(500).json({message:"Error al realizar la consulta",status:500});
+    }
+}
+
+
 
 export default adminCtr;
