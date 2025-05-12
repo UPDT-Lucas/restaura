@@ -7,7 +7,7 @@ import { RegisterComponent } from './admin/pages/register/register.component';
 import { AddPersonComponent } from './asistente/pages/nueva-persona-usuario/nueva-persona-usuario.component';
 import { EditPersonComponent } from './asistente/pages/editar-persona-usuario/editar-persona-usuario.component';
 import { ViewPersonComponent } from './asistente/pages/ver-persona-usuario/ver-persona-usuario.component';
-import { ConsultasComponent } from './admin/pages/consultar/consultas.component';
+import { ConsultasComponent } from './admin/pages/consultas/consultas.component';
 
 /* Index - Catálogos */
 import { CantonesComponent } from './catalogs/pages/index-cantones/cantones.component';

@@ -31,6 +31,32 @@
             [labelHasta]="'Edad máxima'"
             (rangeChange)="actualizarRango($event)"
         />
+
+        <!-- Discapacidad -->
+        <shared-input-text
+            [label]="'Discapacidad'"
+            [placeholder]="'Ingrese la discapacidad'"
+            [(value)]="formFiltros.discapacidad"
+        />
+
+        <!-- Cárcel -->
+        <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formFiltros.carcel" />
+
+        <!-- Razon por la que acude al dormitorio -->
+        <shared-multiselect
+            [label]="'¿Razón por la que acude al dormitorio?'"
+            [options]="razonServicioOptions"
+            [multiple]="true"
+            [(value)]="formFiltros.razon_servicio"
+        />
+
+        <!-- Grado Académico -->
+        <shared-multiselect
+            [label]="'Grado Académico'"
+            [options]="gradoAcademicoOptions"
+            [multiple]="true"
+            [(value)]="formFiltros.grado_academico"
+        />
     </div>
 
     <div class="buttons">

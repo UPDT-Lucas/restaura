@@ -8,6 +8,10 @@ import { CatalogoService } from '../../../services/catalogo.service';
 import { InputRangeComponent } from '../../../shared/components/input-range/input-range.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
+import { InputTextComponent } from '../../../shared/components/input-text/input-text.component';
+import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
+import { MultiselectComponent } from '../../../shared/components/multiselect/multiselect.components';
+
 
 @Component({
     selector: 'app-consultas',
@@ -20,6 +24,9 @@ import { SecondaryButtonComponent } from '../../../shared/components/secondary-b
         InputRangeComponent,
         ButtonComponent,
         SecondaryButtonComponent,
+        InputTextComponent,
+        InputBooleanComponent,
+        MultiselectComponent,
     ],
     templateUrl: './consultas.component.html',
     styleUrls: ['./consultas.component.css'],
@@ -33,6 +40,10 @@ export class ConsultasComponent {
         fechaHasta: null,
         genero_id: null,
         rango_edad: null,
+        discapacidad: null,
+        carcel: null,
+        razon_servicio: null,
+        grado_academico: null,
     };
 
     tableData = [
@@ -47,11 +58,23 @@ export class ConsultasComponent {
     limitPerPage = 10;
     cargando: boolean = true;
     generoOptions: { label: string; value: string }[] = [];
+    razonServicioOptions: { label: string; value: string }[] = [];
+    gradoAcademicoOptions: { label: string; value: string }[] = [];
 
     ngOnInit() {
         this.catalogoService.getCatalogos().subscribe({
             next: (data) => {
                 this.generoOptions = data.genero.map((item: any) => ({
+                    label: item.nombre,
+                    value: item.id.toString(),
+                }));
+
+                this.razonServicioOptions = data.razonServicio.map((item: any) => ({
+                    label: item.nombre,
+                    value: item.id.toString(),
+                }));
+
+                this.gradoAcademicoOptions = data.gradoAcademico.map((item: any) => ({
                     label: item.nombre,
                     value: item.id.toString(),
                 }));
@@ -95,6 +118,10 @@ export class ConsultasComponent {
             fechaHasta: null,
             genero_id: null,
             rango_edad: null,
+            discapacidad: null,
+            carcel: null,
+            razon_servicio: null,
+            grado_academico: null,
         };
     }
 }
