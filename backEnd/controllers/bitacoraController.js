@@ -49,9 +49,11 @@ bitacoraCtr.createBitacora = async(req,res) =>{
 }
 bitacoraCtr.getBitacora = async(req,res) =>{
   try{
+      
       const db = dbConnection.getInstance();
       const bitacora = defineBitacora(db.Sequelize,db.dataType);
       const {bitacora_date} = req.params
+      console.log("Bitacora date:", bitacora_date);
       
       let fecha = convertirFechaADate(bitacora_date);
       
@@ -59,7 +61,7 @@ bitacoraCtr.getBitacora = async(req,res) =>{
       const bitacoraResult = await bitacora.findOne({
         where:{fecha: fecha}
       });
-      console.log("Bitacora encontrada:", bitacoraResult);
+      
       if(bitacoraResult !== undefined && bitacoraResult !== null){
         const defineList = defineClienteXBitacora(db.Sequelize,db.dataType);
         
@@ -67,7 +69,7 @@ bitacoraCtr.getBitacora = async(req,res) =>{
           where:{bitacora_id: bitacoraResult.dataValues.id}
         });
         
-        if(clienteList.length !== 0) {
+        if(clienteList.length >0) {
           const clienteOR = defineCliente(db.Sequelize,db.dataType);
           
           let bitacoraList =[];
@@ -82,7 +84,7 @@ bitacoraCtr.getBitacora = async(req,res) =>{
             bitacoraList.push(clienteData.dataValues);
           }
           
-
+          console.log({idbitacora:bitacoraResult.dataValues.id,bitacora: bitacoraList, status: 200});
           return res.status(200).json({idbitacora:bitacoraResult.dataValues.id,bitacora: bitacoraList, status: 200});
         }
           
@@ -173,7 +175,7 @@ bitacoraCtr.getLastRoom = async(req,res) =>{
       order: [['id', 'DESC']], // Ordenar por ID en orden descendente
       attributes: ['numerocuarto'], // Seleccionar solo el número de cuarto
     });
-
+    console.log("Ultimo cuarto:", lastRoom);
     if (lastRoom) {
       return res.status(200).json({ numeroCuarto: lastRoom.numerocuarto, status: 200 });
     } else {

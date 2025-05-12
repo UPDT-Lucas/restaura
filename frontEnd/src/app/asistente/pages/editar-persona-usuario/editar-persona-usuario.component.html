@@ -43,7 +43,7 @@
         <shared-input-text
             [label]="'Identificación(sin guiones)'"
             [placeholder]="'Ingrese el Identificación'"
-            [disabled]="false"
+            [disabled]="true"
             [error]="'*Campo requerido'"
             [(value)]="formPersonaUsuario.personal.id"
             (blurChange)="onIdentificacionChange($event)"
@@ -470,7 +470,7 @@
             <shared-button text="Editar Persona Usuario" (buttonClick)="confirmUpdate()"></shared-button>
         </div>
         <div class="button-container">
-            <shared-secondary-button text="Cancelar Creación" (buttonClick)="confirmDelete()"></shared-secondary-button>
+            <shared-secondary-button text="Eliminar Usuario" (buttonClick)="confirmDelete()"></shared-secondary-button>
         </div>
     </div>
 </div>
@@ -482,7 +482,6 @@
   [actionType]="'update'"
   (confirmed)="editarPersonaUsuario($event)">
 </app-confirm-dialog>
-
 <app-confirm-dialog
   *ngIf="showModalDelete"
   [title]="'Eliminar cliente'"
@@ -490,6 +489,5 @@
   [actionType]="'delete'"
   (confirmed)="deleteClient($event)">
 </app-confirm-dialog>
-
 <app-snackbar></app-snackbar>
 
