@@ -18,17 +18,17 @@ import { Router } from '@angular/router';
         ConfirmDialogComponent,
         SnackbarComponent,
     ],
-    templateUrl: './add-donde-durmi.component.html',
-    styleUrls: ['./add-donde-durmi.component.css'],
+    templateUrl: './add-tipo-ayuda.component.html',
+    styleUrls: ['./add-tipo-ayuda.component.css'],
 })
-export class AddDondeDurmiComponent {
+export class AddTipoAyudaComponent {
     constructor(private collectionsService: CollectionsService, private router: Router) {}
 
     cargando: boolean = false;
     showModal: boolean = false;
 
     formData: any = {
-        nombreDondeDormi: null,
+        nombreTiposAyuda: null,
     };
 
     confirmUpdate() {
@@ -37,33 +37,33 @@ export class AddDondeDurmiComponent {
 
     resetForm() {
         this.formData = {
-            nombreDondeDormi: null,
+            nombreTiposAyuda: null,
         };
     }
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    crearDondeDurmio(confirmed: boolean): void {
+    crearTipoAyuda(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.collectionsService.addDondeDormi(this.formData).subscribe({
+            this.collectionsService.addTiposAyuda(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
                         this.resetForm();
-                        this.router.navigate(['/donde-dormi'], {
+                        this.router.navigate(['/tipos-ayuda'], {
                             queryParams: { 'type-response': '1' },
                         });
                     } else {
-                        console.error('Error al guardar el dato:', response);
-                        this.snackbar.show('Error al guardar el dato', 3000);
+                        console.error('Error al guardar el tipo de ayuda:', response);
+                        this.snackbar.show('Error al guardar el tipo de ayuda', 3000);
                     }
                 },
                 error: (error) => {
-                    console.error('Error al guardar:', error);
-                    this.snackbar.show('Error al guardar el dato', 3000);
+                    console.error('Error al guardar el tipo de ayuda:', error);
+                    this.snackbar.show('Error al guardar el tipo de ayuda', 3000);
                 },
             });
         }

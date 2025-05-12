@@ -1,0 +1,34 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Editar Tipo de Ayuda'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el tipo de ayuda'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreTipoAyuda"
+        />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Editar Tipo de Ayuda" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Editar Tipo de Ayuda'"
+  [text]="'¿Estás seguro de que deseas editar el tipo de ayuda: ' + formData.nombreTipoAyuda + '?'"
+  [actionType]="'update'"
+  (confirmed)="editarTipoAyuda($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

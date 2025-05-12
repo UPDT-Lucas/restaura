@@ -9,8 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'table-example',
     imports: [DynamicTableComponent, CommonModule, ConfirmDialogComponent, SnackbarComponent],
-    templateUrl: './donde-durmi.component.html',
-    styleUrls: ['./donde-durmi.component.css'],
+    templateUrl: './donde-dormi.component.html',
+    styleUrls: ['./donde-dormi.component.css'],
 })
 export class DondeDurmiComponent {
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
@@ -52,10 +52,17 @@ export class DondeDurmiComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.dondeDurmio = data.dondeDormi.map((item: any) => {
@@ -86,7 +93,7 @@ export class DondeDurmiComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/donde-durmi'], {
+                        this.router.navigate(['/donde-dormi'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {

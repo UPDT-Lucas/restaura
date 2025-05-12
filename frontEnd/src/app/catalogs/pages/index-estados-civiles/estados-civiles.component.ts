@@ -9,8 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'table-example',
     imports: [DynamicTableComponent, CommonModule, ConfirmDialogComponent, SnackbarComponent],
-    templateUrl: './estado-civil.component.html',
-    styleUrls: ['./estado-civil.component.css'],
+    templateUrl: './estados-civiles.component.html',
+    styleUrls: ['./estados-civiles.component.css'],
 })
 export class EstadoCivilComponent {
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
@@ -52,10 +52,17 @@ export class EstadoCivilComponent {
                     });
                 }, 500);
             }
+
+            this.reloadPage();
+            this.currentPage = 1;
         });
     }
 
     ngOnInit(): void {
+        this.reloadPage();
+    }
+
+    reloadPage() {
         this.collectionsService.getCatalogos().subscribe({
             next: (data) => {
                 this.estadoCivil = data.estadoCivil.map((item: any) => {
@@ -86,7 +93,7 @@ export class EstadoCivilComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/estado-civil'], {
+                        this.router.navigate(['/estados-civiles'], {
                             queryParams: { 'type-response': '3' },
                         });
                     } else {
