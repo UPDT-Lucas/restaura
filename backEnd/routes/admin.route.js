@@ -5,6 +5,6 @@ var api = express.Router();
 
 api.post('/saveAsistente', adminCtr.saveAsistente);
 api.get('/auth',adminCtr.auth);
-api.get('/Quering',adminCtr.getConsulta);
+api.post('/Quering',adminCtr.getConsulta);
 
 export default api;

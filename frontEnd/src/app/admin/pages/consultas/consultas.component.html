@@ -8,55 +8,56 @@
     <div class="form-wrap">
         <!-- Fecha Desde -->
         <shared-input-date
-            [label]="'Fecha Desde'"
+            [label]="'Fecha Ingreso Desde'"
             [placeholder]="'Ingrese el Fecha'"
-            [(value)]="formFiltros.fechaDesde"
+            [(value)]="formFiltros.p_fecha_ingreso_desde"
         />
 
         <!-- Fecha Hasta -->
         <shared-input-date
-            [label]="'Fecha Hasta'"
+            [label]="'Fecha Ingreso Hasta'"
             [placeholder]="'Ingrese el Fecha'"
-            [(value)]="formFiltros.fechaHasta"
+            [(value)]="formFiltros.p_fecha_ingreso_hasta"
         />
+
+        <!-- Cantón -->
+        <shared-select [label]="'Cantón'" [options]="cantonOptions" [(value)]="formFiltros.p_canton_id" />
 
         <!-- Género -->
-        <shared-select [label]="'Género'" [options]="generoOptions" [(value)]="formFiltros.genero_id" />
+        <shared-select [label]="'Género'" [options]="generoOptions" [(value)]="formFiltros.p_genero_id" />
 
-        <!-- Edad -->
-        <shared-input-range
-            [desde]="10"
-            [hasta]="50"
-            [labelDesde]="'Edad mínima'"
-            [labelHasta]="'Edad máxima'"
-            (rangeChange)="actualizarRango($event)"
-        />
+        <!-- Edad Inicio -->
+        <shared-input-number [label]="'Edad Desde'" [placeholder]="'Edad Desde'" [(value)]="formFiltros.p_edad_desde" />
 
-        <!-- Discapacidad -->
-        <shared-input-text
-            [label]="'Discapacidad'"
-            [placeholder]="'Ingrese la discapacidad'"
-            [(value)]="formFiltros.discapacidad"
-        />
-
-        <!-- Cárcel -->
-        <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formFiltros.carcel" />
+        <!-- Edad Hasta -->
+        <shared-input-number [label]="'Edad Hasta'" [placeholder]="'Edad Hasta'" [(value)]="formFiltros.p_edad_hasta" />
 
         <!-- Razon por la que acude al dormitorio -->
-        <shared-multiselect
+        <shared-select
             [label]="'¿Razón por la que acude al dormitorio?'"
             [options]="razonServicioOptions"
-            [multiple]="true"
-            [(value)]="formFiltros.razon_servicio"
+            [(value)]="formFiltros.p_razon_servicio_id"
         />
 
         <!-- Grado Académico -->
-        <shared-multiselect
+        <shared-select
             [label]="'Grado Académico'"
             [options]="gradoAcademicoOptions"
-            [multiple]="true"
-            [(value)]="formFiltros.grado_academico"
+            [(value)]="formFiltros.p_grado_academico_id"
         />
+
+        <!-- Discapacidad -->
+        <shared-input-boolean [label]="'¿Discapacidad?'" [(value)]="formFiltros.p_discapacidad" />
+
+        <!-- Pension -->
+        <shared-select
+            [label]="'Pensión'"
+            [options]="pensionOptions"
+            [(value)]="formFiltros.p_tipo_pension_id"
+        />
+
+        <!-- Cárcel -->
+        <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formFiltros.p_carcel" />
     </div>
 
     <div class="buttons">
@@ -73,6 +74,7 @@
         [editLink]="'/editar'"
         [currentPage]="currentPage"
         [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
         [showButton]="false"
         (deleteRow)="onDeleteRow($event)"
         (updatePage)="onUpdatePage($event)"
