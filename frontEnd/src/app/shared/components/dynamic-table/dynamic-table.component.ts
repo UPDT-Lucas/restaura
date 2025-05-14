@@ -14,6 +14,8 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 export class DynamicTableComponent {
     @Input() tableData: string[][] = [];
     @Input() editLink: string = '';
+    @Input() viewLink: string = '';
+    @Input() deleteButton: boolean = false;
 
     @Input() limitPerPage: number = 10;
     @Input() currentPage: number = 1;

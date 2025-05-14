@@ -33,8 +33,10 @@
                 <tr *ngFor="let row of rows">
                     <td *ngFor="let cell of row">{{ cell }}</td>
                     <td *ngIf="editLink">
+                        <span *ngIf="viewLink" class="material-icons" [routerLink]="[viewLink, row[0]]">visibility</span>
                         <span *ngIf="editLink" class="material-icons" [routerLink]="[editLink, row[0]]">edit</span>
                         <span
+                            *ngIf="deleteButton"
                             class="material-icons"
                             style="cursor: pointer"
                             (click)="handleDelete(row[0])"

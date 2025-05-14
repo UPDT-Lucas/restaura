@@ -118,15 +118,14 @@ export class ConsultasComponent {
     }
 
     onUpdatePage(page: number) {
-        console.log('Actualizar a página:', page);
         this.currentPage = page;
-        // Aquí puedes cargar nuevos datos para esa página
+        this.actualizarTabla();
     }
 
     onUpdateLimit(limit: number) {
-        console.log('Actualizar límite por página:', limit);
         this.limitPerPage = limit;
-        // Aquí puedes actualizar los datos con el nuevo límite
+        this.currentPage = 1;
+        this.actualizarTabla();
     }
 
     actualizarRango(event: { desde: number | null; hasta: number | null }) {
@@ -138,7 +137,13 @@ export class ConsultasComponent {
         this.adminService.consultas(this.formFiltros).subscribe({
             next: (data) => {
                 if (data.status === 200) {
-                    this.consultas = data.filters.map((item: any) => [item.id, item.nombre, item.edad, item.genero_id, item.fechaingreso]);
+                    this.consultas = data.filters.map((item: any) => [
+                        item.id,
+                        item.nombre,
+                        item.edad,
+                        item.genero_id,
+                        item.fechaingreso,
+                    ]);
 
                     this.getTotalItems();
                     this.actualizarTabla();
@@ -154,14 +159,19 @@ export class ConsultasComponent {
 
     clearFilters() {
         this.formFiltros = {
-            fechaDesde: null,
-            fechaHasta: null,
-            genero_id: null,
-            rango_edad: null,
-            discapacidad: null,
-            carcel: null,
-            razon_servicio: null,
-            grado_academico: null,
+            p_canton_id: null,
+            p_fecha_ingreso_desde: null,
+            p_fecha_ingreso_hasta: null,
+            p_genero_id: null,
+            p_edad_desde: null,
+            p_edad_hasta: null,
+            p_discapacidad: null,
+            p_carcel: null,
+            p_razon_servicio_id: null,
+            p_grado_academico_id: null,
+            p_tipo_pension_id: null,
         };
+
+        this.filter();
     }
 }
