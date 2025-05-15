@@ -6,11 +6,13 @@ import { RouterModule } from '@angular/router';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { CommonModule } from '@angular/common';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'shared-table',
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
@@ -19,25 +21,29 @@ export class TableComponent {
   public showModal: boolean = false;
   public clientIdToDelete: string | null = null;
 
-  constructor(private clientService: ClientService){}
+  constructor(private clientService: ClientService) { }
 
   @Input() headers: string[] = [];
   @Input() data: any[] = [];
   @Output() selectedIdChange = new EventEmitter<string>();
-  selectedId: string | null = null; // ✅ Selección única
+  selectedId: string | null = null;
 
   ngOnInit() {
     console.log(this.data);
-    console.log(this.headers); 
+    console.log(this.headers);
   }
 
-  onCheckboxChange(selectedRow: any): void {
-    this.data.forEach(row => {
-      row.checked = row === selectedRow;
-    });
-  
-    this.selectedId = selectedRow.id;
-    this.selectedIdChange.emit(this.selectedId!); // 👈 Emitimos el valor
+  onCheckboxChange(row: any): void {
+    if (row.checked) {
+      this.selectedId = row.id;
+      this.selectedIdChange.emit(this.selectedId!);
+    } else {
+      this.selectedId = null;
+      this.selectedIdChange.emit(null!);
+    }
+
+    console.log(row.checked);
   }
-  
+
+
 }

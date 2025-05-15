@@ -10,8 +10,11 @@ export class LogService {
 
   constructor(private http: HttpClient) {}
 
-  getLogs(date: Date): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/bitacora/${date}`);
+  getLogs(date: Date, limit: string, offset: string): Observable<any> {
+    console.log(date);
+    console.log(limit);
+    console.log(offset);
+    return this.http.get<any>(`${this.apiUrl}/bitacora/${date}?limit=${limit}&offset=${offset}`);
   }
 
   getLastRoom(id: string, idBitacora: string): Observable<any> {

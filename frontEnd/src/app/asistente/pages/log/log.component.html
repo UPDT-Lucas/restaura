@@ -50,16 +50,16 @@
 
     <div class="table-container">
         <div class="options">
-            <shared-search-box
+            <!-- <shared-search-box
             [label]="'Buscar persona'"
             [placeholder]="'Ingrese el nombre'"
             [error]="'*Campo requerido'"
             [searchIcon]="true"
-        />
+        /> -->
             <shared-input-date
             [label]="'Fecha Ingreso'"
             [placeholder]="'Fecha Ingreso'"
-            (valueChange)="getDate($event)">
+            (valueChange)="getDate($event, page)">
             </shared-input-date>
         </div>
         
@@ -71,18 +71,14 @@
         </shared-table>
 
         <div class="pagination">
-            <span class="material-icons md-36" (click)="prevPage()">
+            <span class="material-icons md-36" (click)="prevLogPage()">
                 arrow_back_ios
             </span>
-            <span class="material-icons md-36" (click)="nextPage()">
+            <span class="material-icons md-36" (click)="nextLogPage()">
                 arrow_forward_ios
             </span>
         </div>
     </div>
-
-    
-
-    
 </div>
 
 <shared-confirm-dialog-input
@@ -92,3 +88,27 @@
   [actionType]="'add'"
   (confirmed)="handleInputResult($event)">
 </shared-confirm-dialog-input>
+
+<app-confirm-dialog
+  *ngIf="showNewBitacora"
+  [title]="'Bitácora no encontrada'"
+  [text]="'No hay bitácora para este día. ¿Desea crearla?'"
+  [actionType]="'add'"
+  (confirmed)="handleNewBitacora($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog
+  *ngIf="showInfoBitacora"
+  [title]="'Bitácora creada para la fecha:\n ' + this.date"
+  [text]="'Bitácora Nueva'"
+  [actionType]="'info'"
+  (confirmed)="handleInfoBitacora($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog
+  *ngIf="showDuplicateBitacora"
+  [title]="'Error al agregar el usuario'"
+  [text]="'Usuario ya existe en la bitácora de este día.'"
+  [actionType]="'info'"
+  (confirmed)="handleDuplicateBitacora($event)">
+</app-confirm-dialog>

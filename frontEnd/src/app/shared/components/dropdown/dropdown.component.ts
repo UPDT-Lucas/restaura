@@ -1,6 +1,7 @@
-import { Component, ElementRef, HostListener, Renderer2, ViewChild } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AdminService } from '../../../services/admin.service';
 
 @Component({
     selector: 'shared-dropdown',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
     styleUrl: './dropdown.component.css',
 })
 export class DropdownComponent {
+    constructor(private adminService: AdminService, private router: Router){}
+
     isOpen = false;
 
     @ViewChild('menu') menuRef!: ElementRef;
@@ -19,6 +22,9 @@ export class DropdownComponent {
         this.isOpen = !this.isOpen;
     }
 
+    @Input()
+    token: any;
+
     @HostListener('document:click', ['$event'])
     onClickOutside(event: MouseEvent) {
         const clickedInsideMenu = this.menuRef?.nativeElement.contains(event.target);
@@ -27,5 +33,10 @@ export class DropdownComponent {
         if (!clickedInsideMenu && !clickedToggle) {
             this.isOpen = false;
         }
+    }
+
+    leave(){
+        this.adminService.logout();
+        this.router.navigate(['/']);
     }
 }

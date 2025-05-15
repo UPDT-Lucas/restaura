@@ -62,7 +62,7 @@ import { EditTipoViolenciaComponent } from './catalogs/pages/edit-tipo-violencia
 
 export const routes: Routes = [
     // General
-    { path: '', component: LogComponent },
+    { path: '', component: LoginComponent },
     { path: 'log', component: LogComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'add', component: AddPersonComponent },

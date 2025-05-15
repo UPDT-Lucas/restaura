@@ -47,59 +47,64 @@ bitacoraCtr.createBitacora = async(req,res) =>{
     res.status(500).json({ message: "Error al obtener la crear una nueva entidad de la bitacora",status:500});
   }
 }
-bitacoraCtr.getBitacora = async(req,res) =>{
-  try{
-      
-      const db = dbConnection.getInstance();
-      const bitacora = defineBitacora(db.Sequelize,db.dataType);
-      const {bitacora_date} = req.params
-      console.log("Bitacora date:", bitacora_date);
-      
-      let fecha = convertirFechaADate(bitacora_date);
-      
-      
-      const bitacoraResult = await bitacora.findOne({
-        where:{fecha: fecha}
+bitacoraCtr.getBitacora = async (req, res) => {
+  try {
+    const db = dbConnection.getInstance();
+    const bitacora = defineBitacora(db.Sequelize, db.dataType);
+    const { bitacora_date } = req.params;
+    const { limit = 10, offset = 0 } = req.query; // valores por defecto
+
+    console.log("Bitacora date:", bitacora_date);
+    const fecha = convertirFechaADate(bitacora_date);
+
+    const bitacoraResult = await bitacora.findOne({
+      where: { fecha: fecha }
+    });
+
+    if (!bitacoraResult) {
+      return res.status(404).json({ message: "La bitácora no existe como entidad", status: 404 });
+    }
+
+    const defineList = defineClienteXBitacora(db.Sequelize, db.dataType);
+
+    // Obtenemos el total para paginación (opcional pero recomendable)
+    const totalClientes = await defineList.count({
+      where: { bitacora_id: bitacoraResult.dataValues.id }
+    });
+
+    // Obtenemos los datos paginados
+    const clienteList = await defineList.findAll({
+      where: { bitacora_id: bitacoraResult.dataValues.id },
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+    });
+
+    const clienteOR = defineCliente(db.Sequelize, db.dataType);
+    const bitacoraList = [];
+
+    for (const cliente of clienteList) {
+      const clienteId = cliente.dataValues.cliente_servicio_id;
+      const clienteData = await clienteOR.findOne({
+        attributes: ["id", "nombre", "edad", "fechaingreso"],
+        where: { id: clienteId },
       });
-      
-      if(bitacoraResult !== undefined && bitacoraResult !== null){
-        const defineList = defineClienteXBitacora(db.Sequelize,db.dataType);
-        
-        const clienteList = await defineList.findAll({
-          where:{bitacora_id: bitacoraResult.dataValues.id}
-        });
-        
-        if(clienteList.length >0) {
-          const clienteOR = defineCliente(db.Sequelize,db.dataType);
-          
-          let bitacoraList =[];
-          for (let i = 0; i < clienteList.length; i++) {
-            const cliente = clienteList[i];
-            const clienteId = cliente.dataValues.cliente_servicio_id;
-            const clienteData = await clienteOR.findOne({
-              attributes: ["id","nombre","edad","fechaingreso"],
-              where: { id: clienteId },
-            });
-            clienteData.dataValues.numeroCuarto= cliente.dataValues.numerocuarto;
-            bitacoraList.push(clienteData.dataValues);
-          }
-          
-          console.log({idbitacora:bitacoraResult.dataValues.id,bitacora: bitacoraList, status: 200});
-          return res.status(200).json({idbitacora:bitacoraResult.dataValues.id,bitacora: bitacoraList, status: 200});
-        }
-          
-        
-        
-      }else{
-        return res.status(404).json({message:"La bitacora no existe como entidad",status:404})
-      }
-      
-  }catch(error){
-        console.error("Error al obtener los catalogos:", error);
-        res.status(500).json({ message: "Error al obtener la información de la bitacora",status:500 });
+      clienteData.dataValues.numeroCuarto = cliente.dataValues.numerocuarto;
+      bitacoraList.push(clienteData.dataValues);
+    }
+
+    return res.status(200).json({
+      idbitacora: bitacoraResult.dataValues.id,
+      bitacora: bitacoraList,
+      total: totalClientes,
+      status: 200
+    });
+
+  } catch (error) {
+    console.error("Error al obtener los datos de la bitácora:", error);
+    return res.status(500).json({ message: "Error interno del servidor", status: 500 });
   }
-  
 }
+
 bitacoraCtr.clienteSaveBitacora = async(req,res) =>{
   try{
     const db = dbConnection.getInstance();
@@ -124,46 +129,35 @@ bitacoraCtr.clienteSaveBitacora = async(req,res) =>{
   }
 }
 
-bitacoraCtr.clienteDeleteBitacora = async (req, res) => {
-  try {
+bitacoraCtr.clienteDeleteBitacora = async(req,res) =>{
+  try{
     const db = dbConnection.getInstance();
-    const data = req.body;
-    const defineList = defineClienteXBitacora(db.Sequelize, db.dataType);
-
-    const deleteResults = await Promise.all(
-      data.deleteList.map(async (item) => {
-        return await defineList.destroy({
-          where: {
-            bitacora_id: data.bitacora_id,
-            cliente_servicio_id: item.cliente_servicio_id
-          }
-        });
-      })
-    );
-
-
-    const anyDeleted = deleteResults.some(result => result > 0);
-
-    if (anyDeleted) {
-      return res.status(200).json({
-        message: "Usuarios eliminados de la bitacora",
-        data: deleteResults,
-        status: 200
-      });
-    } else {
-      return res.status(404).json({
-        message: "Ningún usuario fue encontrado en la bitacora",
-        status: 404
-      });
-    }
-  } catch (error) {
-    console.error("Error al eliminar clientes de la bitacora:", error);
-    res.status(500).json({
-      message: "Error al eliminar los usuarios de la bitacora",
-      status: 500
+    const data = req.body 
+    const defineList =  defineClienteXBitacora(db.Sequelize,db.dataType);
+    console.log(data)
+    const resultFind = await defineList.findOne({
+      where:{
+        bitacora_id:data.bitacora_id,
+        cliente_servicio_id:data.cliente_servicio_id
+      }
     });
+    if(resultFind){
+      const destroyedValue = await defineList.destroy({
+        where:{
+          bitacora_id:data.bitacora_id,
+          cliente_servicio_id:data.cliente_servicio_id
+        }
+      });
+      return res.status(200).json({message: "El usuario se borro de la bitacora",data:destroyedValue,status:200});
+    }
+    
+    return res.status(404).json({message: "El usuario no existe en la bitacora",status:404});
+
+  }catch(error){
+    console.error("Error al guardar el cliente:", error)
+    res.status(500).json({ message: "Error al obtener la informacion del usuario a buscar en la bitacora",status:500 });
   }
-};
+}
 
 bitacoraCtr.getLastRoom = async(req,res) =>{
   try{
