@@ -16,6 +16,10 @@ export class CollectionsService {
     }
 
     /* CANTONES */
+    getCantones(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllCantones`);
+    }
+
     addCanton(canton: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addCanton`, canton);
     }
@@ -31,6 +35,10 @@ export class CollectionsService {
     }
 
     /* DROGAS */
+    getDrogas(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllDrogas`);
+    }
+
     addDroga(droga: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addDroga`, droga);
     }
@@ -46,6 +54,10 @@ export class CollectionsService {
     }
 
     /* TIPOS DE AYUDA */
+    getTiposAyuda(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllTiposAyuda`);
+    }
+
     addTiposAyuda(tiposAyuda: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addTiposAyuda`, tiposAyuda);
     }
@@ -61,6 +73,10 @@ export class CollectionsService {
     }
 
     /* TIPO DE PENSIÓN */
+    getTiposPension(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllTiposPension`);
+    }
+
     addTipoPension(tipoPension: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addTipoPension`, tipoPension);
     }
@@ -76,6 +92,10 @@ export class CollectionsService {
     }
 
     /* TIPO DE ID */
+    getTiposId(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllTiposId`);
+    }
+
     addTipoId(tipoId: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addTipoId`, tipoId);
     }
@@ -91,6 +111,10 @@ export class CollectionsService {
     }
 
     /* DONDE DURMIÓ */
+    getDondeDormi(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllDondeDormi`);
+    }
+
     addDondeDormi(dondeDormi: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addDondeDormi`, dondeDormi);
     }
@@ -106,6 +130,10 @@ export class CollectionsService {
     }
 
     /* TIEMPO EN LA CALLE */
+    getTiempoCalle(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllTiempoCalle`);
+    }
+
     addTiempoCalle(tiempoCalle: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addTiempoCalle`, tiempoCalle);
     }
@@ -121,6 +149,10 @@ export class CollectionsService {
     }
 
     /* RAZÓN DE SERVICIO */
+    getRazonServicio(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllRazonServicio`);
+    }
+
     addRazonServicio(razonServicio: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addRazonServicio`, razonServicio);
     }
@@ -136,6 +168,10 @@ export class CollectionsService {
     }
 
     /* PROVINCIA */
+    getProvincias(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllProvincias`);
+    }
+
     addProvincia(provincia: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addProvincia`, provincia);
     }
@@ -151,6 +187,10 @@ export class CollectionsService {
     }
 
     /* PAÍS */
+    getPaises(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllPaises`);
+    }
+
     addPais(pais: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addPais`, pais);
     }
@@ -166,6 +206,10 @@ export class CollectionsService {
     }
 
     /* INSTITUCIONES DE VIOLENCIA */
+    getInstitucionesViolencia(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllInstitucionesViolencia`);
+    }
+
     addInstitucionesViolencia(institucion: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addInstitucionesViolencia`, institucion);
     }
@@ -181,6 +225,10 @@ export class CollectionsService {
     }
 
     /* GRADO ACADÉMICO */
+    getGradosAcademicos(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllGradosAcademicos`);
+    }
+
     addGradoAcademico(grado: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addGradoAcademico`, grado);
     }
@@ -196,6 +244,10 @@ export class CollectionsService {
     }
 
     /* GÉNERO */
+    getGeneros(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllGeneros`);
+    }
+
     addGenero(genero: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addGenero`, genero);
     }
@@ -211,6 +263,10 @@ export class CollectionsService {
     }
 
     /* ESTADO CIVIL */
+    getEstadoCivil(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllEstadosCiviles`);
+    }
+
     addEstadoCivil(estadoCivil: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addEstadoCivil`, estadoCivil);
     }
@@ -226,6 +282,10 @@ export class CollectionsService {
     }
 
     /* TIPO DE VIOLENCIA */
+    getTiposViolencia(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getAllTiposViolencia`);
+    }
+
     addTipoViolencia(tipo: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/addTipoViolencia`, tipo);
     }

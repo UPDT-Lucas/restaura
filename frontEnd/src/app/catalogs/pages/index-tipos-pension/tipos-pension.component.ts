@@ -63,9 +63,9 @@ export class TiposPensionComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getTiposPension().subscribe({
             next: (data) => {
-                this.tiposPension = data.tipoPension.map((tipo: any) => {
+                this.tiposPension = data.tiposPension.map((tipo: any) => {
                     return [String(tipo.id), tipo.nombre];
                 });
 

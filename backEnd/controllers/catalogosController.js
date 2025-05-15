@@ -119,6 +119,18 @@ catalogosCtr.getCantones = async (req,res)=> {
     }
 }
 
+catalogosCtr.getAllCantones = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const Canton = defineCanton(db.Sequelize, db.dataType);
+        const cantones = await Canton.findAll();
+        res.status(200).json({ message: "Cantones recuperados", cantones: cantones, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los cantones:", error);
+        res.status(500).json({ message: "Error al recuperar los cantones", error: error.message, status: 500 });
+    }
+}
+
 catalogosCtr.addCanton = async (req,res)=>{
     try{
         const nombreCanton = req.body.nombreCanton;

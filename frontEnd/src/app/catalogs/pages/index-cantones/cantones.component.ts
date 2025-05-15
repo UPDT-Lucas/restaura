@@ -65,24 +65,37 @@ export class CantonesComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.cargando = true;
+        let provincias: any = [];
+
+        this.collectionsService.getProvincias().subscribe({
             next: (data) => {
-                this.provincias = data.provincia;
+                provincias = data.provincias;
+            },
+            error: (error) => {
+                console.error('Error al obtener las provincias:', error);
+            },
+        });
 
-                this.cantones = data.canton.map((canton: any) => {
-                    const provincia = this.provincias.find((p: any) => p.id === canton.provincia_id);
+        this.collectionsService.getCantones().subscribe({
+            next: (data) => {
+                if (provincias.length) {
+                    this.cantones = data.cantones.map((canton: any) => {
+                        const provincia = provincias.find((p: any) => p.id === canton.provincia_id);
 
-                    const nombreProvincia = provincia ? provincia.nombre : 'Desconocida';
+                        const nombreProvincia = provincia ? provincia.nombre : 'Desconocida';
 
-                    return [String(canton.id), canton.nombre, nombreProvincia];
-                });
+                        return [String(canton.id), canton.nombre, nombreProvincia];
+                    });
+                }
 
-                this.getTotalItems(); // Obtener el total de elementos
-                this.actualizarTabla(); // Mostrar la primera página
+                this.getTotalItems();
+                this.actualizarTabla();
                 this.cargando = false;
             },
             error: (error) => {
-                console.error('Error al obtener los catalogos:', error);
+                this.cargando = false;
+                console.error('Error al obtener los cantones:', error);
             },
         });
     }
@@ -102,7 +115,7 @@ export class CantonesComponent {
 
                     if (response.status === 200) {
                         this.router.navigate(['/cantones'], {
-                             queryParams: { 'type-response': '3' },
+                            queryParams: { 'type-response': '3' },
                         });
                     } else {
                         console.error('Error al eliminar el cantón:', response);
@@ -110,6 +123,7 @@ export class CantonesComponent {
                     }
                 },
                 error: (error) => {
+                    this.cargando = false;
                     console.error('Error al eliminar el canton:', error);
                     this.snackbar.show('Error al eliminar el cantón', 3000);
                 },
@@ -140,7 +154,6 @@ export class CantonesComponent {
     }
 
     onUpdateLimit(limit: number) {
-        console.log('Actualizar límite por página:', limit);
         this.limitPerPage = limit;
         this.currentPage = 1;
         this.actualizarTabla();

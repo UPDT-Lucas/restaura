@@ -7,9 +7,7 @@ import { SelectComponent } from '../../../shared/components/select/select.compon
 import { CatalogoService } from '../../../services/catalogo.service';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { SecondaryButtonComponent } from '../../../shared/components/secondary-button/secondary-button.component';
-import { InputTextComponent } from '../../../shared/components/input-text/input-text.component';
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
-import { MultiselectComponent } from '../../../shared/components/multiselect/multiselect.components';
 import { InputNumberComponent } from '../../../shared/components/input-number/input-number.component';
 import { AdminService } from '../../../services/admin.service';
 
@@ -23,9 +21,7 @@ import { AdminService } from '../../../services/admin.service';
         CommonModule,
         ButtonComponent,
         SecondaryButtonComponent,
-        InputTextComponent,
         InputBooleanComponent,
-        MultiselectComponent,
         InputNumberComponent,
     ],
     templateUrl: './consultas.component.html',

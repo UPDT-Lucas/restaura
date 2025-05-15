@@ -63,9 +63,9 @@ export class EstadoCivilComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getEstadoCivil().subscribe({
             next: (data) => {
-                this.estadoCivil = data.estadoCivil.map((item: any) => {
+                this.estadoCivil = data.estadosCiviles.map((item: any) => {
                     return [String(item.id), item.nombre];
                 });
 

@@ -63,7 +63,7 @@ export class TiposAyudaComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getTiposAyuda().subscribe({
             next: (data) => {
                 this.tiposAyuda = data.tiposAyuda.map((tipo: any) => {
                     return [String(tipo.id), tipo.nombre];

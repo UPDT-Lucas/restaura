@@ -64,9 +64,9 @@ export class GeneroComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getGeneros().subscribe({
             next: (data) => {
-                this.generos = data.genero.map((item: any) => {
+                this.generos = data.generos.map((item: any) => {
                     return [String(item.id), item.nombre];
                 });
 

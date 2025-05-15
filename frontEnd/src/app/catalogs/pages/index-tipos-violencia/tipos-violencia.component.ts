@@ -63,9 +63,9 @@ export class TipoViolenciaComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getTiposViolencia().subscribe({
             next: (data) => {
-                this.tiposViolencia = data.tipoViolencia.map((item: any) => {
+                this.tiposViolencia = data.tiposViolencia.map((item: any) => {
                     return [String(item.id), item.nombre];
                 });
 

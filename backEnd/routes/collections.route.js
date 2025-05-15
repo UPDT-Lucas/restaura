@@ -6,6 +6,7 @@ var api = express.Router();
 // GET endpoints
 api.get('/catalogos', catalogosCtr.getCatalogos);
 api.get('/cantones/:p_provincia_id', catalogosCtr.getCantones);
+api.get('/getAllCantones', catalogosCtr.getAllCantones);
 api.get('/getAllDrogas', catalogosCtr.getAllDrogas);
 api.get('/getAllDondeDormi', catalogosCtr.getAllDondeDormi);
 api.get('/getAllTiposAyuda', catalogosCtr.getAllTiposAyuda);

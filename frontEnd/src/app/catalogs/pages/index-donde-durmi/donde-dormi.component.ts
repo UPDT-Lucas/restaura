@@ -63,7 +63,7 @@ export class DondeDurmiComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getDondeDormi().subscribe({
             next: (data) => {
                 this.dondeDurmio = data.dondeDormi.map((item: any) => {
                     return [String(item.id), item.nombre];
@@ -74,6 +74,7 @@ export class DondeDurmiComponent {
                 this.cargando = false;
             },
             error: (error) => {
+                this.cargando = false;
                 console.error('Error al obtener los catalogos:', error);
             },
         });

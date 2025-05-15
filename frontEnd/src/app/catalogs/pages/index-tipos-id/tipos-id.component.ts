@@ -63,9 +63,9 @@ export class TiposIdComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getTiposId().subscribe({
             next: (data) => {
-                this.tiposId = data.tipoId.map((tipo: any) => {
+                this.tiposId = data.tiposId.map((tipo: any) => {
                     return [String(tipo.id), tipo.nombre];
                 });
 

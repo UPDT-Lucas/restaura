@@ -63,9 +63,9 @@ export class GradoAcademicoComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getGradosAcademicos().subscribe({
             next: (data) => {
-                this.gradosAcademicos = data.gradoAcademico.map((item: any) => {
+                this.gradosAcademicos = data.gradosAcademicos.map((item: any) => {
                     return [String(item.id), item.nombre];
                 });
 

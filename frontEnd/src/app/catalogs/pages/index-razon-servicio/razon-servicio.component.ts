@@ -63,9 +63,9 @@ export class RazonServicioComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getRazonServicio().subscribe({
             next: (data) => {
-                this.razonServicio = data.razonServicio.map((item: any) => {
+                this.razonServicio = data.razonesServicio.map((item: any) => {
                     return [String(item.id), item.nombre];
                 });
 

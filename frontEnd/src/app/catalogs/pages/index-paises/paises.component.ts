@@ -63,9 +63,9 @@ export class PaisComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getPaises().subscribe({
             next: (data) => {
-                this.paises = data.pais.map((item: any) => {
+                this.paises = data.paises.map((item: any) => {
                     return [String(item.id), item.nombre];
                 });
 

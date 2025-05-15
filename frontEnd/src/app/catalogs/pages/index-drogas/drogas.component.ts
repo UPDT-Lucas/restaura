@@ -64,9 +64,9 @@ export class DrogasComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getDrogas().subscribe({
             next: (data) => {
-                this.drogas = data.droga.map((droga: any) => {
+                this.drogas = data.drogas.map((droga: any) => {
                     return [String(droga.id), droga.nombre];
                 });
 
@@ -75,6 +75,7 @@ export class DrogasComponent {
                 this.cargando = false;
             },
             error: (error) => {
+                this.cargando = false;
                 console.error('Error al obtener los catalogos:', error);
             },
         });

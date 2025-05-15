@@ -63,7 +63,7 @@ export class InstitucionesViolenciaComponent {
     }
 
     reloadPage() {
-        this.collectionsService.getCatalogos().subscribe({
+        this.collectionsService.getInstitucionesViolencia().subscribe({
             next: (data) => {
                 this.institucionesViolencia = data.institucionesViolencia.map((item: any) => {
                     return [String(item.id), item.nombre];
