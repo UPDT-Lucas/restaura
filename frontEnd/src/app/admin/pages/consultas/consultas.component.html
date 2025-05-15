@@ -8,14 +8,14 @@
     <div class="form-wrap">
         <!-- Fecha Desde -->
         <shared-input-date
-            [label]="'Fecha Ingreso Desde'"
+            [label]="'Fecha Resgistro Desde'"
             [placeholder]="'Ingrese el Fecha'"
             [(value)]="formFiltros.p_fecha_ingreso_desde"
         />
 
         <!-- Fecha Hasta -->
         <shared-input-date
-            [label]="'Fecha Ingreso Hasta'"
+            [label]="'Fecha Registro Hasta'"
             [placeholder]="'Ingrese el Fecha'"
             [(value)]="formFiltros.p_fecha_ingreso_hasta"
         />
@@ -45,16 +45,16 @@
             [options]="gradoAcademicoOptions"
             [(value)]="formFiltros.p_grado_academico_id"
         />
-
-        <!-- Discapacidad -->
-        <shared-input-boolean [label]="'¿Discapacidad?'" [(value)]="formFiltros.p_discapacidad" />
-
+        
         <!-- Pension -->
         <shared-select
             [label]="'Pensión'"
             [options]="pensionOptions"
             [(value)]="formFiltros.p_tipo_pension_id"
         />
+
+        <!-- Discapacidad -->
+        <shared-input-boolean [label]="'¿Discapacidad?'" [(value)]="formFiltros.p_discapacidad" />
 
         <!-- Cárcel -->
         <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formFiltros.p_carcel" />
@@ -70,6 +70,7 @@
     </div>
 
     <shared-dynamic-table
+        [table_title]="'Resultados de Consultas'"
         [tableData]="tableData"
         [viewLink]="'/view'"
         [editLink]="'/edit'"

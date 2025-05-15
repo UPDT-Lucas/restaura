@@ -49,7 +49,7 @@ export class ConsultasComponent {
         p_tipo_pension_id: null,
     };
 
-    headers = [['Identificación', 'Nombre', 'Edad', 'Género', 'fechaingreso']];
+    headers = [['Identificación', 'Nombre', 'Edad', 'Género', 'Fecha Registro']];
     tableData = this.headers;
     consultas: any[] = [];
     totalItems = 0;
