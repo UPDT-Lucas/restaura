@@ -1,10 +1,11 @@
 import dbConnection from "../DB/dbConnection.js";
-
 import defineUsuarioSistema from "../models/usuario_sistema.js";
 import jwt from "jsonwebtoken";
-
+import dotenv from "dotenv";
+import config from '../config.js';
+dotenv.config();
 const adminCtr = {};
-const token = process.env.JWT_SECRET
+const token = process.env.JWT_SECRET || "Xj9@3*kL8s!wP#Z^2h1uR+eB";
 
 adminCtr.saveAsistente = async (req,res)=> {
     try{
@@ -33,11 +34,12 @@ adminCtr.auth = async (req,res)=> {
         const resultAsistente = await UsuarioSistema.findOne({
             where: { correo: data.correo }
         });
-
+        
+        
         if (resultAsistente && resultAsistente.dataValues.contrasena === data.contrasena) {
             const token = jwt.sign(
               { id: resultAsistente.id, rol: resultAsistente.rol, nombre: resultAsistente.nombre },
-              process.env.JWT_SECRET,
+               config.JWT_SECRET,
               { expiresIn: '1h' }
             );
 
@@ -67,7 +69,7 @@ adminCtr.getConsulta = async (req,res)=>{
             p_fecha_ingreso_desde, p_fecha_ingreso_hasta, p_carcel, 
             p_razon_servicio_id, p_grado_academico_id} = req.body;
         
-        console.log("Data:",req.body);
+       
         const db = dbConnection.getInstance();
         const sequelize = db.Sequelize;
         const filters = await sequelize.query(
