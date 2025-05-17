@@ -2,12 +2,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
     selector: 'shared-dynamic-table',
     standalone: true,
-    imports: [CommonModule, RouterModule, ButtonComponent],
+    imports: [CommonModule, RouterModule, ButtonComponent, FormsModule],
     templateUrl: './dynamic-table.component.html',
     styleUrls: ['./dynamic-table.component.css'],
 })
@@ -16,6 +17,7 @@ export class DynamicTableComponent {
     @Input() editLink: string = '';
     @Input() viewLink: string = '';
     @Input() deleteButton: boolean = false;
+    @Input() selectable: boolean = false;
 
     @Input() limitPerPage: number = 10;
     @Input() currentPage: number = 1;
@@ -28,6 +30,9 @@ export class DynamicTableComponent {
     @Output() deleteRow = new EventEmitter<string>();
     @Output() updatePage = new EventEmitter<number>();
     @Output() changeLimit = new EventEmitter<number>();
+    @Output() selectedIdChange = new EventEmitter<string | null>();
+
+    selectedId: any = null;
 
     get rangeText(): string {
         if (this.totalItems === 0) {
@@ -115,4 +120,21 @@ export class DynamicTableComponent {
             this.changePage(page);
         }
     }
+
+    onCheckboxChange(row: any): void {
+        const id = row[0];
+
+        if (this.selectedId === id) {
+            this.selectedId = null;
+            this.selectedIdChange.emit(null);
+        } else {
+            this.selectedId = id;
+            this.selectedIdChange.emit(id);
+        }
+
+        console.log('Seleccionado:', this.selectedId);
+    }
+
+
+
 }

@@ -7,43 +7,36 @@
     (onValue)="searchClientById($event)">
     </shared-search-box> -->
 
-    
+
     <div class="table-container">
         <!-- <shared-search-box 
             [searchIcon]="true"
             (onValue)="searchClientById($event)">
         </shared-search-box> -->
-        <shared-search-box
-            [label]="'Buscar persona'"
-            [placeholder]="'Ingrese la cedula de la persona'"
-            [error]="'*Campo requerido'"
-            (valueChange)="searchClient($event, page)"
-            [searchIcon]="true"
+        <shared-search-box [label]="'Buscar persona'" [placeholder]="'Ingrese la cedula de la persona'"
+            [error]="'*Campo requerido'" (valueChange)="searchClient($event, page)" [searchIcon]="true" />
+
+        <shared-dynamic-table
+            [table_title]="'Habitantes'"
+            [tableData]="this.tableData"
+            [editLink]="'/edit/'"
+            [deleteButton]="false"
+            [currentPage]="page"
+            [limitPerPage]="limit"
+            [totalItems]="total"
+            [showButton]="false"
+            (updatePage)="onUpdatePage($event)"
+            (changeLimit)="onUpdateLimit($event)"
+            [selectable]="true"
+            (selectedIdChange)="onSelectedIdChange($event!)"
         />
-        <shared-table
-            [headers]="headers"
-            [data]="data"
-            (selectedIdChange)="onSelectedIdChange($event)">  
-        </shared-table>
-
-        <div class="pagination">
-            <span class="material-icons md-36" (click)="prevPage()">
-                arrow_back_ios
-            </span>
-            <span class="material-icons md-36" (click)="nextPage()">
-                arrow_forward_ios
-            </span>
-        </div>
-
     </div>
 
     <div class="buttons-container">
-        <span class="material-icons md-36 getout"
-        (click)="getInClient(selectedId!)">
+        <span class="material-icons md-36 getout" (click)="getInClient(selectedId)">
             east
         </span>
-        <span class="material-icons md-36 getin"
-        (click)="getOutClient()">
+        <span class="material-icons md-36 getin" (click)="getOutClient()">
             west
         </span>
     </div>
@@ -56,59 +49,43 @@
             [error]="'*Campo requerido'"
             [searchIcon]="true"
         /> -->
-            <shared-input-date
-            [label]="'Fecha Ingreso'"
-            [placeholder]="'Fecha Ingreso'"
-            (valueChange)="getDate($event, page)">
+            <shared-input-date [label]="'Fecha Ingreso'" [placeholder]="'Fecha Ingreso'"
+                (valueChange)="getDate($event, page)">
             </shared-input-date>
         </div>
-        
-        <shared-table
-            [headers]="headersLog"
-            [data]="logClients"
-            (selectedIdChange)="onSelectedOutIdChange($event)">  
-            >  
-        </shared-table>
 
-        <div class="pagination">
-            <span class="material-icons md-36" (click)="prevLogPage()">
-                arrow_back_ios
-            </span>
-            <span class="material-icons md-36" (click)="nextLogPage()">
-                arrow_forward_ios
-            </span>
-        </div>
+        <shared-dynamic-table
+            [table_title]="'Habitantes en Bitácora'"
+            [tableData]="this.tableDataLog"
+            [editLink]="'/edit/'"
+            [deleteButton]="false"
+            [currentPage]="pageLog"
+            [limitPerPage]="limitLog"
+            [totalItems]="totalLog"
+            [showButton]="false"
+            (updatePage)="onUpdatePageLog($event)"
+            (changeLimit)="onUpdateLimitLog($event)"
+            [selectable]="true"
+            (selectedIdChange)="onSelectedOutIdChange($event!)"
+        />
     </div>
 </div>
 
-<shared-confirm-dialog-input
-  *ngIf="showAddRoomDialog"
-  [title]="'Ingrese el Cuarto'"
-  [text]="'Por favor ingrese el numero de cuarto a asginar.'"
-  [actionType]="'add'"
-  (confirmed)="handleInputResult($event)">
+<shared-confirm-dialog-input *ngIf="showAddRoomDialog" [title]="'Ingrese el Cuarto'"
+    [text]="'Por favor ingrese el numero de cuarto a asginar.'" [actionType]="'add'"
+    (confirmed)="handleInputResult($event)">
 </shared-confirm-dialog-input>
 
-<app-confirm-dialog
-  *ngIf="showNewBitacora"
-  [title]="'Bitácora no encontrada'"
-  [text]="'No hay bitácora para este día. ¿Desea crearla?'"
-  [actionType]="'add'"
-  (confirmed)="handleNewBitacora($event)">
+<app-confirm-dialog *ngIf="showNewBitacora" [title]="'Bitácora no encontrada'"
+    [text]="'No hay bitácora para este día. ¿Desea crearla?'" [actionType]="'add'"
+    (confirmed)="handleNewBitacora($event)">
 </app-confirm-dialog>
 
-<app-confirm-dialog
-  *ngIf="showInfoBitacora"
-  [title]="'Bitácora creada para la fecha:\n ' + this.date"
-  [text]="'Bitácora Nueva'"
-  [actionType]="'info'"
-  (confirmed)="handleInfoBitacora($event)">
+<app-confirm-dialog *ngIf="showInfoBitacora" [title]="'Bitácora creada para la fecha:\n ' + this.date"
+    [text]="'Bitácora Nueva'" [actionType]="'info'" (confirmed)="handleInfoBitacora($event)">
 </app-confirm-dialog>
 
-<app-confirm-dialog
-  *ngIf="showDuplicateBitacora"
-  [title]="'Error al agregar el usuario'"
-  [text]="'Usuario ya existe en la bitácora de este día.'"
-  [actionType]="'info'"
-  (confirmed)="handleDuplicateBitacora($event)">
+<app-confirm-dialog *ngIf="showDuplicateBitacora" [title]="'Error al agregar el usuario'"
+    [text]="'Usuario ya existe en la bitácora de este día.'" [actionType]="'info'"
+    (confirmed)="handleDuplicateBitacora($event)">
 </app-confirm-dialog>

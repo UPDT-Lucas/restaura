@@ -2,8 +2,7 @@
     <!-- Controles de cantidad de registros ARRIBA -->
     <div class="top-controls">
         <div class="top-limit">
-            <label
-                >Mostrar
+            <label>Mostrar
                 <select (change)="onLimitChange($event)">
                     <option [selected]="limitPerPage === 5" value="5">5</option>
                     <option [selected]="limitPerPage === 10" value="10">10</option>
@@ -25,22 +24,23 @@
         <table>
             <thead>
                 <tr>
+                    <th *ngIf="this.selectable">Seleccionar</th>
                     <th *ngFor="let title of header">{{ title }}</th>
                     <th *ngIf="editLink">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let row of rows">
+                    <td *ngIf="this.selectable">
+                        <input type="checkbox" [checked]="selectedId === row[0]" (change)="onCheckboxChange(row)" />
+                    </td>
                     <td *ngFor="let cell of row">{{ cell }}</td>
                     <td *ngIf="editLink">
-                        <span *ngIf="viewLink" class="material-icons" [routerLink]="[viewLink, row[0]]">visibility</span>
+                        <span *ngIf="viewLink" class="material-icons"
+                            [routerLink]="[viewLink, row[0]]">visibility</span>
                         <span *ngIf="editLink" class="material-icons" [routerLink]="[editLink, row[0]]">edit</span>
-                        <span
-                            *ngIf="deleteButton"
-                            class="material-icons"
-                            style="cursor: pointer"
-                            (click)="handleDelete(row[0])"
-                        >
+                        <span *ngIf="deleteButton" class="material-icons" style="cursor: pointer"
+                            (click)="handleDelete(row[0])">
                             delete_forever
                         </span>
                     </td>
