@@ -53,21 +53,21 @@ catalogosCtr.getCatalogos = async (req, res) => {
 
         // Obtener los datos de cada modelo
         const [droga, dondeDormi, tiposAyuda, tipoPension, tipoId, tiempoCalle, razonServicio, provincia, pais, institucionesViolencia, gradoAcademico, genero, estadoCivil, canton,tipoViolencia] = await Promise.all([
-            Droga.findAll(),
-            DondeDormi.findAll(),
-            TiposAyuda.findAll(),
-            TipoPension.findAll(),
-            TipoId.findAll(),
-            TiempoCalle.findAll(),
-            RazonServicio.findAll(),
-            Provincia.findAll(),
-            Pais.findAll(),
-            InstitucionesViolencia.findAll(),
-            GradoAcademico.findAll(),
-            Genero.findAll(),
-            EstadoCivil.findAll(),
-            Canton.findAll(),
-            TipoViolencia.findAll()
+            Droga.findAll({ order: [['id', 'ASC']] }),
+            DondeDormi.findAll({ order: [['id', 'ASC']] }),
+            TiposAyuda.findAll({ order: [['id', 'ASC']] }),
+            TipoPension.findAll({ order: [['id', 'ASC']] }),
+            TipoId.findAll({ order: [['id', 'ASC']] }),
+            TiempoCalle.findAll({ order: [['id', 'ASC']] }),
+            RazonServicio.findAll({ order: [['id', 'ASC']] }),
+            Provincia.findAll({ order: [['id', 'ASC']] }),
+            Pais.findAll({ order: [['id', 'ASC']] }),
+            InstitucionesViolencia.findAll({ order: [['id', 'ASC']] }),
+            GradoAcademico.findAll({ order: [['id', 'ASC']] }),
+            Genero.findAll({ order: [['id', 'ASC']] }),
+            EstadoCivil.findAll({ order: [['id', 'ASC']] }),
+            Canton.findAll({ order: [['id', 'ASC']] }),
+            TipoViolencia.findAll({ order: [['id', 'ASC']] })
         ]);
 
         // Enviar la respuesta con los datos
@@ -119,6 +119,18 @@ catalogosCtr.getCantones = async (req,res)=> {
     }
 }
 
+catalogosCtr.getAllCantones = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const Canton = defineCanton(db.Sequelize, db.dataType);
+        const cantones = await Canton.findAll();
+        res.status(200).json({ message: "Cantones recuperados", cantones: cantones, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los cantones:", error);
+        res.status(500).json({ message: "Error al recuperar los cantones", error: error.message, status: 500 });
+    }
+}
+
 catalogosCtr.addCanton = async (req,res)=>{
     try{
         const nombreCanton = req.body.nombreCanton;
@@ -166,6 +178,18 @@ catalogosCtr.deleteCanton = async (req,res)=>{
     }catch(error){
         console.error("Error al eliminar:", error);
         res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+    }
+}
+
+catalogosCtr.getAllDrogas = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const Droga = defineDroga(db.Sequelize, db.dataType);
+        const drogas = await Droga.findAll();
+        res.status(200).json({ message: "Drogas recuperadas", drogas: drogas, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar las drogas:", error);
+        res.status(500).json({ message: "Error al recuperar las drogas", error: error.message, status: 500 });
     }
 }
 
@@ -220,6 +244,18 @@ catalogosCtr.deleteDroga = async (req,res)=>{
     }catch(error){
         console.error("Error al eliminar:", error);
         res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+    }
+}
+
+catalogosCtr.getAllTiposAyuda = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const TiposAyuda = defineTiposAyuda(db.Sequelize, db.dataType);
+        const tiposAyuda = await TiposAyuda.findAll();
+        res.status(200).json({ message: "Tipos de ayuda recuperados", tiposAyuda: tiposAyuda, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de ayuda:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de ayuda", error: error.message, status: 500 });
     }
 }
 
@@ -279,6 +315,17 @@ catalogosCtr.deleteTiposAyuda = async (req,res)=>{
     }
 }
 
+catalogosCtr.getAllTiposPension = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const TipoPension = defineTipoPension(db.Sequelize, db.dataType);
+        const tiposPension = await TipoPension.findAll();
+        res.status(200).json({ message: "Tipos de pensión recuperados", tiposPension: tiposPension, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de pensión:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de pensión", error: error.message, status: 500 });
+    }
+}
 catalogosCtr.addTipoPension = async (req,res)=>{
     try{
         const nombreTipoPension = req.body.nombreTipoPension;
@@ -332,6 +379,18 @@ catalogosCtr.deleteTipoPension = async (req,res)=>{
     }catch(error){
         console.error("Error al eliminar:", error);
         res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+    }
+}
+
+catalogosCtr.getAllTiposId = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const TipoId = defineTipoId(db.Sequelize, db.dataType);
+        const tiposId = await TipoId.findAll();
+        res.status(200).json({ message: "Tipos de ID recuperados", tiposId: tiposId, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de ID:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de ID", error: error.message, status: 500 });
     }
 }
 
@@ -391,6 +450,17 @@ catalogosCtr.deleteTipoId = async (req,res)=>{
     }
 }
 
+catalogosCtr.getAllDondeDormi = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const DondeDormi = defineDondeDormi(db.Sequelize, db.dataType);
+        const dondeDormiList = await DondeDormi.findAll();
+        res.status(200).json({ message: "Tipos de donde dormi recuperados", dondeDormi: dondeDormiList, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de donde dormi:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de donde dormi", error: error.message, status: 500 });
+    }
+}
 catalogosCtr.addDondeDormi = async (req,res)=>{
     try{
         const nombreDondeDormi = req.body.nombreDondeDormi;
@@ -447,6 +517,18 @@ catalogosCtr.deleteDondeDormi = async (req,res)=>{
     }
 }
 
+catalogosCtr.getAllTiempoCalle = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const TiempoCalle = defineTiempoCalle(db.Sequelize, db.dataType);
+        const tiempoCalleList = await TiempoCalle.findAll();
+        res.status(200).json({ message: "Tipos de tiempo de calle recuperados", tiempoCalle: tiempoCalleList, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de tiempo de calle:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de tiempo de calle", error: error.message, status: 500 });
+    }
+}
+
 catalogosCtr.addTiempoCalle = async (req,res)=>{
     try{
         const nombreTiempoCalle = req.body.nombreTiempoCalle;
@@ -499,6 +581,17 @@ catalogosCtr.deleteTiempoCalle = async (req, res) => {
     }
 };
 
+catalogosCtr.getAllRazonServicio = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const RazonServicio = defineRazonServicio(db.Sequelize, db.dataType);
+        const razonesServicio = await RazonServicio.findAll();
+        res.status(200).json({ message: "Razones de servicio recuperadas", razonesServicio: razonesServicio, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar las razones de servicio:", error);
+        res.status(500).json({ message: "Error al recuperar las razones de servicio", error: error.message, status: 500 });
+    }
+}
 
 catalogosCtr.addRazonServicio = async (req, res) => {
     try {
@@ -550,6 +643,18 @@ catalogosCtr.deleteRazonServicio = async (req, res) => {
     }
 };
 
+catalogosCtr.getAllProvincias = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const Provincia = defineProvincia(db.Sequelize, db.dataType);
+        const provincias = await Provincia.findAll();
+        res.status(200).json({ message: "Provincias recuperadas", provincias: provincias, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar las provincias:", error);
+        res.status(500).json({ message: "Error al recuperar las provincias", error: error.message, status: 500 });
+    }
+}
+
 catalogosCtr.addProvincia = async (req, res) => {
     try {
         const nombreProvincia = req.body.nombreProvincia;
@@ -600,6 +705,18 @@ catalogosCtr.deleteProvincia = async (req, res) => {
     }
 };
 
+catalogosCtr.getAllPaises = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const Pais = definePais(db.Sequelize, db.dataType);
+        const paises = await Pais.findAll();
+        res.status(200).json({ message: "Países recuperados", paises: paises, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los países:", error);
+        res.status(500).json({ message: "Error al recuperar los países", error: error.message, status: 500 });
+    }
+}
+
 catalogosCtr.addPais = async (req, res) => {
     try {
         const nombrePais = req.body.nombrePais;
@@ -647,6 +764,19 @@ catalogosCtr.deletePais = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar el país", error: error.message, status: 500 });
     }
 };
+
+
+catalogosCtr.getAllInstitucionesViolencia = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const InstitucionesViolencia = defineInstitucionesViolencia(db.Sequelize, db.dataType);
+        const institucionesViolenciaList = await InstitucionesViolencia.findAll();
+        res.status(200).json({ message: "Instituciones de violencia recuperadas", institucionesViolencia: institucionesViolenciaList, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar las instituciones de violencia:", error);
+        res.status(500).json({ message: "Error al recuperar las instituciones de violencia", error: error.message, status: 500 });
+    }
+}
 
 catalogosCtr.addInstitucionesViolencia = async (req, res) => {
     try {
@@ -705,6 +835,17 @@ catalogosCtr.deleteInstitucionesViolencia = async (req, res) => {
     }
 };
 
+catalogosCtr.getAllGradosAcademicos = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const GradoAcademico = defineGradoAcademico(db.Sequelize, db.dataType);
+        const gradosAcademicos = await GradoAcademico.findAll();
+        res.status(200).json({ message: "Grados académicos recuperados", gradosAcademicos: gradosAcademicos, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los grados académicos:", error);
+        res.status(500).json({ message: "Error al recuperar los grados académicos", error: error.message, status: 500 });
+    }
+}
 catalogosCtr.addGradoAcademico = async (req, res) => {
     try {
         const nombreGradoAcademico = req.body.nombreGradoAcademico;
@@ -754,6 +895,18 @@ catalogosCtr.deleteGradoAcademico = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar el grado académico", error: error.message, status: 500 });
     }
 };
+
+catalogosCtr.getAllGeneros = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const Genero = defineGenero(db.Sequelize, db.dataType);
+        const generos = await Genero.findAll();
+        res.status(200).json({ message: "Géneros recuperados", generos: generos, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los géneros:", error);
+        res.status(500).json({ message: "Error al recuperar los géneros", error: error.message, status: 500 });
+    }
+}
 
 catalogosCtr.addGenero = async (req, res) => {
     try {
@@ -805,6 +958,18 @@ catalogosCtr.deleteGenero = async (req, res) => {
     }
 };
 
+catalogosCtr.getAllEstadosCiviles = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const EstadoCivil = defineEstadoCivil(db.Sequelize, db.dataType);
+        const estadosCiviles = await EstadoCivil.findAll();
+        res.status(200).json({ message: "Estados civiles recuperados", estadosCiviles: estadosCiviles, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los estados civiles:", error);
+        res.status(500).json({ message: "Error al recuperar los estados civiles", error: error.message, status: 500 });
+    }
+}
+
 catalogosCtr.addEstadoCivil = async (req, res) => {
     try {
         const nombreEstadoCivil = req.body.nombreEstadoCivil;
@@ -854,6 +1019,18 @@ catalogosCtr.deleteEstadoCivil = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar el estado civil", error: error.message, status: 500 });
     }
 };
+
+catalogosCtr.getAllTiposViolencia = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const TipoViolencia = defineTipoViolencia(db.Sequelize, db.dataType);
+        const tiposViolencia = await TipoViolencia.findAll();
+        res.status(200).json({ message: "Tipos de violencia recuperados", tiposViolencia: tiposViolencia, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de violencia:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de violencia", error: error.message, status: 500 });
+    }
+}
 
 catalogosCtr.addTipoViolencia = async (req, res) => {
     try {

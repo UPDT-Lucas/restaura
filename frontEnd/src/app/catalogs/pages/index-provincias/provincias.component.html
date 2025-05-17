@@ -1,0 +1,30 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Provincias'"
+        [buttonText]="'Nueva Provincia'"
+        [buttonLink]="'/nueva-provincia'"
+        [tableData]="tableData"
+        [editLink]="'/editar-provincia/'"
+        [deleteButton]="true"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Provincia'"
+    [text]="'¿Estás seguro de que deseas eliminar esta provincia?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarProvincia($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

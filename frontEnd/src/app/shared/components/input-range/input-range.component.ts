@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
     templateUrl: './input-range.component.html',
     styleUrls: ['./input-range.component.css'],
 })
-export class InputRangeComponent {
+export class InputRangeComponent implements OnChanges {
     @Input() desde: number | null = null;
     @Input() hasta: number | null = null;
 
@@ -23,6 +23,13 @@ export class InputRangeComponent {
 
     touched: boolean = false;
 
+    // Detecta cambios desde el componente padre
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['desde'] || changes['hasta']) {
+            this.touched = false; // reinicia validación al cambiar externamente
+        }
+    }
+
     onInputChange(): void {
         this.touched = true;
         this.rangeChange.emit({ desde: this.desde, hasta: this.hasta });
@@ -32,3 +39,4 @@ export class InputRangeComponent {
         return this.touched && (this.desde === null || this.hasta === null || this.desde > this.hasta);
     }
 }
+

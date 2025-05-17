@@ -1,5 +1,5 @@
 <div class="container">
-    <ul class="logo-list" routerLink="/">
+    <ul class="logo-list" routerLink="/log">
         <li>
             <img src="restaura-logo-sin-fondo.png" alt="Logo Asociación Restaura San José">
         </li>
@@ -7,5 +7,6 @@
             <h1>Restaura</h1>
         </li>
     </ul>
-    <shared-dropdown></shared-dropdown>
+    <shared-dropdown
+        [token]="decodedToken"></shared-dropdown>
 </div>

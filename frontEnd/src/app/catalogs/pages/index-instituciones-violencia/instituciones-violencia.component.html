@@ -1,0 +1,30 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Instituciones de Violencia'"
+        [buttonText]="'Nueva Institución'"
+        [buttonLink]="'/nueva-institucion-violencia'"
+        [tableData]="tableData"
+        [editLink]="'/editar-institucion-violencia/'"
+        [deleteButton]="true"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Institución'"
+    [text]="'¿Estás seguro de que deseas eliminar esta institución de violencia?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarInstitucion($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

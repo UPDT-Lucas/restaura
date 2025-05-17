@@ -1,0 +1,34 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nuevo País'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre del país'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombrePais"
+        />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Nuevo País" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Crear Nuevo País'"
+  [text]="'¿Estás seguro de que deseas crear el país: ' + formData.nombrePais + '?'"
+  [actionType]="'add'"
+  (confirmed)="crearPais($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

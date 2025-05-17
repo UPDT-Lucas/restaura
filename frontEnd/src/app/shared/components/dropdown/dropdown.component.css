@@ -70,6 +70,7 @@ hr {
     flex-direction: column;
     gap: 24px;
     flex-grow: 1;
+    padding-bottom: 20px;
 }
 
 .name {
@@ -152,4 +153,8 @@ hr {
 .overlay.show {
     opacity: 1;
     pointer-events: auto;
+}
+
+.click {
+    cursor: pointer;
 }

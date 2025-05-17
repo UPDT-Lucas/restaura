@@ -4,9 +4,21 @@
             <img src="restaura-logo.png" alt="Logo Asociación Restaura San José">
             <div class="inputs-container">
                 <h2>Bienvenido</h2>
-                <shared-search-box searchTitle="Correo"></shared-search-box>
-                <shared-search-box searchTitle="Contraseña"></shared-search-box>
-                <shared-button text="Ingresar"></shared-button>
+                <shared-input-text 
+                    label="Ingrese el correo" 
+                    value="" 
+                    (valueChange)="onEmailChange($event)">
+                </shared-input-text>
+                <shared-input-text 
+                    label="Ingrese la contraseña" 
+                    [isPassword]="true" 
+                    value=""
+                    (valueChange)="onPasswordChange($event)">
+                </shared-input-text>
+                <shared-button 
+                    text="Ingresar"
+                    (click)="login()">
+                </shared-button>
             </div>
         </div>
     </div>

@@ -14,15 +14,16 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 export class DynamicTableComponent {
     @Input() tableData: string[][] = [];
     @Input() editLink: string = '';
-    @Input() deleteLink: string = '';
+    @Input() viewLink: string = '';
+    @Input() deleteButton: boolean = false;
 
     @Input() limitPerPage: number = 10;
     @Input() currentPage: number = 1;
     @Input() totalItems: number = 32;
     @Input() buttonText: string = 'Nuevo Cantón';
+    @Input() table_title: string = 'Cantones';
     @Input() buttonLink: string = '';
     @Input() showButton: boolean = true;
-
 
     @Output() deleteRow = new EventEmitter<string>();
     @Output() updatePage = new EventEmitter<number>();

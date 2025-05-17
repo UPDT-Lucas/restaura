@@ -1,0 +1,86 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Consultas Generales'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Fecha Desde -->
+        <shared-input-date
+            [label]="'Fecha Resgistro Desde'"
+            [placeholder]="'Ingrese el Fecha'"
+            [(value)]="formFiltros.p_fecha_ingreso_desde"
+        />
+
+        <!-- Fecha Hasta -->
+        <shared-input-date
+            [label]="'Fecha Registro Hasta'"
+            [placeholder]="'Ingrese el Fecha'"
+            [(value)]="formFiltros.p_fecha_ingreso_hasta"
+        />
+
+        <!-- Cantón -->
+        <shared-select [label]="'Cantón'" [options]="cantonOptions" [(value)]="formFiltros.p_canton_id" />
+
+        <!-- Género -->
+        <shared-select [label]="'Género'" [options]="generoOptions" [(value)]="formFiltros.p_genero_id" />
+
+        <!-- Edad Inicio -->
+        <shared-input-number [label]="'Edad Desde'" [placeholder]="'Edad Desde'" [(value)]="formFiltros.p_edad_desde" />
+
+        <!-- Edad Hasta -->
+        <shared-input-number [label]="'Edad Hasta'" [placeholder]="'Edad Hasta'" [(value)]="formFiltros.p_edad_hasta" />
+
+        <!-- Razon por la que acude al dormitorio -->
+        <shared-select
+            [label]="'¿Razón por la que acude al dormitorio?'"
+            [options]="razonServicioOptions"
+            [(value)]="formFiltros.p_razon_servicio_id"
+        />
+
+        <!-- Grado Académico -->
+        <shared-select
+            [label]="'Grado Académico'"
+            [options]="gradoAcademicoOptions"
+            [(value)]="formFiltros.p_grado_academico_id"
+        />
+        
+        <!-- Pension -->
+        <shared-select
+            [label]="'Pensión'"
+            [options]="pensionOptions"
+            [(value)]="formFiltros.p_tipo_pension_id"
+        />
+
+        <!-- Discapacidad -->
+        <shared-input-boolean [label]="'¿Discapacidad?'" [(value)]="formFiltros.p_discapacidad" />
+
+        <!-- Cárcel -->
+        <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formFiltros.p_carcel" />
+    </div>
+
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Filtrar" (buttonClick)="filter()"></shared-button>
+        </div>
+        <div class="button-container">
+            <shared-secondary-button text="Limpiar Filtros" (buttonClick)="clearFilters()"></shared-secondary-button>
+        </div>
+    </div>
+
+    <shared-dynamic-table
+        [table_title]="'Resultados de Consultas'"
+        [tableData]="tableData"
+        [viewLink]="'/view'"
+        [editLink]="'/edit'"
+        [deleteButton]="false"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        [showButton]="false"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>

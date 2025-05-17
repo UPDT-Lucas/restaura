@@ -7,34 +7,102 @@
         <div class="top">
             <div class="start-info">
                 <div class="name">
-                    <h2>Jonathan Porras Sandi</h2>
+                    <h2>{{token.nombre}}</h2>
                     <hr />
                 </div>
                 <ul>
-                    <li>Asistente Administrativo</li>
+                    <li>{{token.rol == "1" ? "Asistente Administrativo" : "Administrativo"}}</li>
                 </ul>
             </div>
             <div class="functions">
                 <p>Funciones</p>
                 <ul class="functions-list">
-                    <li class="each-list" routerLink="/" (click)="toggleDropdown()">
+                    <li class="each-list" routerLink="/log" (click)="toggleDropdown()">
                         <span class="material-icons md-16">auto_stories</span>
                         <p>Bitácora</p>
                     </li>
                     <li class="each-list" routerLink="/add" (click)="toggleDropdown()">
                         <span class="material-icons md-16">groups</span>
                         <p>Agregar Persona Usuario</p>
+                        
                     </li>
-                    <li class="each-list">
-                        <span class="material-icons md-16">person_add</span>
-                        <p>Agregar Funcionario</p>
-                    </li>
+                    <li class="each-list" routerLink="/consultas" (click)="toggleDropdown()">
+                           <span class="material-icons">query_stats</span>
+
+                            <p>Consultas</p>
+                    </li> 
+                    @if(token.rol == "0"){
+                        <li class="each-list" routerLink="/register" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">person_add</span>
+                            <p>Agregar Funcionario</p>
+                        </li>
+                        <li class="each-list" routerLink="/cantones" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">house</span>
+                            <p>Cantones</p>
+                        </li>
+                        <li class="each-list" routerLink="/donde-dormi" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">call</span>
+                            <p>Cómo conoció el dormitorio</p>
+                        </li>
+                        <li class="each-list" routerLink="/drogas" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">local_pharmacy</span>
+                            <p>Drogas</p>
+                        </li>
+                        <li class="each-list" routerLink="/estados-civiles" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">person_add</span>
+                            <p>Estado Civil</p>
+                        </li>
+                        <li class="each-list" routerLink="/generos" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">diversity_2</span>
+                            <p>Género</p>
+                        </li>
+                        <li class="each-list" routerLink="/grados-academicos" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">school</span>
+                            <p>Grado Académico</p>
+                        </li>
+                        <li class="each-list" routerLink="/instituciones-violencia" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">home_work</span>
+                            <p>Institución de Violencia</p>
+                        </li>
+                        <li class="each-list" routerLink="/paises" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">south_america</span>
+                            <p>País</p>
+                        </li>
+                        <li class="each-list" routerLink="/provincias" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">map</span>
+                            <p>Provincia</p>
+                        </li>
+                        <li class="each-list" routerLink="/razones-servicio" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">lightbulb</span>
+                            <p>Razón para acudir</p>
+                        </li>
+                        <li class="each-list" routerLink="/tiempo-calle" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">edit_road</span>
+                            <p>Tiempo de calle</p>
+                        </li>
+                        <li class="each-list" routerLink="/tipos-id" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">assignment_ind</span>
+                            <p>Tipo de identificación</p>
+                        </li>
+                        <li class="each-list" routerLink="/tipos-ayuda" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">contact_support</span>
+                            <p>Tipo de Ayuda</p>
+                        </li>
+                        <li class="each-list" routerLink="/tipos-pension" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">payments</span>
+                            <p>Tipo de Pensión</p>
+                        </li>
+                        <li class="each-list" routerLink="/tipos-violencia" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">warning</span>
+                            <p>Tipo de Violencia</p>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
         <div class="session-option">
-            <span class="material-icons">door_front</span>
-            <p>Cerrar Sesión</p>
+            <span class="material-icons" (click)="leave()">door_front</span>
+            <p class="click" (click)="leave()">Cerrar Sesión</p>
         </div>
     </div>
 

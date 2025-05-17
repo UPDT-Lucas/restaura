@@ -1,0 +1,34 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nueva Droga'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreDroga"
+        />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Droga" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Crear Nueva Droga'"
+  [text]="'¿Estás seguro de que deseas crear la droga: ' + formData.nombreDroga + '?'"
+  [actionType]="'add'"
+  (confirmed)="crearDroga($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

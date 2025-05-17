@@ -447,25 +447,6 @@ clienteCtr.getClientCountByName = async (req, res) => {
     }
 };
 
-clienteCtr.getClientCount = async (req, res) => {
-    const p_id = req.params.id || "";  // <- Usa params, no query
-
-    try {
-        const sequelize = dbConnection.getInstance().Sequelize;
-        let clientService;
-        clientService = await sequelize.query(
-            'SELECT count_clients() AS count',
-            {
-                type: sequelize.QueryTypes.SELECT,
-            }
-        );
-
-        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
-    } catch (error) {
-        console.error('Error al obtener el conteo de clientes:', error);
-        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
-    }
-};
 
 clienteCtr.updateCliente = async (req,res)=> {
     try{
