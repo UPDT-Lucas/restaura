@@ -24,7 +24,13 @@
                     <li class="each-list" routerLink="/add" (click)="toggleDropdown()">
                         <span class="material-icons md-16">groups</span>
                         <p>Agregar Persona Usuario</p>
+                        
                     </li>
+                    <li class="each-list" routerLink="/consultas" (click)="toggleDropdown()">
+                           <span class="material-icons">query_stats</span>
+
+                            <p>Consultas</p>
+                    </li> 
                     @if(token.rol == "0"){
                         <li class="each-list" routerLink="/register" (click)="toggleDropdown()">
                             <span class="material-icons md-16">person_add</span>
