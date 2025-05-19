@@ -1,5 +1,5 @@
-import server from "./server.js";
 import config from "./config.js";
+import server from "./server.js";
 import dbConnection from "./DB/dbConnection.js";
 
 

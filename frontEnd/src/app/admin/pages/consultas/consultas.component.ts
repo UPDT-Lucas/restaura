@@ -10,6 +10,7 @@ import { SecondaryButtonComponent } from '../../../shared/components/secondary-b
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
 import { InputNumberComponent } from '../../../shared/components/input-number/input-number.component';
 import { AdminService } from '../../../services/admin.service';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 
 @Component({
     selector: 'app-consultas',
@@ -23,6 +24,7 @@ import { AdminService } from '../../../services/admin.service';
         SecondaryButtonComponent,
         InputBooleanComponent,
         InputNumberComponent,
+        DialogComponent
     ],
     templateUrl: './consultas.component.html',
     styleUrls: ['./consultas.component.css'],
@@ -44,8 +46,9 @@ export class ConsultasComponent {
         p_grado_academico_id: null,
         p_tipo_pension_id: null,
     };
-
-    headers = [['Identificación', 'Nombre', 'Edad', 'Género', 'Fecha Registro']];
+    showDialog: boolean = false;
+    dialogMessage: string = '';
+    headers = [['Identificación', 'Nombre', 'Edad', 'Género', 'Fecha de registro en el sistema']];
     tableData = this.headers;
     consultas: any[] = [];
     totalItems = 0;
@@ -129,28 +132,60 @@ export class ConsultasComponent {
     }
 
     filter() {
-        this.cargando = true;
-        this.adminService.consultas(this.formFiltros).subscribe({
-            next: (data) => {
-                if (data.status === 200) {
-                    this.consultas = data.filters.map((item: any) => [
-                        item.id,
-                        item.nombre,
-                        item.edad,
-                        item.genero_id,
-                        item.fechaingreso,
-                    ]);
+        if(this.formFiltros.p_fecha_ingreso_desde==='') {
+            this.formFiltros.p_fecha_ingreso_desde = null;
+        }
+        if(this.formFiltros.p_fecha_ingreso_hasta==='') {
+            this.formFiltros.p_fecha_ingreso_hasta = null;
+        }
+        if((this.formFiltros.p_fecha_ingreso_desde !== null  && this.formFiltros.p_fecha_ingreso_hasta === null) || (this.formFiltros.p_fecha_ingreso_desde === null && this.formFiltros.p_fecha_ingreso_hasta !== null) ) {
+            this.showDialog = true;
+            this.dialogMessage = 'Ambas fechas son obligatorias';
+            return;
+        }
+        if(this.formFiltros.p_fecha_ingreso_desde > this.formFiltros.p_fecha_ingreso_hasta) {
+            this.showDialog = true;
+            this.dialogMessage = 'La fecha de ingreso desde no puede ser mayor a la fecha de ingreso hasta';
+            return;
 
-                    this.getTotalItems();
-                    this.actualizarTabla();
-                }
-                this.cargando = false;
-            },
-            error: (error) => {
-                console.error('Error al filtrar:', error);
-                this.cargando = false;
-            },
-        });
+        }
+        if((this.formFiltros.p_edad_desde !== null && this.formFiltros.p_edad_hasta === null) || (this.formFiltros.p_edad_desde === null && this.formFiltros.p_edad_hasta !== null)) {
+            this.showDialog = true;
+            this.dialogMessage = 'Ambas edades son obligatorias';
+            return;
+        }
+        if(this.formFiltros.p_edad_desde > this.formFiltros.p_edad_hasta) {
+            this.showDialog = true;
+            this.dialogMessage = 'La edad desde no puede ser mayor a la edad hasta';
+            return;
+
+        }
+        this.cargando = true;
+        
+        
+            this.adminService.consultas(this.formFiltros).subscribe({
+                next: (data) => {
+                    if (data.status === 200) {
+                        this.consultas = data.filters.map((item: any) => [
+                            item.id,
+                            item.nombre,
+                            item.edad,
+                            item.genero_id,
+                            item.fechaingreso,
+                        ]);
+
+                        this.getTotalItems();
+                        this.actualizarTabla();
+                    }
+                    this.cargando = false;
+                },
+                error: (error) => {
+                    console.error('Error al filtrar:', error);
+                    this.cargando = false;
+                },
+            });
+
+
     }
 
     clearFilters() {

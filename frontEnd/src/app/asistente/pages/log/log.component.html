@@ -72,7 +72,7 @@
 </div>
 
 <shared-confirm-dialog-input *ngIf="showAddRoomDialog" [title]="'Ingrese el Cuarto'"
-    [text]="'Por favor ingrese el numero de cuarto a asginar.'" [actionType]="'add'"
+    [text]="'Por favor ingrese el numero de cuarto a asginar.' + '\n' + 'Cuarto anterior: '+this.cuarto" [actionType]="'add'"
     (confirmed)="handleInputResult($event)">
 </shared-confirm-dialog-input>
 

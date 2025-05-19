@@ -4,13 +4,15 @@ import { InputTextComponent } from '../../../shared/components/input-text/input-
 import { AdminService } from '../../../services/admin.service';
 import { Router, RouterModule } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-login',
   imports: [
     ButtonComponent,
     InputTextComponent,
-    RouterModule
+    RouterModule,
+    DialogComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -20,7 +22,8 @@ export class LoginComponent {
   //0 admin
   private email: string = '';
   private password: string = '';
-
+  showDialog: boolean = false;
+  dialogMessage: string = 'Email and password are required';
   constructor(
     private adminService: AdminService,
     private router: Router
@@ -33,22 +36,25 @@ export class LoginComponent {
   onPasswordChange(password: string) {
     this.password = password;
   }
-
   login() {
-    if (this.email !== '' && this.password !== '') {
-      this.adminService.login(this.email, this.password).subscribe(
-        (response) => {
+    if (this.email && this.password) {
+      this.adminService.login(this.email, this.password).subscribe({
+        next: (response) => {
           if (response.token) {
             this.adminService.guardarToken(response.token);
             this.router.navigate(['/log']);
           }
         },
-        (error) => {
+        error: (error) => {
+          this.dialogMessage = 'El inicio de sesion falló. Intentelo de nuevo.'; // Mensaje de error
+          this.showDialog = true;
           console.error('Login failed', error);
         }
-      );
+      });
     } else {
-      console.error('Email and password are required');
+      this.dialogMessage = 'El correo y la contraseña son requeridos'; 
+      this.showDialog = true;
     }
   }
+ 
 }
