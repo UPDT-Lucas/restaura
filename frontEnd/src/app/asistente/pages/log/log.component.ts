@@ -39,8 +39,8 @@ export class LogComponent {
 
   date: Date | undefined;
   data: any[] = [];
-  headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Ingreso'];
-  headersLog: string[] = ['Id', 'Nombre', 'Cuarto', 'Fecha Ingreso'];
+  headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Registro'];
+  headersLog: string[] = ['Id', 'Nombre', 'Cuarto', 'Fecha Registro'];
   selectedId: string = "";
   selectedOutId: string | null = null;
   idBitacora: string | null = null;
@@ -51,7 +51,7 @@ export class LogComponent {
   tableData: string[][] = [this.headers];
   tableDataLog: string[][] = [this.headersLog];
   clientId: string = "";
-
+  cuarto: string | null = null;
   dialogText = ""
   dialogTitle = ""
 
@@ -125,7 +125,7 @@ export class LogComponent {
         this.idBitacora = logs.idbitacora;
         this.totalLog = logs.total;
         this.maxLog = Math.ceil(this.totalLog / this.limitLog);
-        this.tableDataLog = [this.headers, ... this.rowsToArray(this.logClients)];
+        this.tableDataLog = [this.headersLog, ... this.rowsToArray(this.logClients)];
       },
       error: (err) => {
         if (err.status === 404) {
@@ -181,11 +181,14 @@ export class LogComponent {
     this.logService.getLastRoom(id, this.idBitacora!).subscribe({
       next: (data: any) => {
         this.showAddRoomDialog = true;
-        console.log(this.data)
+        this.cuarto = data.numeroCuarto.toString();
       },
       error: (err) => {
         if (err.status === 409) {
           this.showDuplicateBitacora = true;
+        }else if (err.status === 404) {
+          this.showAddRoomDialog = true;
+          this.cuarto = "Nunca ha estado en un cuarto";
         }
       }
     });

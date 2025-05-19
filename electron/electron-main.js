@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain,screen } = require('electron')
 const path = require('path')
 const { fork } = require('child_process')
 const dotenv = require('dotenv');
@@ -25,9 +25,15 @@ let mainWindow
 let backendProcess
 
 function createWindow() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+  const windowWidth = Math.floor(width * 0.8);
+  const windowHeight = Math.floor(height * 0.8);
   mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: windowWidth,
+    height: windowHeight,
+    x: Math.floor((width - windowWidth) / 2), 
+    y: Math.floor((height - windowHeight) / 2),
     show: false, // Oculta la ventana inicialmente
     webPreferences: {
       nodeIntegration: false,

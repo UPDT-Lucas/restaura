@@ -8,14 +8,14 @@
     <div class="form-wrap">
         <!-- Fecha Desde -->
         <shared-input-date
-            [label]="'Fecha Resgistro Desde'"
+            [label]="'Fecha Resgistro Bitacora Desde'"
             [placeholder]="'Ingrese el Fecha'"
             [(value)]="formFiltros.p_fecha_ingreso_desde"
         />
 
         <!-- Fecha Hasta -->
         <shared-input-date
-            [label]="'Fecha Registro Hasta'"
+            [label]="'Fecha Registro Bitacora Hasta'"
             [placeholder]="'Ingrese el Fecha'"
             [(value)]="formFiltros.p_fecha_ingreso_hasta"
         />
@@ -84,3 +84,8 @@
         (changeLimit)="onUpdateLimit($event)"
     />
 </div>
+<app-dialog 
+  [text]="dialogMessage" 
+  [visible]="showDialog" 
+  (closed)="showDialog = false">
+</app-dialog>

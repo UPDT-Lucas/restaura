@@ -32,3 +32,8 @@
         </div>
     </div>
 </div>
+<app-dialog 
+  [text]="dialogMessage" 
+  [visible]="showDialog" 
+  (closed)="showDialog = false">
+</app-dialog>
