@@ -1,26 +1,7 @@
 const { app, BrowserWindow, ipcMain,screen } = require('electron')
 const path = require('path')
 const { fork } = require('child_process')
-const dotenv = require('dotenv');
-// Carga el archivo .env
-dotenv.config({ path: path.join(__dirname, '.env') });
 
-// Verifica la carga
-
-
-// Pasa las variables al backend de forma explícita
-if (!process.env.ELECTRON_ENV_FLAG) {
-  process.env.ELECTRON_ENV_FLAG = 'true';
-  
-  // Para procesos hijos (si usas child_process)
-  process.env.BACKEND_ENV = JSON.stringify({
-    ...process.env,
-    ELECTRON_ENV_FLAG: 'true'  // Evita bucles infinitos
-  });
-  
-  // Para el proceso actual (backend)
-  Object.assign(globalThis, { electronEnv: process.env });
-}
 let mainWindow
 let backendProcess
 
@@ -97,3 +78,6 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
   backendProcess?.kill()
 })
+
+
+
