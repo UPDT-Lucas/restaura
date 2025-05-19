@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain,screen } = require('electron')
+const { app, BrowserWindow, ipcMain, screen } = require('electron') // Agrega 'screen'
 const path = require('path')
 const { fork } = require('child_process')
 
@@ -6,15 +6,22 @@ let mainWindow
 let backendProcess
 
 function createWindow() {
-  const primaryDisplay = screen.getPrimaryDisplay();
-  const { width, height } = primaryDisplay.workAreaSize;
-  const windowWidth = Math.floor(width * 0.8);
-  const windowHeight = Math.floor(height * 0.8);
+  // Obtiene el tamaño del monitor principal
+  const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize
+
+  // Calcula el 80% del tamaño de la pantalla
+  const winWidth = Math.floor(screenWidth * 0.8)
+  const winHeight = Math.floor(screenHeight * 0.8)
+
+  // Calcula la posición para centrar la ventana
+  const winX = Math.floor((screenWidth - winWidth) / 2)
+  const winY = Math.floor((screenHeight - winHeight) / 2)
+
   mainWindow = new BrowserWindow({
-    width: windowWidth,
-    height: windowHeight,
-    x: Math.floor((width - windowWidth) / 2), 
-    y: Math.floor((height - windowHeight) / 2),
+    width: winWidth,
+    height: winHeight,
+    x: winX,
+    y: winY,
     show: false, // Oculta la ventana inicialmente
     webPreferences: {
       nodeIntegration: false,
@@ -78,6 +85,3 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
   backendProcess?.kill()
 })
-
-
-

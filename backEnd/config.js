@@ -24,10 +24,10 @@ try {
 const config = {
   HOST: electronEnv.HOST || process.env.HOST || "localhost",
   PORT: electronEnv.PORT || process.env.PORT || 3100,
-  DB: electronEnv.DB || process.env.DB || "aws-0-us-east-1.pooler.supabase.com",
-  DB_NAME: electronEnv.DB_NAME || process.env.DB_NAME || "postgres",
-  DB_PASS: electronEnv.DB_PASS || process.env.DB_PASS || "Gabonator1314",
-  DB_USER: electronEnv.DB_USER || process.env.DB_USER || "postgres.vwqewolwvryzamagkxef",
+  DB: electronEnv.DB || process.env.DB || "localhost",
+  DB_NAME: electronEnv.DB_NAME || process.env.DB_NAME || "centroDormitorio",
+  DB_PASS: electronEnv.DB_PASS || process.env.DB_PASS || "Restaura1314",
+  DB_USER: electronEnv.DB_USER || process.env.DB_USER || "postgres",
   DB_PORT: electronEnv.DB_PORT || process.env.DB_PORT || 5432,
   JWT_SECRET: electronEnv.JWT_SECRET || process.env.JWT_SECRET || "Xj9@3*kL8s!wP#Z^2h1uR+eB"
 };
