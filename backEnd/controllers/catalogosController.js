@@ -20,7 +20,8 @@ import defineGenero from "../models/genero.js";
 import defineEstadoCivil from "../models/estado_civil.js";
 import defineCanton from "../models/canton.js";
 import defineTipoViolencia from "../models/tipo_violencia.js";
-
+import defineTipoCuarto from "../models/tipo_cuarto.js";
+import defineTipoCama from "../models/tipo_cama.js";
 
 
 const catalogosCtr = {};
@@ -35,24 +36,24 @@ catalogosCtr.getCatalogos = async (req, res) => {
     try {
         const db = dbConnection.getInstance();
         //console.log(db)
-        const Droga = defineDroga(db.Sequelize,db.dataType);
-        const DondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
-        const TiposAyuda = defineTiposAyuda(db.Sequelize,db.dataType);
-        const TipoPension = defineTipoPension(db.Sequelize,db.dataType);
-        const TipoId = defineTipoId(db.Sequelize,db.dataType);
-        const TiempoCalle = defineTiempoCalle(db.Sequelize,db.dataType);
-        const RazonServicio = defineRazonServicio(db.Sequelize,db.dataType);
-        const Provincia = defineProvincia(db.Sequelize,db.dataType);
-        const Pais = definePais(db.Sequelize,db.dataType);
-        const InstitucionesViolencia = defineInstitucionesViolencia(db.Sequelize,db.dataType);
-        const GradoAcademico = defineGradoAcademico(db.Sequelize,db.dataType);
-        const Genero = defineGenero(db.Sequelize,db.dataType);
-        const EstadoCivil = defineEstadoCivil(db.Sequelize,db.dataType);
-        const Canton = defineCanton(db.Sequelize,db.dataType);
-        const TipoViolencia = defineTipoViolencia(db.Sequelize,db.dataType);
+        const Droga = defineDroga(db.Sequelize, db.dataType);
+        const DondeDormi = defineDondeDormi(db.Sequelize, db.dataType);
+        const TiposAyuda = defineTiposAyuda(db.Sequelize, db.dataType);
+        const TipoPension = defineTipoPension(db.Sequelize, db.dataType);
+        const TipoId = defineTipoId(db.Sequelize, db.dataType);
+        const TiempoCalle = defineTiempoCalle(db.Sequelize, db.dataType);
+        const RazonServicio = defineRazonServicio(db.Sequelize, db.dataType);
+        const Provincia = defineProvincia(db.Sequelize, db.dataType);
+        const Pais = definePais(db.Sequelize, db.dataType);
+        const InstitucionesViolencia = defineInstitucionesViolencia(db.Sequelize, db.dataType);
+        const GradoAcademico = defineGradoAcademico(db.Sequelize, db.dataType);
+        const Genero = defineGenero(db.Sequelize, db.dataType);
+        const EstadoCivil = defineEstadoCivil(db.Sequelize, db.dataType);
+        const Canton = defineCanton(db.Sequelize, db.dataType);
+        const TipoViolencia = defineTipoViolencia(db.Sequelize, db.dataType);
 
         // Obtener los datos de cada modelo
-        const [droga, dondeDormi, tiposAyuda, tipoPension, tipoId, tiempoCalle, razonServicio, provincia, pais, institucionesViolencia, gradoAcademico, genero, estadoCivil, canton,tipoViolencia] = await Promise.all([
+        const [droga, dondeDormi, tiposAyuda, tipoPension, tipoId, tiempoCalle, razonServicio, provincia, pais, institucionesViolencia, gradoAcademico, genero, estadoCivil, canton, tipoViolencia] = await Promise.all([
             Droga.findAll({ order: [['id', 'ASC']] }),
             DondeDormi.findAll({ order: [['id', 'ASC']] }),
             TiposAyuda.findAll({ order: [['id', 'ASC']] }),
@@ -94,25 +95,25 @@ catalogosCtr.getCatalogos = async (req, res) => {
     }
 }
 
-catalogosCtr.getCantones = async (req,res)=> {
-    const { p_provincia_id} = req.params; 
-    console.log("Parametros recibidos:", p_provincia_id); 
+catalogosCtr.getCantones = async (req, res) => {
+    const { p_provincia_id } = req.params;
+    console.log("Parametros recibidos:", p_provincia_id);
 
     try {
-        const sequelize = dbConnection.getInstance().Sequelize; 
+        const sequelize = dbConnection.getInstance().Sequelize;
 
 
         const cantonesProvincia = await sequelize.query(
             'SELECT * FROM buscar_canton(:p_provincia_id)',
             {
-                replacements: {p_provincia_id},
-                type: sequelize.QueryTypes.SELECT, 
+                replacements: { p_provincia_id },
+                type: sequelize.QueryTypes.SELECT,
             }
         );
 
         console.log("Resultados del procedimiento:", cantonesProvincia);
 
-    return res.status(200).json(cantonesProvincia); 
+        return res.status(200).json(cantonesProvincia);
     } catch (error) {
         console.error('Error al obtener el canton de la provincia:', error);
         res.status(500).json({ message: 'Error al obtener el canton de la provincia', error: error.message });
@@ -131,20 +132,20 @@ catalogosCtr.getAllCantones = async (req, res) => {
     }
 }
 
-catalogosCtr.addCanton = async (req,res)=>{
-    try{
+catalogosCtr.addCanton = async (req, res) => {
+    try {
         const nombreCanton = req.body.nombreCanton;
         const provinciaId = req.body.idProvincia;
         const db = dbConnection.getInstance();
-        const Canton = defineCanton(db.Sequelize,db.dataType);
+        const Canton = defineCanton(db.Sequelize, db.dataType);
         const resultCanton = await Canton.create({
             nombre: nombreCanton,
-            provincia_id:provinciaId
+            provincia_id: provinciaId
         })
-        res.status(200).json({message: "Canton creado", canton: resultCanton,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Canton creado", canton: resultCanton, status: 200 });
+    } catch (error) {
         console.error("Error al crear el canton:", error);
-        res.status(500).json({message: "Error al crear el canton", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear el canton", error: error.message, status: 500 });
     }
 }
 
@@ -164,20 +165,20 @@ catalogosCtr.editCanton = async (req, res) => {
     }
 };
 
-catalogosCtr.deleteCanton = async (req,res)=>{
-    try{
+catalogosCtr.deleteCanton = async (req, res) => {
+    try {
         const idCanton = req.body.idCanton;
         const db = dbConnection.getInstance();
-        const Canton = defineCanton(db.Sequelize,db.dataType);
+        const Canton = defineCanton(db.Sequelize, db.dataType);
         const rowAffected = await Canton.destroy({
             where: {
                 id: idCanton
             }
         })
-        res.status(200).json({message: "Canton eliminado", rowAffected: rowAffected,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Canton eliminado", rowAffected: rowAffected, status: 200 });
+    } catch (error) {
         console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al eliminar", error: error.message, status: 500 });
     }
 }
 
@@ -193,57 +194,57 @@ catalogosCtr.getAllDrogas = async (req, res) => {
     }
 }
 
-catalogosCtr.addDroga = async (req,res)=>{
-    try{
+catalogosCtr.addDroga = async (req, res) => {
+    try {
         const nombreDroga = req.body.nombreDroga;
         const db = dbConnection.getInstance();
-        const Droga = defineDroga(db.Sequelize,db.dataType);
+        const Droga = defineDroga(db.Sequelize, db.dataType);
         const resultDroga = await Droga.create({
             nombre: nombreDroga,
         })
-        res.status(200).json({message: "Canton creado", droga: resultDroga,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Canton creado", droga: resultDroga, status: 200 });
+    } catch (error) {
         console.error("Error al crear la droga:", error);
-        res.status(500).json({message: "Error al crear la droga", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear la droga", error: error.message, status: 500 });
     }
 }
 
 catalogosCtr.editDroga = async (req, res) => {
-  try {
-    const { idDroga, nombreDroga } = req.body;
-    const db = dbConnection.getInstance();
-    const Droga = defineDroga(db.Sequelize, db.dataType);
-    const result = await Droga.update(
-      { nombre: nombreDroga },
-      { where: { id: idDroga } }
-    );
-    res.status(200).json({ message: "Droga actualizada", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar la droga:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar la droga",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idDroga, nombreDroga } = req.body;
+        const db = dbConnection.getInstance();
+        const Droga = defineDroga(db.Sequelize, db.dataType);
+        const result = await Droga.update(
+            { nombre: nombreDroga },
+            { where: { id: idDroga } }
+        );
+        res.status(200).json({ message: "Droga actualizada", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar la droga:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar la droga",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
-catalogosCtr.deleteDroga = async (req,res)=>{
-    try{
+catalogosCtr.deleteDroga = async (req, res) => {
+    try {
         const idDroga = req.body.idDroga;
         const db = dbConnection.getInstance();
-        const Droga = defineDroga(db.Sequelize,db.dataType);
+        const Droga = defineDroga(db.Sequelize, db.dataType);
         const rowAffected = await Droga.destroy({
             where: {
                 id: idDroga
             }
         })
-        res.status(200).json({message: "Droga eliminada", rowAffected: rowAffected,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Droga eliminada", rowAffected: rowAffected, status: 200 });
+    } catch (error) {
         console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al eliminar", error: error.message, status: 500 });
     }
 }
 
@@ -259,59 +260,59 @@ catalogosCtr.getAllTiposAyuda = async (req, res) => {
     }
 }
 
-catalogosCtr.addTiposAyuda = async (req,res)=>{
-    try{
+catalogosCtr.addTiposAyuda = async (req, res) => {
+    try {
         const nombreTiposAyuda = req.body.nombreTiposAyuda;
         const db = dbConnection.getInstance();
-        const tiposAyuda = defineTiposAyuda(db.Sequelize,db.dataType);
+        const tiposAyuda = defineTiposAyuda(db.Sequelize, db.dataType);
         const resultTiposAyuda = await tiposAyuda.create({
             nombre: nombreTiposAyuda,
         })
-        res.status(200).json({message: "Tipo de ayuda creado", tiposAyuda: resultTiposAyuda,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de ayuda creado", tiposAyuda: resultTiposAyuda, status: 200 });
+    } catch (error) {
         console.error("Error al crear el tipo de ayuda:", error);
-        res.status(500).json({message: "Error al crear el tipo de ayuda", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear el tipo de ayuda", error: error.message, status: 500 });
     }
 }
 
 catalogosCtr.editTiposAyuda = async (req, res) => {
-  try {
-    const { idTiposAyuda, nombreTiposAyuda } = req.body;
-    const db = dbConnection.getInstance();
-    const tiposAyuda = defineTiposAyuda(db.Sequelize, db.dataType);
-    const result = await tiposAyuda.update(
-      { nombre: nombreTiposAyuda },
-      { where: { id: idTiposAyuda } }
-    );
-    res
-      .status(200)
-      .json({ message: "Tipo de ayuda actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el tipo de ayuda:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el tipo de ayuda",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idTiposAyuda, nombreTiposAyuda } = req.body;
+        const db = dbConnection.getInstance();
+        const tiposAyuda = defineTiposAyuda(db.Sequelize, db.dataType);
+        const result = await tiposAyuda.update(
+            { nombre: nombreTiposAyuda },
+            { where: { id: idTiposAyuda } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tipo de ayuda actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el tipo de ayuda:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el tipo de ayuda",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
-catalogosCtr.deleteTiposAyuda = async (req,res)=>{
-    try{
+catalogosCtr.deleteTiposAyuda = async (req, res) => {
+    try {
         const idTiposAyuda = req.body.idTiposAyuda;
         const db = dbConnection.getInstance();
-        const tiposAyuda = defineTiposAyuda(db.Sequelize,db.dataType);
+        const tiposAyuda = defineTiposAyuda(db.Sequelize, db.dataType);
         const rowAffected = await tiposAyuda.destroy({
             where: {
                 id: idTiposAyuda
             }
         })
-        res.status(200).json({message: "Tipo de ayuda eliminada", rowAffected: rowAffected,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de ayuda eliminada", rowAffected: rowAffected, status: 200 });
+    } catch (error) {
         console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al eliminar", error: error.message, status: 500 });
     }
 }
 
@@ -326,59 +327,59 @@ catalogosCtr.getAllTiposPension = async (req, res) => {
         res.status(500).json({ message: "Error al recuperar los tipos de pensión", error: error.message, status: 500 });
     }
 }
-catalogosCtr.addTipoPension = async (req,res)=>{
-    try{
+catalogosCtr.addTipoPension = async (req, res) => {
+    try {
         const nombreTipoPension = req.body.nombreTipoPension;
         const db = dbConnection.getInstance();
-        const tipoPension = defineTipoPension(db.Sequelize,db.dataType);
+        const tipoPension = defineTipoPension(db.Sequelize, db.dataType);
         const resultTipoPension = await tipoPension.create({
             nombre: nombreTipoPension,
         })
-        res.status(200).json({message: "Tipo de pension creado", tipoPension: resultTipoPension,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de pension creado", tipoPension: resultTipoPension, status: 200 });
+    } catch (error) {
         console.error("Error al crear el tipo de pension:", error);
-        res.status(500).json({message: "Error al crear el tipo de pension", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear el tipo de pension", error: error.message, status: 500 });
     }
 }
 
 catalogosCtr.editTipoPension = async (req, res) => {
-  try {
-    const { idTipoPension, nombreTipoPension } = req.body;
-    const db = dbConnection.getInstance();
-    const tipoPension = defineTipoPension(db.Sequelize, db.dataType);
-    const result = await tipoPension.update(
-      { nombre: nombreTipoPension },
-      { where: { id: idTipoPension } }
-    );
-    res
-      .status(200)
-      .json({ message: "Tipo de pensión actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el tipo de pensión:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el tipo de pensión",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idTipoPension, nombreTipoPension } = req.body;
+        const db = dbConnection.getInstance();
+        const tipoPension = defineTipoPension(db.Sequelize, db.dataType);
+        const result = await tipoPension.update(
+            { nombre: nombreTipoPension },
+            { where: { id: idTipoPension } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tipo de pensión actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el tipo de pensión:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el tipo de pensión",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
-catalogosCtr.deleteTipoPension = async (req,res)=>{
-    try{
+catalogosCtr.deleteTipoPension = async (req, res) => {
+    try {
         const idTipoPension = req.body.idTipoPension;
         const db = dbConnection.getInstance();
-        const tipoPension = defineTipoPension(db.Sequelize,db.dataType);
+        const tipoPension = defineTipoPension(db.Sequelize, db.dataType);
         const rowAffected = await tipoPension.destroy({
             where: {
                 id: idTipoPension
             }
         })
-        res.status(200).json({message: "Tipo de pension eliminada", rowAffected: rowAffected,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de pension eliminada", rowAffected: rowAffected, status: 200 });
+    } catch (error) {
         console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al eliminar", error: error.message, status: 500 });
     }
 }
 
@@ -394,59 +395,59 @@ catalogosCtr.getAllTiposId = async (req, res) => {
     }
 }
 
-catalogosCtr.addTipoId = async (req,res)=>{
-    try{
+catalogosCtr.addTipoId = async (req, res) => {
+    try {
         const nombreTipoId = req.body.nombreTipoId;
         const db = dbConnection.getInstance();
-        const tipoId = defineTipoId(db.Sequelize,db.dataType);
+        const tipoId = defineTipoId(db.Sequelize, db.dataType);
         const resultTipoId = await tipoId.create({
             nombre: nombreTipoId,
         })
-        res.status(200).json({message: "Tipo de id creado", tipoId: resultTipoId,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de id creado", tipoId: resultTipoId, status: 200 });
+    } catch (error) {
         console.error("Error al crear el tipo de id:", error);
-        res.status(500).json({message: "Error al crear el tipo de id", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear el tipo de id", error: error.message, status: 500 });
     }
 }
 
 catalogosCtr.editTipoId = async (req, res) => {
-  try {
-    const { idTipoId, nombreTipoId } = req.body;
-    const db = dbConnection.getInstance();
-    const tipoId = defineTipoId(db.Sequelize, db.dataType);
-    const result = await tipoId.update(
-      { nombre: nombreTipoId },
-      { where: { id: idTipoId } }
-    );
-    res
-      .status(200)
-      .json({ message: "Tipo de ID actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el tipo de ID:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el tipo de ID",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idTipoId, nombreTipoId } = req.body;
+        const db = dbConnection.getInstance();
+        const tipoId = defineTipoId(db.Sequelize, db.dataType);
+        const result = await tipoId.update(
+            { nombre: nombreTipoId },
+            { where: { id: idTipoId } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tipo de ID actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el tipo de ID:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el tipo de ID",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
-catalogosCtr.deleteTipoId = async (req,res)=>{
-    try{
+catalogosCtr.deleteTipoId = async (req, res) => {
+    try {
         const idTipoId = req.body.idTipoId;
         const db = dbConnection.getInstance();
-        const tipoId = defineTipoId(db.Sequelize,db.dataType);
+        const tipoId = defineTipoId(db.Sequelize, db.dataType);
         const rowAffected = await tipoId.destroy({
             where: {
                 id: idTipoId
             }
         })
-        res.status(200).json({message: "Tipo de id eliminada", rowAffected: rowAffected,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de id eliminada", rowAffected: rowAffected, status: 200 });
+    } catch (error) {
         console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al eliminar", error: error.message, status: 500 });
     }
 }
 
@@ -461,59 +462,59 @@ catalogosCtr.getAllDondeDormi = async (req, res) => {
         res.status(500).json({ message: "Error al recuperar los tipos de donde dormi", error: error.message, status: 500 });
     }
 }
-catalogosCtr.addDondeDormi = async (req,res)=>{
-    try{
+catalogosCtr.addDondeDormi = async (req, res) => {
+    try {
         const nombreDondeDormi = req.body.nombreDondeDormi;
         const db = dbConnection.getInstance();
-        const dondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
+        const dondeDormi = defineDondeDormi(db.Sequelize, db.dataType);
         const resultDondeDormi = await dondeDormi.create({
             nombre: nombreDondeDormi,
         })
-        res.status(200).json({message: "Tipo de donde dormi creado", resultDondeDormi: resultDondeDormi,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de donde dormi creado", resultDondeDormi: resultDondeDormi, status: 200 });
+    } catch (error) {
         console.error("Error al crear el tipo de donde dormi:", error);
-        res.status(500).json({message: "Error al crear el tipo de donde dormi", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear el tipo de donde dormi", error: error.message, status: 500 });
     }
 }
 
 catalogosCtr.editDondeDormi = async (req, res) => {
-  try {
-    const { idDondeDormi, nombreDondeDormi } = req.body;
-    const db = dbConnection.getInstance();
-    const dondeDormi = defineDondeDormi(db.Sequelize, db.dataType);
-    const result = await dondeDormi.update(
-      { nombre: nombreDondeDormi },
-      { where: { id: idDondeDormi } }
-    );
-    res
-      .status(200)
-      .json({ message: "Lugar donde dormí actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar donde dormí:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar donde dormí",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idDondeDormi, nombreDondeDormi } = req.body;
+        const db = dbConnection.getInstance();
+        const dondeDormi = defineDondeDormi(db.Sequelize, db.dataType);
+        const result = await dondeDormi.update(
+            { nombre: nombreDondeDormi },
+            { where: { id: idDondeDormi } }
+        );
+        res
+            .status(200)
+            .json({ message: "Lugar donde dormí actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar donde dormí:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar donde dormí",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
-catalogosCtr.deleteDondeDormi = async (req,res)=>{
-    try{
+catalogosCtr.deleteDondeDormi = async (req, res) => {
+    try {
         const idDondeDormi = req.body.idDondeDormi;
         const db = dbConnection.getInstance();
-        const dondeDormi = defineDondeDormi(db.Sequelize,db.dataType);
+        const dondeDormi = defineDondeDormi(db.Sequelize, db.dataType);
         const rowAffected = await dondeDormi.destroy({
             where: {
                 id: idDondeDormi
             }
         })
-        res.status(200).json({message: "Tipo de donde dormi eliminado", rowAffected: rowAffected,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de donde dormi eliminado", rowAffected: rowAffected, status: 200 });
+    } catch (error) {
         console.error("Error al eliminar:", error);
-        res.status(500).json({message: "Error al eliminar", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al eliminar", error: error.message, status: 500 });
     }
 }
 
@@ -529,43 +530,43 @@ catalogosCtr.getAllTiempoCalle = async (req, res) => {
     }
 }
 
-catalogosCtr.addTiempoCalle = async (req,res)=>{
-    try{
+catalogosCtr.addTiempoCalle = async (req, res) => {
+    try {
         const nombreTiempoCalle = req.body.nombreTiempoCalle;
         const db = dbConnection.getInstance();
-        const tiempoCalle = defineTiempoCalle(db.Sequelize,db.dataType);
+        const tiempoCalle = defineTiempoCalle(db.Sequelize, db.dataType);
         const resultTiempoCalle = await tiempoCalle.create({
             nombre: nombreTiempoCalle,
         })
-        res.status(200).json({message: "Tipo de tiempo de calle creado", resultTiempoCalle: resultTiempoCalle,status: 200});
-    }catch(error){
+        res.status(200).json({ message: "Tipo de tiempo de calle creado", resultTiempoCalle: resultTiempoCalle, status: 200 });
+    } catch (error) {
         console.error("Error al crear el tipo de tiempo de calle:", error);
-        res.status(500).json({message: "Error al crear el tipo de tiempo de calle", error: error.message, status: 500});
+        res.status(500).json({ message: "Error al crear el tipo de tiempo de calle", error: error.message, status: 500 });
     }
 }
 
 catalogosCtr.editTiempoCalle = async (req, res) => {
-  try {
-    const { idTiempoCalle, nombreTiempoCalle } = req.body;
-    const db = dbConnection.getInstance();
-    const tiempoCalle = defineTiempoCalle(db.Sequelize, db.dataType);
-    const result = await tiempoCalle.update(
-      { nombre: nombreTiempoCalle },
-      { where: { id: idTiempoCalle } }
-    );
-    res
-      .status(200)
-      .json({ message: "Tiempo en calle actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar tiempo en calle:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar tiempo en calle",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idTiempoCalle, nombreTiempoCalle } = req.body;
+        const db = dbConnection.getInstance();
+        const tiempoCalle = defineTiempoCalle(db.Sequelize, db.dataType);
+        const result = await tiempoCalle.update(
+            { nombre: nombreTiempoCalle },
+            { where: { id: idTiempoCalle } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tiempo en calle actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar tiempo en calle:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar tiempo en calle",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteTiempoCalle = async (req, res) => {
@@ -607,27 +608,27 @@ catalogosCtr.addRazonServicio = async (req, res) => {
 };
 
 catalogosCtr.editRazonServicio = async (req, res) => {
-  try {
-    const { idRazonServicio, nombreRazonServicio } = req.body;
-    const db = dbConnection.getInstance();
-    const razonServicio = defineRazonServicio(db.Sequelize, db.dataType);
-    const result = await razonServicio.update(
-      { nombre: nombreRazonServicio },
-      { where: { id: idRazonServicio } }
-    );
-    res
-      .status(200)
-      .json({ message: "Razón de servicio actualizada", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar razón de servicio:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar razón de servicio",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idRazonServicio, nombreRazonServicio } = req.body;
+        const db = dbConnection.getInstance();
+        const razonServicio = defineRazonServicio(db.Sequelize, db.dataType);
+        const result = await razonServicio.update(
+            { nombre: nombreRazonServicio },
+            { where: { id: idRazonServicio } }
+        );
+        res
+            .status(200)
+            .json({ message: "Razón de servicio actualizada", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar razón de servicio:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar razón de servicio",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteRazonServicio = async (req, res) => {
@@ -669,27 +670,27 @@ catalogosCtr.addProvincia = async (req, res) => {
 };
 
 catalogosCtr.editProvincia = async (req, res) => {
-  try {
-    const { idProvincia, nombreProvincia } = req.body;
-    const db = dbConnection.getInstance();
-    const provincia = defineProvincia(db.Sequelize, db.dataType);
-    const result = await provincia.update(
-      { nombre: nombreProvincia },
-      { where: { id: idProvincia } }
-    );
-    res
-      .status(200)
-      .json({ message: "Provincia actualizada", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar la provincia:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar la provincia",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idProvincia, nombreProvincia } = req.body;
+        const db = dbConnection.getInstance();
+        const provincia = defineProvincia(db.Sequelize, db.dataType);
+        const result = await provincia.update(
+            { nombre: nombreProvincia },
+            { where: { id: idProvincia } }
+        );
+        res
+            .status(200)
+            .json({ message: "Provincia actualizada", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar la provincia:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar la provincia",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteProvincia = async (req, res) => {
@@ -731,25 +732,25 @@ catalogosCtr.addPais = async (req, res) => {
 };
 
 catalogosCtr.editPais = async (req, res) => {
-  try {
-    const { idPais, nombrePais } = req.body;
-    const db = dbConnection.getInstance();
-    const pais = definePais(db.Sequelize, db.dataType);
-    const result = await pais.update(
-      { nombre: nombrePais },
-      { where: { id: idPais } }
-    );
-    res.status(200).json({ message: "País actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el país:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el país",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idPais, nombrePais } = req.body;
+        const db = dbConnection.getInstance();
+        const pais = definePais(db.Sequelize, db.dataType);
+        const result = await pais.update(
+            { nombre: nombrePais },
+            { where: { id: idPais } }
+        );
+        res.status(200).json({ message: "País actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el país:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el país",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deletePais = async (req, res) => {
@@ -792,34 +793,34 @@ catalogosCtr.addInstitucionesViolencia = async (req, res) => {
 };
 
 catalogosCtr.editInstitucionesViolencia = async (req, res) => {
-  try {
-    const { idInstitucionesViolencia, nombreInstitucionesViolencia } = req.body;
-    const db = dbConnection.getInstance();
-    const institucionesViolencia = defineInstitucionesViolencia(
-      db.Sequelize,
-      db.dataType
-    );
-    const result = await institucionesViolencia.update(
-      { nombre: nombreInstitucionesViolencia },
-      { where: { id: idInstitucionesViolencia } }
-    );
-    res
-      .status(200)
-      .json({
-        message: "Institución de violencia actualizada",
-        result,
-        status: 200,
-      });
-  } catch (error) {
-    console.error("Error al actualizar la institución de violencia:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar la institución de violencia",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idInstitucionesViolencia, nombreInstitucionesViolencia } = req.body;
+        const db = dbConnection.getInstance();
+        const institucionesViolencia = defineInstitucionesViolencia(
+            db.Sequelize,
+            db.dataType
+        );
+        const result = await institucionesViolencia.update(
+            { nombre: nombreInstitucionesViolencia },
+            { where: { id: idInstitucionesViolencia } }
+        );
+        res
+            .status(200)
+            .json({
+                message: "Institución de violencia actualizada",
+                result,
+                status: 200,
+            });
+    } catch (error) {
+        console.error("Error al actualizar la institución de violencia:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar la institución de violencia",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteInstitucionesViolencia = async (req, res) => {
@@ -860,27 +861,27 @@ catalogosCtr.addGradoAcademico = async (req, res) => {
 };
 
 catalogosCtr.editGradoAcademico = async (req, res) => {
-  try {
-    const { idGradoAcademico, nombreGradoAcademico } = req.body;
-    const db = dbConnection.getInstance();
-    const gradoAcademico = defineGradoAcademico(db.Sequelize, db.dataType);
-    const result = await gradoAcademico.update(
-      { nombre: nombreGradoAcademico },
-      { where: { id: idGradoAcademico } }
-    );
-    res
-      .status(200)
-      .json({ message: "Grado académico actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el grado académico:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el grado académico",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idGradoAcademico, nombreGradoAcademico } = req.body;
+        const db = dbConnection.getInstance();
+        const gradoAcademico = defineGradoAcademico(db.Sequelize, db.dataType);
+        const result = await gradoAcademico.update(
+            { nombre: nombreGradoAcademico },
+            { where: { id: idGradoAcademico } }
+        );
+        res
+            .status(200)
+            .json({ message: "Grado académico actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el grado académico:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el grado académico",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteGradoAcademico = async (req, res) => {
@@ -922,27 +923,27 @@ catalogosCtr.addGenero = async (req, res) => {
 };
 
 catalogosCtr.editGenero = async (req, res) => {
-  try {
-    const { idGenero, nombreGenero } = req.body;
-    const db = dbConnection.getInstance();
-    const genero = defineGenero(db.Sequelize, db.dataType);
-    const result = await genero.update(
-      { nombre: nombreGenero },
-      { where: { id: idGenero } }
-    );
-    res
-      .status(200)
-      .json({ message: "Género actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el género:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el género",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idGenero, nombreGenero } = req.body;
+        const db = dbConnection.getInstance();
+        const genero = defineGenero(db.Sequelize, db.dataType);
+        const result = await genero.update(
+            { nombre: nombreGenero },
+            { where: { id: idGenero } }
+        );
+        res
+            .status(200)
+            .json({ message: "Género actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el género:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el género",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteGenero = async (req, res) => {
@@ -984,27 +985,27 @@ catalogosCtr.addEstadoCivil = async (req, res) => {
 };
 
 catalogosCtr.editEstadoCivil = async (req, res) => {
-  try {
-    const { idEstadoCivil, nombreEstadoCivil } = req.body;
-    const db = dbConnection.getInstance();
-    const estadoCivil = defineEstadoCivil(db.Sequelize, db.dataType);
-    const result = await estadoCivil.update(
-      { nombre: nombreEstadoCivil },
-      { where: { id: idEstadoCivil } }
-    );
-    res
-      .status(200)
-      .json({ message: "Estado civil actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el estado civil:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el estado civil",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idEstadoCivil, nombreEstadoCivil } = req.body;
+        const db = dbConnection.getInstance();
+        const estadoCivil = defineEstadoCivil(db.Sequelize, db.dataType);
+        const result = await estadoCivil.update(
+            { nombre: nombreEstadoCivil },
+            { where: { id: idEstadoCivil } }
+        );
+        res
+            .status(200)
+            .json({ message: "Estado civil actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el estado civil:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el estado civil",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteEstadoCivil = async (req, res) => {
@@ -1046,27 +1047,27 @@ catalogosCtr.addTipoViolencia = async (req, res) => {
 };
 
 catalogosCtr.editTipoViolencia = async (req, res) => {
-  try {
-    const { idTipoViolencia, nombreTipoViolencia } = req.body;
-    const db = dbConnection.getInstance();
-    const tipoViolencia = defineTipoViolencia(db.Sequelize, db.dataType);
-    const result = await tipoViolencia.update(
-      { nombre: nombreTipoViolencia },
-      { where: { id: idTipoViolencia } }
-    );
-    res
-      .status(200)
-      .json({ message: "Tipo de violencia actualizado", result, status: 200 });
-  } catch (error) {
-    console.error("Error al actualizar el tipo de violencia:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el tipo de violencia",
-        error: error.message,
-        status: 500,
-      });
-  }
+    try {
+        const { idTipoViolencia, nombreTipoViolencia } = req.body;
+        const db = dbConnection.getInstance();
+        const tipoViolencia = defineTipoViolencia(db.Sequelize, db.dataType);
+        const result = await tipoViolencia.update(
+            { nombre: nombreTipoViolencia },
+            { where: { id: idTipoViolencia } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tipo de violencia actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el tipo de violencia:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el tipo de violencia",
+                error: error.message,
+                status: 500,
+            });
+    }
 };
 
 catalogosCtr.deleteTipoViolencia = async (req, res) => {
@@ -1079,6 +1080,132 @@ catalogosCtr.deleteTipoViolencia = async (req, res) => {
     } catch (error) {
         console.error("Error al eliminar el tipo de violencia:", error);
         res.status(500).json({ message: "Error al eliminar el tipo de violencia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.getAllTiposCuartos = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
+        const tiposCuarto = await tipoCuarto.findAll();
+        res.status(200).json({ message: "Tipos de cuarto recuperados", tiposCuartos: tiposCuarto, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de cuarto:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de violencia", error: error.message, status: 500 });
+    }
+}
+
+catalogosCtr.addTipoCuarto = async (req, res) => {
+    try {
+        const nombreTipoCuarto = req.body.nombreTipoCuarto;
+        const colorTipoCuarto = req.body.colorTipoCuarto;
+        const db = dbConnection.getInstance();
+        const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
+        const resultTipoCuarto = await tipoCuarto.create({ nombre: nombreTipoCuarto, color: colorTipoCuarto });
+        res.status(200).json({ message: "Tipo de Cuarto creado", resultTipoCuarto, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el tipo de violencia:", error);
+        res.status(500).json({ message: "Error al crear el tipo de violencia", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.editTipoCuarto = async (req, res) => {
+    try {
+        const { idTipoCuarto, nombreTipoCuarto, colorTipoCuarto } = req.body;
+        const db = dbConnection.getInstance();
+        const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
+        const result = await tipoCuarto.update(
+            { nombre: nombreTipoCuarto, color: colorTipoCuarto },
+            { where: { id: idTipoCuarto } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tipo de cuarto actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el tipo de cuarto:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el tipo de cuarto",
+                error: error.message,
+                status: 500,
+            });
+    }
+};
+
+catalogosCtr.deleteTipoCuarto = async (req, res) => {
+    try {
+        const idTipoCuarto = req.body.idTipoCuarto;
+        const db = dbConnection.getInstance();
+        const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
+        const rowAffected = await tipoCuarto.destroy({ where: { id: idTipoCuarto } });
+        res.status(200).json({ message: "Tipo de cuarto eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el tipo de cuarto:", error);
+        res.status(500).json({ message: "Error al eliminar el tipo de cuarto", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.getAllTiposCamas = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
+        const tiposCama = await tipoCama.findAll();
+        res.status(200).json({ message: "Tipos de cama recuperados", tiposCamas: tiposCama, status: 200 });
+    } catch (error) {
+        console.error("Error al recuperar los tipos de cama:", error);
+        res.status(500).json({ message: "Error al recuperar los tipos de cama", error: error.message, status: 500 });
+    }
+}
+
+catalogosCtr.addTipoCama = async (req, res) => {
+    try {
+        const nombreTipoCama = req.body.nombreTipoCama;
+        const colorTipoCama = req.body.colorTipoCama;
+        const db = dbConnection.getInstance();
+        const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
+        const resultTipoCama = await tipoCama.create({ nombre: nombreTipoCama, color: colorTipoCama });
+        res.status(200).json({ message: "Tipo de cama creado", resultTipoCama, status: 200 });
+    } catch (error) {
+        console.error("Error al crear el tipo de cama:", error);
+        res.status(500).json({ message: "Error al crear el tipo de cama", error: error.message, status: 500 });
+    }
+};
+
+catalogosCtr.editTipoCama = async (req, res) => {
+    try {
+        const { idTipoCama, nombreTipoCama, colorTipoCama } = req.body;
+        const db = dbConnection.getInstance();
+        const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
+        const result = await tipoCama.update(
+            { nombre: nombreTipoCama, color: colorTipoCama },
+            { where: { id: idTipoCama } }
+        );
+        res
+            .status(200)
+            .json({ message: "Tipo de cama actualizado", result, status: 200 });
+    } catch (error) {
+        console.error("Error al actualizar el tipo de cama:", error);
+        res
+            .status(500)
+            .json({
+                message: "Error al actualizar el tipo de cama",
+                error: error.message,
+                status: 500,
+            });
+    }
+};
+
+catalogosCtr.deleteTipoCama = async (req, res) => {
+    try {
+        const idTipoCama = req.body.idTipoCama;
+        const db = dbConnection.getInstance();
+        const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
+        const rowAffected = await tipoCama.destroy({ where: { id: idTipoCama } });
+        res.status(200).json({ message: "Tipo de cama eliminado", rowAffected, status: 200 });
+    } catch (error) {
+        console.error("Error al eliminar el tipo de cama:", error);
+        res.status(500).json({ message: "Error al eliminar el tipo de cama", error: error.message, status: 500 });
     }
 };
 
