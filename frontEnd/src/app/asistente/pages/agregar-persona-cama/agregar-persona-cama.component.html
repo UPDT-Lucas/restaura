@@ -1,0 +1,22 @@
+<div class="container">
+    <h1>Seleccione la cama</h1>
+    <div class="beds-container">
+        @for(bed of allBeds; track bed){
+        <div class="bed">
+            <div class="bed-header">
+                <h2>Cama {{bed.nombre}}</h2>
+                <p>{{bed.tipo_cama.nombre}}</p>
+            </div>
+            <span class="material-icons bed-icon" [style.color]='bed.tipo_cama.color'>
+                bed
+            </span>
+            <div class="bed-content">
+                @if(bed.active){
+                    <p class="bed-free">Disponible</p>
+                }@else {
+                    <p class="bed-occupied">Ocupado</p>
+                }
+            </div>
+        </div>
+        }
+    </div>

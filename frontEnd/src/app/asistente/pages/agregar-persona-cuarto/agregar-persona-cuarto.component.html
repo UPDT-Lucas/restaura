@@ -1,0 +1,24 @@
+<div class="container">
+    <h1>Seleccione el cuarto</h1>
+    <div class="rooms-container">
+        @for(room of allRooms; track room) {
+        <div class="room"
+            (click)="selectRoom(room.id.toString())">
+            <div class="room-header">
+                <h2>Cuarto {{room.id}}</h2>
+                <p>{{room.tipo_cuarto.nombre}}</p>
+            </div>
+            <span class="material-icons room-icon" [style.color]='room.tipo_cuarto.color'>
+                bedroom_parent
+            </span>
+            <div class="room-content">
+                @if(room.active) {
+                <p class="room-free">Disponible</p>
+                } @else {
+                <p class="room-occupied">Ocupado</p>
+                }
+            </div>
+        </div>
+        }
+    </div>
+</div>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TableComponent } from '../../../shared/components/table/table.component';
 import { SearchBoxComponent } from '../../../shared/components/search-box/search-box.component';
 import { ClientService } from '../../../services/client.service';
 import { ClienteServicio } from '../../../interfaces/clienteServicio.interface';
@@ -10,10 +9,11 @@ import { Client } from '../../../interfaces/log.interface';
 import { ConfirmDialogInputComponent } from '../../../shared/components/confirm-dialog-input/confirm-dialog-input.component';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log',
-  imports: [TableComponent, DynamicTableComponent, SearchBoxComponent, CommonModule, InputDateComponent, ConfirmDialogInputComponent, ConfirmDialogComponent],
+  imports: [DynamicTableComponent, SearchBoxComponent, CommonModule, InputDateComponent, ConfirmDialogInputComponent, ConfirmDialogComponent],
   templateUrl: './log.component.html',
   styleUrl: './log.component.css',
 })
@@ -21,7 +21,8 @@ export class LogComponent {
   cargando: boolean = true;
   constructor(
     private clientService: ClientService,
-    private logService: LogService
+    private logService: LogService,
+    private router: Router
   ) { }
 
   clients: ClienteServicio[] = [];
@@ -178,20 +179,22 @@ export class LogComponent {
     if (!this.idBitacora || !this.selectedId) {
       return;
     }
-    this.logService.getLastRoom(id, this.idBitacora!).subscribe({
-      next: (data: any) => {
-        this.showAddRoomDialog = true;
-        this.cuarto = data.numeroCuarto.toString();
-      },
-      error: (err) => {
-        if (err.status === 409) {
-          this.showDuplicateBitacora = true;
-        }else if (err.status === 404) {
-          this.showAddRoomDialog = true;
-          this.cuarto = "Nunca ha estado en un cuarto";
-        }
-      }
-    });
+    this.router.navigate(['/asignar-cuarto']);
+
+    // this.logService.getLastRoom(id, this.idBitacora!).subscribe({
+    //   next: (data: any) => {
+    //     this.showAddRoomDialog = true;
+    //     this.cuarto = data.numeroCuarto.toString();
+    //   },
+    //   error: (err) => {
+    //     if (err.status === 409) {
+    //       this.showDuplicateBitacora = true;
+    //     }else if (err.status === 404) {
+    //       this.showAddRoomDialog = true;
+    //       this.cuarto = "Nunca ha estado en un cuarto";
+    //     }
+    //   }
+    // });
   }
 
   handleInputResult(event: { confirmed: boolean, value?: string }) {

@@ -1,0 +1,80 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5rem;
+    padding-top: 7rem;
+    gap: 24px;
+}
+
+.rooms-container {
+    display: grid;
+    grid-template-columns: repeat(4, 200px); /* 4 columnas */
+    gap: 48px;
+    padding: 1rem;
+}
+
+.room {
+    text-align: center;
+    background-color: #fff;
+    border: 2px solid #21438c;
+    border-radius: 16px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.room-header h2 {
+    color: #21438c;
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.room-header p {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.room-content p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+.room-icon {
+    font-size: 80px;
+}
+
+.room-special {
+    color: burlywood;
+}
+
+h1 {
+    color: #21438c;
+}
+
+.room {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(33, 67, 140, 0.2);
+}
+
+.room-free {
+    color: green;
+}
+
+.room-occupied {
+    color: red;
+}

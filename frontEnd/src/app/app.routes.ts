@@ -59,6 +59,8 @@ import { EditTipoIdComponent } from './catalogs/pages/edit-tipo-id/edit-tipo-id.
 import { EditTipoAyudaComponent } from './catalogs/pages/edit-tipo-ayuda/edit-tipo-ayuda.component';
 import { EditTipoPensionComponent } from './catalogs/pages/edit-tipo-pension/edit-tipo-pension.component';
 import { EditTipoViolenciaComponent } from './catalogs/pages/edit-tipo-violencia/edit-tipo-violencia.component';
+import { AgregarPersonaCamaComponent } from './asistente/pages/agregar-persona-cama/agregar-persona-cama.component';
+import { AgregarPersonaCuartoComponent } from './asistente/pages/agregar-persona-cuarto/agregar-persona-cuarto.component';
 
 export const routes: Routes = [
     // General
@@ -69,6 +71,8 @@ export const routes: Routes = [
     { path: 'edit/:id', component: EditPersonComponent },
     { path: 'view/:id', component: ViewPersonComponent },
     { path: 'consultas', component: ConsultasComponent },
+    { path: 'asignar-cuarto', component: AgregarPersonaCuartoComponent },
+    { path: 'asignar-cama/:idCuarto', component: AgregarPersonaCamaComponent },
 
     // Index
     { path: 'cantones', component: CantonesComponent },
