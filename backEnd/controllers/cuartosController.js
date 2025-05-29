@@ -24,17 +24,36 @@ cuartosCtr.getCuartosAndType = async (req, res) => {
   try {
     const db = dbConnection.getInstance();
 
-    const Cuarto = defineCuarto(db.Sequelize, db.dataType);
-    const TipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
+    // Obtén la fecha del query param o usa la fecha actual
+    const fecha = req.params.fecha || new Date().toISOString().slice(0, 10);
 
-    const cuartos = await Cuarto.findAll();
+    const [results] = await db.Sequelize.query(
+      'SELECT * FROM fn_get_cuartos_con_tipo()'
+    );
+    console.log(results);
+    const [camasEstado] = await db.Sequelize.query(
+      'SELECT * FROM fn_obtener_estado_camas_por_cuarto(:fecha)', {
+        replacements: { fecha }
+      }
+    );
 
-    const tipos = await TipoCuarto.findAll();
-    const cuartosConTipo = cuartos.map(cuarto => {
-      const tipo = tipos.find(t => t.id === cuarto.tipo_cuarto_id);
+    const cuartosConTipo = results.map(row => {
+      const estado = camasEstado.find(e => e.cuarto_id === row.id) || {};
       return {
-        ...cuarto.toJSON(),
-        tipo_cuarto: tipo ? { id: tipo.id, nombre: tipo.nombre, color: tipo.color } : null
+        id: row.id,
+        nombre: row.nombre,
+        active: row.active,
+        tipo_cuarto_id: row.tipo_cuarto_id,
+        tipo_cuarto: {
+          id: row.tipo_cuarto_id,
+          nombre: row.tipo_cuarto_nombre,
+          color: row.tipo_cuarto_color
+        },
+        camas: {
+          can_no_usadas: estado.can_no_usadas || 0,
+          can_usadas: estado.can_usadas || 0,
+          total_camas: estado.total_camas || 0
+        }
       };
     });
 
