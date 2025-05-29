@@ -11,6 +11,7 @@ import { InputBooleanComponent } from '../../../shared/components/input-boolean/
 import { SelectComponent } from '../../../shared/components/select/select.component';
 import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component';
 import { firstValueFrom } from 'rxjs';
+import { LinkStackService } from '../../../services/link-stack.service';
 
 @Component({
     selector: 'table-example',
@@ -30,10 +31,14 @@ import { firstValueFrom } from 'rxjs';
     styleUrls: ['./edit-cuarto.component.css'],
 })
 export class EditCuartoComponent {
-    constructor(private cuartosService: CuartosService, private route: ActivatedRoute, private router: Router) {}
+    constructor(
+        private cuartosService: CuartosService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private linkStack: LinkStackService,
+    ) {}
 
     cargando: boolean = true;
-    showModal: boolean = false;
     tipoCuartoOptions: { label: string; value: string }[] = [];
     esCuartoCreado = false;
     currentPage = 1;
@@ -41,8 +46,10 @@ export class EditCuartoComponent {
     totalItems = 0;
     selectedIdCamas: string = '0';
     camas: any[] = [];
-    headers = [['Nombre', 'Tipo Cuarto', 'Activo']];
+    headers = [['Id', 'Nombre', 'Tipo Cuarto', 'Activo']];
     tableData: any[] = this.headers;
+    showEditModal = false;
+    showDeleteModal = false;
 
     formData: any = {
         nombre: null,
@@ -50,6 +57,39 @@ export class EditCuartoComponent {
         active: null,
         idCuarto: null,
     };
+
+    ngAfterViewInit(): void {
+        this.route.queryParamMap.subscribe((params) => {
+            const typeMessage = params.get('type-response');
+
+            if (typeMessage === '1') {
+                this.snackbar.show('Cama creada correctamente', 3000);
+            } else if (typeMessage === '2') {
+                this.snackbar.show('Cama editada correctamente', 3000);
+            } else if (typeMessage === '3') {
+                this.snackbar.show('Cama eliminada correctamente', 3000);
+            }
+
+            if (['1', '2', '3'].includes(typeMessage || '')) {
+                setTimeout(() => {
+                    this.router.navigate([], {
+                        relativeTo: this.route,
+                        queryParams: {},
+                        replaceUrl: true,
+                        skipLocationChange: true,
+                    });
+                    
+                    setTimeout(() => {
+                        this.linkStack.popLink();
+                    }, 50);
+                }, 500);
+                  
+            }
+            
+            this.reloadPage();
+            this.currentPage = 1;
+        });
+    }
 
     ngOnInit(): void {
         this.reloadPage();
@@ -71,7 +111,6 @@ export class EditCuartoComponent {
             // Obtener datos del cuarto
             const cuartoResp = await firstValueFrom(this.cuartosService.getCuarto(idCuarto));
             if (cuartoResp.status === 200) {
-
                 this.formData.nombre = cuartoResp.data.nombre.toString();
                 this.formData.tipo_cuarto_id = cuartoResp.data.tipo_cuarto_id.toString();
                 this.formData.active = cuartoResp.data.active;
@@ -95,7 +134,7 @@ export class EditCuartoComponent {
                                     ? [tipoCamaResp.tipoCama.nombre, tipoCamaResp.tipoCama.color]
                                     : ['Desconocido', '#cccccc'];
 
-                            return [item.nombre, tipoCama, item.active ? 'Sí' : 'No', item.id];
+                            return [item.id, item.nombre, tipoCama, item.active ? 'Sí' : 'No'];
                         } catch (error) {
                             console.error('Error al obtener tipo de cama:', error);
                             return [item.nombre, ['Error', '#ff0000'], item.active ? 'Sí' : 'No', item.id];
@@ -104,6 +143,7 @@ export class EditCuartoComponent {
                 );
 
                 this.actualizarTabla();
+                this.getTotalItems();
             } else {
                 console.error('Error al obtener las camas:', camasResp);
             }
@@ -115,7 +155,7 @@ export class EditCuartoComponent {
     }
 
     confirmUpdate() {
-        this.showModal = true;
+        this.showEditModal = true;
     }
 
     resetForm() {
@@ -125,6 +165,10 @@ export class EditCuartoComponent {
             active: null,
             idCuarto: null,
         };
+    }
+
+    getTotalItems() {
+        this.totalItems = this.camas.length > 1 ? this.camas.length : 0;
     }
 
     actualizarTabla() {
@@ -137,7 +181,7 @@ export class EditCuartoComponent {
 
     onDeleteRow(id: string) {
         this.selectedIdCamas = id;
-        this.confirmUpdate();
+        this.showDeleteModal = true;
     }
 
     onUpdatePage(page: number) {
@@ -153,7 +197,7 @@ export class EditCuartoComponent {
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     editarCuarto(confirmed: boolean): void {
-        this.showModal = false;
+        this.showEditModal = false;
         if (confirmed) {
             this.cargando = true;
 
@@ -169,10 +213,18 @@ export class EditCuartoComponent {
                         this.cargando = false;
 
                         if (response.status === 200) {
-                            this.resetForm();
-                            this.router.navigate(['/cuartos'], {
-                                queryParams: { 'type-response': '2' },
-                            });
+                            this.linkStack.popLink();
+
+                            const previousUrl = this.linkStack.popLink();
+
+                            if (previousUrl) {
+                                const urlParts = previousUrl.split('?');
+                                const routePath = urlParts[0];
+
+                                this.router.navigate([routePath], { queryParams: { 'type-response': '2' } });
+                            } else {
+                                this.router.navigate(['/']);
+                            }
                         } else {
                             console.error('Error al guardar Cuarto:', response);
                             this.snackbar.show('Error al guardar Cuarto', 3000);
@@ -184,6 +236,40 @@ export class EditCuartoComponent {
                         this.snackbar.show('Error al guardar Cuarto', 3000);
                     },
                 });
+        }
+    }
+
+    eliminarCama(confirmed: boolean): void {
+        this.showDeleteModal = false;
+        if (confirmed) {
+            this.cargando = true;
+
+            this.cuartosService.deleteCama(this.selectedIdCamas).subscribe({
+                next: (response) => {
+                    this.cargando = false;
+
+                    if (response.status === 200) {
+                        const previousUrl = this.linkStack.popLink();
+
+                        if (previousUrl) {
+                            const urlParts = previousUrl.split('?');
+                            const routePath = urlParts[0];
+
+                            this.router.navigate([routePath], { queryParams: { 'type-response': '3' } });
+                        } else {
+                            this.router.navigate(['/']);
+                        }
+                    } else {
+                        console.error('Error al eliminar la cama:', response);
+                        this.snackbar.show('Error al eliminar la cama', 3000);
+                    }
+                },
+                error: (error) => {
+                    this.cargando = false;
+                    console.error('Error al eliminar la cama:', error);
+                    this.snackbar.show('Error al eliminar la cama', 3000);
+                },
+            });
         }
     }
 }

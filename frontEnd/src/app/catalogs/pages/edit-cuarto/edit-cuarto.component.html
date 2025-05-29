@@ -22,7 +22,7 @@
             *ngIf="esCuartoCreado"
             [table_title]="'Camas del Cuarto'"
             [buttonText]="'Nueva Cama'"
-            [buttonLink]="'/nueva-cama'"
+            [buttonLink]="'/nueva-cama/' + formData.idCuarto"
             [tableData]="tableData"
             [editLink]="'/editar-cama/'"
             [deleteButton]="true"
@@ -44,12 +44,20 @@
 </div>
 
 <app-confirm-dialog
-    *ngIf="showModal"
+    *ngIf="showEditModal"
     [title]="'Editar Cuarto'"
     [text]="'¿Estás seguro de que deseas editar el cuarto?'"
     [actionType]="'update'"
     (confirmed)="editarCuarto($event)"
->
-</app-confirm-dialog>
+></app-confirm-dialog>
+
+<!-- Confirmar eliminación de cama -->
+<app-confirm-dialog
+    *ngIf="showDeleteModal"
+    [title]="'Eliminar Cama'"
+    [text]="'¿Deseas eliminar esta cama del cuarto?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarCama($event)"
+></app-confirm-dialog>
 
 <app-snackbar></app-snackbar>

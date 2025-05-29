@@ -114,6 +114,7 @@ export const routes: Routes = [
     { path: 'nuevo-tipo-pension', component: AddTipoPensionComponent },
     { path: 'nuevo-tipo-violencia', component: AddTipoViolenciaComponent },
     { path: 'nuevo-cuarto', component: addCuartoComponent },
+    { path: 'nueva-cama/:id', component: AddCamaComponent },
 
     // Edit
     { path: 'editar-canton/:id', component: EditCantonComponent },

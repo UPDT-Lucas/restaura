@@ -7,6 +7,7 @@ import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
+
 @Component({
     selector: 'table-example',
     imports: [DynamicTableComponent, CommonModule, ConfirmDialogComponent, SnackbarComponent],

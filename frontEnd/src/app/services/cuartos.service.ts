@@ -2,15 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
     providedIn: 'root',
 })
 export class CuartosService {
     private apiUrl = 'http://localhost:3100';
 
-    constructor(private http: HttpClient) { }
-    
+    constructor(private http: HttpClient) {}
+
     /* CUARTOS */
     getCuartos(): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/cuartos`);
@@ -28,15 +27,19 @@ export class CuartosService {
         return this.http.put<any>(`${this.apiUrl}/editCuarto`, cuarto);
     }
 
-    deleteCuarto(idCuarto: any): Observable<any> {
+    deleteCuarto(id: any): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}/deleteCuarto`, {
-            body: { idCuarto },
+            body: { id },
         });
     }
 
     /* CAMAS */
     getCamasByIdCuarto(idCuarto: any): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/camasbyId/${idCuarto}`);
+    }
+
+    getCama(idCama: any): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/cama/${idCama}`);
     }
 
     addCama(cama: any): Observable<any> {
@@ -47,9 +50,9 @@ export class CuartosService {
         return this.http.put<any>(`${this.apiUrl}/editCama`, cama);
     }
 
-    deleteCama(idCama: any): Observable<any> {
+    deleteCama(id: any): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}/deleteCama`, {
-            body: { idCama },
+            body: { id },
         });
     }
 

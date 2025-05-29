@@ -9,6 +9,8 @@ import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.
 import { Router } from '@angular/router';
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
 import { CuartosService } from '../../../services/cuartos.service';
+import { LinkStackService } from '../../../services/link-stack.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'table-example',
@@ -26,19 +28,23 @@ import { CuartosService } from '../../../services/cuartos.service';
     styleUrls: ['./add-cama.component.css'],
 })
 export class AddCamaComponent {
-    constructor(private cuartosService: CuartosService, private router: Router) {}
+    constructor(private cuartosService: CuartosService, private router: Router,private route: ActivatedRoute, private linkStack: LinkStackService) {}
 
     cargando: boolean = false;
     showModal: boolean = false;
     tipoCamaOptions: { label: string; value: string }[] = [];
 
     formData: any = {
-        nombreCama: null,
+        nombre: null,
         tipo_cama_id: null,
         active: null,
+        cuarto_id: null,
     };
 
     ngOnInit(): void {
+        const idCuarto = this.route.snapshot.paramMap.get('id') || '0';
+        this.formData.cuarto_id = idCuarto;
+
         this.cuartosService.getTiposCamas().subscribe({
             next: (data) => {
                 this.tipoCamaOptions = data.tiposCamas.map((item: any) => ({
@@ -60,9 +66,10 @@ export class AddCamaComponent {
 
     resetForm() {
         this.formData = {
-            nombreCama: null,
+            nombre: null,
             tipo_cama_id: null,
             active: null,
+            cuarto_id: null,
         };
     }
 
@@ -77,10 +84,18 @@ export class AddCamaComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.resetForm();
-                        /*this.router.navigate(['/cantones'], {
-                            queryParams: { 'type-response': '1' },
-                        });*/
+                        this.linkStack.popLink();
+
+                        const previousUrl = this.linkStack.popLink();
+
+                        if (previousUrl) {
+                            const urlParts = previousUrl.split('?');
+                            const routePath = urlParts[0];
+
+                            this.router.navigate([routePath], { queryParams: { 'type-response': '1' } });
+                        } else {
+                            this.router.navigate(['/']);
+                        }
                     } else {
                         console.error('Error al guardar la cama:', response);
                         this.snackbar.show('Error al guardar la cama', 3000);
