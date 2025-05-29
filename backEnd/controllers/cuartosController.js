@@ -5,6 +5,20 @@ import defineTipoCuarto from "../models/tipo_cuarto.js";
 import defineTipoCama from "../models/tipo_cama.js";
 
 const cuartosCtr = {};
+
+function convertirFechaADate(fecha) {
+  if (!fecha) return null; // Manejar fechas nulas o indefinidas
+
+  // Verificar si la fecha ya está en formato YYYY-MM-DD
+  const formatoYYYYMMDD = /^\d{4}-\d{2}-\d{2}$/; // Expresión regular para validar el formato
+  if (formatoYYYYMMDD.test(fecha)) {
+      return fecha; // Si ya está en el formato correcto, devolver la fecha
+  }
+
+  // Si no está en el formato correcto, convertirla
+  const [dia, mes, ano] = fecha.split('-'); // Dividir la fecha en partes
+  return `${ano}-${mes}-${dia}`; // Reorganizar en formato YYYY-MM-DD
+}
 // GET endpoints
 cuartosCtr.getCuartos = async (req, res) => { 
     try {
@@ -24,13 +38,12 @@ cuartosCtr.getCuartosAndType = async (req, res) => {
   try {
     const db = dbConnection.getInstance();
 
-    // Obtén la fecha del query param o usa la fecha actual
-    const fecha = req.params.fecha || new Date().toISOString().slice(0, 10);
-
+    const fecha1 = req.params.fecha || new Date().toISOString().slice(0, 10);
+    const fecha = convertirFechaADate(fecha1);
     const [results] = await db.Sequelize.query(
       'SELECT * FROM fn_get_cuartos_con_tipo()'
     );
-    console.log(results);
+    
     const [camasEstado] = await db.Sequelize.query(
       'SELECT * FROM fn_obtener_estado_camas_por_cuarto(:fecha)', {
         replacements: { fecha }
