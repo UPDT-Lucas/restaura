@@ -8,7 +8,7 @@ api.get('/cuartos', cuarto.getCuartos);
 api.get('/camasbyId/:id', cuarto.getCamasbyId);
 
 //GET especiales enpoints
-api.get('/cuartosAndType', cuarto.getCuartosAndType);
+api.get('/cuartosAndType/:fecha', cuarto.getCuartosAndType);
 api.get('/camasAndTypeById/:id', cuarto.getCamasAndTypebyId);
 
 //POST endpoints
