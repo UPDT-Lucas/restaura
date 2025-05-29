@@ -1,0 +1,55 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Editar Cuarto'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text [label]="'Nombre'" [placeholder]="'Ingrese el nombre'" [(value)]="formData.nombre" />
+
+        <!-- Tipo Cuarto -->
+        <shared-select [label]="'Tipo Cuarto'" [options]="tipoCuartoOptions" [(value)]="formData.tipo_cuarto_id" />
+
+        <!-- Activo -->
+        <shared-input-boolean [label]="'Activo'" [(value)]="formData.active" />
+    </div>
+
+    <div class="div-table">
+        <!-- Tabla Camas -->
+        <shared-dynamic-table
+            *ngIf="esCuartoCreado"
+            [table_title]="'Camas del Cuarto'"
+            [buttonText]="'Nueva Cama'"
+            [buttonLink]="'/nueva-cama'"
+            [tableData]="tableData"
+            [editLink]="'/editar-cama/'"
+            [deleteButton]="true"
+            [currentPage]="currentPage"
+            [limitPerPage]="limitPerPage"
+            [totalItems]="totalItems"
+            (deleteRow)="onDeleteRow($event)"
+            (updatePage)="onUpdatePage($event)"
+            (changeLimit)="onUpdateLimit($event)"
+        />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Editar Cuarto" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Editar Cuarto'"
+    [text]="'¿Estás seguro de que deseas editar el cuarto?'"
+    [actionType]="'update'"
+    (confirmed)="editarCuarto($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

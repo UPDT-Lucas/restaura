@@ -1083,6 +1083,40 @@ catalogosCtr.deleteTipoViolencia = async (req, res) => {
     }
 };
 
+
+catalogosCtr.getTipoCuarto = async (req, res) => {
+    try {
+        const id = req.params.id
+        if (!id) {
+            return res.status(400).json({
+                message: "Se requiere un ID para buscar el tipo de cuarto",
+                status: 400
+            });
+        }
+        const db = dbConnection.getInstance();
+        const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
+        const tipoCuartoEncontrado = await tipoCuarto.findByPk(id);
+        if (!tipoCuartoEncontrado) {
+            return res.status(404).json({
+                message: "Tipo de cuarto no encontrado",
+                status: 404
+            });
+        }
+        return res.status(200).json({
+            message: "Tipo de cuarto recuperado",
+            tipoCuarto: tipoCuartoEncontrado,
+            status: 200
+        });
+    } catch (error) {
+        console.error("Error al recuperar el tipo de cuarto:", error);
+        res.status(500).json({
+            message: "Error al recuperar el tipo de cuarto",
+            error: error.message,
+            status: 500
+        });
+    }
+}
+
 catalogosCtr.getAllTiposCuartos = async (req, res) => {
     try {
         const db = dbConnection.getInstance();
@@ -1145,6 +1179,45 @@ catalogosCtr.deleteTipoCuarto = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar el tipo de cuarto", error: error.message, status: 500 });
     }
 };
+
+catalogosCtr.getTipoCama = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!id) {
+            return res.status(400).json({ 
+                message: "Se requiere un ID para buscar el tipo de cama", 
+                status: 400 
+            });
+        }
+        
+        const db = dbConnection.getInstance();
+        const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
+        
+        const tipoCamaEncontrado = await tipoCama.findByPk(id);
+        
+        if (!tipoCamaEncontrado) {
+            return res.status(404).json({ 
+                message: "Tipo de cama no encontrado", 
+                status: 404 
+            });
+        }
+        
+        return res.status(200).json({ 
+            message: "Tipo de cama recuperado", 
+            tipoCama: tipoCamaEncontrado, 
+            status: 200 
+        });
+        
+    } catch (error) {
+        console.error("Error al recuperar el tipo de cama:", error);
+        res.status(500).json({ 
+            message: "Error al recuperar el tipo de cama", 
+            error: error.message, 
+            status: 500 
+        });
+    }
+}
 
 catalogosCtr.getAllTiposCamas = async (req, res) => {
     try {

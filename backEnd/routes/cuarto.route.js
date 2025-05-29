@@ -6,6 +6,8 @@ var api = express.Router();
 // GET endpoints
 api.get('/cuartos', cuarto.getCuartos);
 api.get('/camasbyId/:id', cuarto.getCamasbyId);
+api.get('/cuarto/:id', cuarto.getCuartoById);
+api.get('/cama/:id', cuarto.getCamabyId);
 
 //GET especiales enpoints
 api.get('/cuartosAndType/:fecha', cuarto.getCuartosAndType);

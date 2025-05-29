@@ -37,10 +37,3 @@ shared-select {
     max-width: 100%;
     box-sizing: border-box;
 }
-
-shared-input-boolean {
-    display: flex;
-    flex: 1 1 250px;
-    max-width: 100%;
-    box-sizing: border-box;
-}    

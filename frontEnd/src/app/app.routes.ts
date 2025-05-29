@@ -25,6 +25,7 @@ import { TiposIdComponent } from './catalogs/pages/index-tipos-id/tipos-id.compo
 import { TiposAyudaComponent } from './catalogs/pages/index-tipos-ayuda/tipos-ayuda.component';
 import { TiposPensionComponent } from './catalogs/pages/index-tipos-pension/tipos-pension.component';
 import { TipoViolenciaComponent } from './catalogs/pages/index-tipos-violencia/tipos-violencia.component';
+import { CuartosComponent } from './catalogs/pages/index-cuartos/index-cuarto.component';
 
 /* Add - Catálogos */
 import { AddCantonComponent } from './catalogs/pages/add-canton/add-canton.component';
@@ -42,6 +43,8 @@ import { AddTipoIdComponent } from './catalogs/pages/add-tipo-id/add-tipo-id.com
 import { AddTipoAyudaComponent } from './catalogs/pages/add-tipo-ayuda/add-tipo-ayuda.component';
 import { AddTipoPensionComponent } from './catalogs/pages/add-tipo-pension/add-tipo-pension.component';
 import { AddTipoViolenciaComponent } from './catalogs/pages/add-tipo-violencia/add-tipo-violencia.component';
+import { addCuartoComponent } from './catalogs/pages/add-cuarto/add-cuarto.component';
+import { AddCamaComponent } from './catalogs/pages/add-cama/add-cama.component';
 
 /* Edit - Catálogos */
 import { EditCantonComponent } from './catalogs/pages/edit-canton/edit-canton.component';
@@ -61,6 +64,8 @@ import { EditTipoPensionComponent } from './catalogs/pages/edit-tipo-pension/edi
 import { EditTipoViolenciaComponent } from './catalogs/pages/edit-tipo-violencia/edit-tipo-violencia.component';
 import { AgregarPersonaCamaComponent } from './asistente/pages/agregar-persona-cama/agregar-persona-cama.component';
 import { AgregarPersonaCuartoComponent } from './asistente/pages/agregar-persona-cuarto/agregar-persona-cuarto.component';
+import { EditCuartoComponent } from './catalogs/pages/edit-cuarto/edit-cuarto.component';
+import { EditCamaComponent } from './catalogs/pages/edit-cama/edit-cama.component';
 
 export const routes: Routes = [
     // General
@@ -90,6 +95,7 @@ export const routes: Routes = [
     { path: 'tipos-ayuda', component: TiposAyudaComponent },
     { path: 'tipos-pension', component: TiposPensionComponent },
     { path: 'tipos-violencia', component: TipoViolenciaComponent },
+    { path: 'cuartos', component: CuartosComponent },
 
     // Add
     { path: 'nuevo-canton', component: AddCantonComponent },
@@ -107,6 +113,7 @@ export const routes: Routes = [
     { path: 'nuevo-tipo-ayuda', component: AddTipoAyudaComponent },
     { path: 'nuevo-tipo-pension', component: AddTipoPensionComponent },
     { path: 'nuevo-tipo-violencia', component: AddTipoViolenciaComponent },
+    { path: 'nuevo-cuarto', component: addCuartoComponent },
 
     // Edit
     { path: 'editar-canton/:id', component: EditCantonComponent },
@@ -124,4 +131,6 @@ export const routes: Routes = [
     { path: 'editar-tipo-ayuda/:id', component: EditTipoAyudaComponent },
     { path: 'editar-tipo-pension/:id', component: EditTipoPensionComponent },
     { path: 'editar-tipo-violencia/:id', component: EditTipoViolenciaComponent },
+    { path: 'editar-cuarto/:id', component: EditCuartoComponent },
+    { path: 'editar-cama/:id', component: EditCamaComponent }
 ];

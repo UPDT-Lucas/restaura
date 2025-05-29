@@ -13,6 +13,21 @@
     gap: 3rem;
 }
 
+.div-table {
+    margin-top: 2rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-top: 50px;
+}
+
+.button-container {
+    width: 100%;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -44,36 +59,23 @@
     }
 }
 
-.buttons {
+shared-input-text {
     display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-
-.button-container {
-    width: 50%;
+    flex: 1 1 250px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 shared-select {
     display: flex;
-    flex: 1 1 300px;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-shared-input-date {
-    display: flex;
     flex: 1 1 250px;
     max-width: 100%;
     box-sizing: border-box;
 }
 
-
-shared-input-number {
+shared-input-boolean {
     display: flex;
     flex: 1 1 250px;
     max-width: 100%;
     box-sizing: border-box;
-}
+}    

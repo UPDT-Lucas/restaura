@@ -29,23 +29,42 @@
                     <th *ngIf="editLink">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="rows.length > 0; else noData">
                 <tr *ngFor="let row of rows">
-                    <td *ngIf="this.selectable">
+                    <td *ngIf="selectable">
                         <input type="checkbox" [checked]="selectedId === row[0]" (change)="onCheckboxChange(row)" />
                     </td>
-                    <td *ngFor="let cell of row">{{ cell }}</td>
+                    <td *ngFor="let cell of row">
+                        <ng-container *ngIf="isBadge(cell); else plainCell">
+                            <span class="badge" [ngStyle]="{'background-color': cell[1], 'color': getTextColor(cell[1])}">
+                                {{ cell[0] }}
+                            </span>
+                        </ng-container>
+                        <ng-template #plainCell>
+                            {{ cell }}
+                        </ng-template>
+                    </td>
                     <td *ngIf="editLink">
-                        <span *ngIf="viewLink" class="material-icons"
-                            [routerLink]="[viewLink, row[0]]">visibility</span>
+                        <span *ngIf="viewLink" class="material-icons" [routerLink]="[viewLink, row[0]]">visibility</span>
                         <span *ngIf="editLink" class="material-icons" [routerLink]="[editLink, row[0]]">edit</span>
                         <span *ngIf="deleteButton" class="material-icons" style="cursor: pointer"
-                            (click)="handleDelete(row[0])">
+                              (click)="handleDelete(row[0])">
                             delete_forever
                         </span>
                     </td>
                 </tr>
             </tbody>
+            
+            <ng-template #noData>
+                <tbody>
+                    <tr>
+                        <td [attr.colspan]="header.length + (selectable ? 1 : 0) + (editLink ? 1 : 0)" style="text-align: center; padding: 16px;">
+                            No hay datos por mostrar.
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-template>
+            
         </table>
     </div>
 

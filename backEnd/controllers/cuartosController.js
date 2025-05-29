@@ -24,7 +24,7 @@ cuartosCtr.getCuartos = async (req, res) => {
     try {
         const db = dbConnection.getInstance();
         const cuarto = defineCuarto(db.Sequelize, db.dataType);
-        const cuartos = await cuarto.findAll();
+        const cuartos = await cuarto.findAll({ order: [["id", "ASC"]] });
         
         return res.status(200).json({ message: "Cuartos obtenidos", data: cuartos, status: 200 });
     } catch (error) {
@@ -78,12 +78,26 @@ cuartosCtr.getCuartosAndType = async (req, res) => {
 };
 
 
+cuartosCtr.getCuartoById = async (req, res) => {
+    try {
+        const db = dbConnection.getInstance();
+        const cuarto = defineCuarto(db.Sequelize, db.dataType);
+        const cuartoEncontrado = await cuarto.findOne({ where: { id: req.params.id } });
+        if (!cuartoEncontrado) {
+            return res.status(404).json({ message: "Cuarto no encontrado", status: 404 });
+        }
+        return res.status(200).json({ message: "Cuarto encontrado por id", data: cuartoEncontrado, status: 200 });
+    } catch (error) {
+        console.error('Error al obtener el cuarto por id:', error);
+        res.status(500).json({ message: 'Error al obtener el cuarto por id', error: error.message, status: 500 });
+    }
+}
 
 cuartosCtr.getCamasbyId = async (req, res) => { 
     try{
         const db = dbConnection.getInstance();
         const cama   = defineCama(db.Sequelize, db.dataType);
-        const camas = await cama.findAll({where: {cuarto_id: req.params.id}});
+        const camas = await cama.findAll({where: {cuarto_id: req.params.id}, order: [["id", "ASC"]] });
         
         return res.status(200).json({ message: "Camas encontradas por id obtenidas", data: camas, status: 200 });
     } catch (error) {
@@ -119,6 +133,7 @@ cuartosCtr.getCamasAndTypebyId = async (req, res) => {
 cuartosCtr.addCuarto = async (req, res) => { 
     try {
         const data = req.body;
+        console.log(data);
         const db = dbConnection.getInstance();
         const cuarto = defineCuarto(db.Sequelize, db.dataType);
 
@@ -144,6 +159,7 @@ cuartosCtr.addCama = async (req, res) => {
         res.status(500).json({ message: 'Error al crear cama', error: error.message,status: 500});
     }
 }
+
 // Delete endpoints
 cuartosCtr.deleteCuarto = async (req, res) => { 
     try {
@@ -175,6 +191,7 @@ cuartosCtr.deleteCama = async (req, res) => {
 cuartosCtr.editCuarto = async (req, res) => { 
     try {
         const data = req.body;
+        console.log(data);
         const db = dbConnection.getInstance();
         const cuarto = defineCuarto(db.Sequelize, db.dataType);
         const id = req.body.id;
@@ -191,7 +208,7 @@ cuartosCtr.editCama = async (req, res) => {
         const data = req.body;
         const db = dbConnection.getInstance();
         const cama = defineCama(db.Sequelize, db.dataType);
-        const id = req.body.id;
+        const id = req.body.idCuarto;
         const camaEditada = await cama.update(data, { where: { id: id } });
         
         return res.status(200).json({ message: "Cama editada", data: camaEditada, status: 200 });
