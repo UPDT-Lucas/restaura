@@ -9,6 +9,8 @@ import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.
 import { CuartosService } from '../../../services/cuartos.service';
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
 import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component';
+import { LinkStackService } from '../../../services/link-stack.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'table-example',
@@ -27,7 +29,7 @@ import { DynamicTableComponent } from '../../../shared/components/dynamic-table/
     styleUrls: ['./add-cuarto.component.css'],
 })
 export class addCuartoComponent {
-    constructor(private cuartosService: CuartosService) {}
+    constructor(private cuartosService: CuartosService, private linkStack: LinkStackService, private router: Router) {}
 
     cargando: boolean = false;
     showModal: boolean = false;
@@ -105,12 +107,22 @@ export class addCuartoComponent {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
-            console.log('Form Data:', this.formData);
 
             this.cuartosService.addCuarto(this.formData).subscribe({
                 next: (response) => {
                     if (response.status === 200) {
-                        this.snackbar.show('Cuarto creado correctamente', 3000);
+                        this.linkStack.popLink();
+                        
+                        const previousUrl = this.linkStack.popLink();
+
+                        if (previousUrl) {
+                            const urlParts = previousUrl.split('?');
+                            const routePath = urlParts[0];
+
+                            this.router.navigate([routePath], { queryParams: { 'type-response': '1' } });
+                        } else {
+                            this.router.navigate(['/']);
+                        }
                     } else {
                         console.error('Error al guardar el cuarto:', response);
                         this.snackbar.show('Error al guardar el cuarto', 3000);

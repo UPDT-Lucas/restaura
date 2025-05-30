@@ -6,7 +6,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-
+import { LinkStackService } from '../../../services/link-stack.service';
 
 @Component({
     selector: 'table-example',
@@ -16,7 +16,12 @@ import { firstValueFrom } from 'rxjs';
 })
 export class CuartosComponent {
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    constructor(private cuartosService: CuartosService, private route: ActivatedRoute, private router: Router) {}
+    constructor(
+        private cuartosService: CuartosService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private linkStack: LinkStackService,
+    ) {}
 
     cargando: boolean = true;
     showModal: boolean = false;
@@ -75,7 +80,12 @@ export class CuartosComponent {
                         const tipoNombre = tipoCuartoResp.status === 200 ? tipoCuartoResp.tipoCuarto : null;
 
                         if (tipoNombre) {
-                            return [String(item.id), item.nombre, [tipoNombre.nombre, tipoNombre.color], item.active ? 'Si' : 'No'];
+                            return [
+                                String(item.id),
+                                item.nombre,
+                                [tipoNombre.nombre, tipoNombre.color],
+                                item.active ? 'Si' : 'No',
+                            ];
                         }
 
                         return [String(item.id), item.nombre, tipoNombre.nombre, item.active === 'true' ? 'Si' : 'No'];
@@ -110,9 +120,16 @@ export class CuartosComponent {
                     this.cargando = false;
 
                     if (response.status === 200) {
-                        this.router.navigate(['/cuartos'], {
-                            queryParams: { 'type-response': '3' },
-                        });
+                        const previousUrl = this.linkStack.popLink();
+
+                        if (previousUrl) {
+                            const urlParts = previousUrl.split('?');
+                            const routePath = urlParts[0];
+
+                            this.router.navigate([routePath], { queryParams: { 'type-response': '3' } });
+                        } else {
+                            this.router.navigate(['/']);
+                        }
                     } else {
                         console.error('Error al eliminar el cuarto:', response);
                         this.snackbar.show('Error al eliminar el cuarto', 3000);

@@ -250,7 +250,6 @@ cuartosCtr.addCuarto = async (req, res) => {
 cuartosCtr.addCama = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const db = dbConnection.getInstance();
     const cama = defineCama(db.Sequelize, db.dataType);
     const camas = await cama.create(data);
@@ -298,7 +297,6 @@ cuartosCtr.deleteCuarto = async (req, res) => {
 };
 cuartosCtr.deleteCama = async (req, res) => {
   try {
-    console.log("ID de la cama a eliminar:", req.body);
     const db = dbConnection.getInstance();
     const cama = defineCama(db.Sequelize, db.dataType);
     const id = req.body.id;
@@ -322,7 +320,6 @@ cuartosCtr.deleteCama = async (req, res) => {
 cuartosCtr.editCuarto = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const db = dbConnection.getInstance();
     const cuarto = defineCuarto(db.Sequelize, db.dataType);
     const id = req.body.id;

@@ -24,7 +24,9 @@ export class AppComponent {
 
             // Evitar duplicado consecutivo en la pila
             const last = this.linkStack.peekLink();
-            if (last !== url) {
+            const hasTypeResponseParam = url.includes('type-response=');
+
+            if (!hasTypeResponseParam && last !== url) {
                 this.linkStack.pushLink(url);
             }
             console.log('Pila de enlaces actualizada:', this.linkStack.getStackObject());
