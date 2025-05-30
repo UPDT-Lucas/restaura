@@ -21,6 +21,8 @@ api.get('/getAllGradosAcademicos', catalogosCtr.getAllGradosAcademicos);
 api.get('/getAllGeneros', catalogosCtr.getAllGeneros);
 api.get('/getAllEstadosCiviles', catalogosCtr.getAllEstadosCiviles);
 api.get('/getAllTiposViolencia', catalogosCtr.getAllTiposViolencia);
+api.get('/getTipoCama/:id', catalogosCtr.getTipoCama);
+api.get('/getTipoCuarto/:id', catalogosCtr.getTipoCuarto);
 api.get('/getAllTiposCamas', catalogosCtr.getAllTiposCamas);
 api.get('/getAllTiposCuartos', catalogosCtr.getAllTiposCuartos);
 // POST endpoints

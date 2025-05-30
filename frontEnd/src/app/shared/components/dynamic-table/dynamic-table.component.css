@@ -4,6 +4,13 @@
   row-gap: 20px;
 }
 
+.badge {
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-size: 0.9em;
+  display: inline-block;
+}
+
 .top-controls {
   display: flex;
   justify-content: space-between;
