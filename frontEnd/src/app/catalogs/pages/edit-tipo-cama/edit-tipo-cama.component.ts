@@ -23,10 +23,10 @@ import { ColorPickerComponent } from '../../../shared/components/color-picker/co
         SnackbarComponent,
         ColorPickerComponent,
     ],
-    templateUrl: './edit-tipo-cuarto.component.html',
-    styleUrls: ['./edit-tipo-cuarto.component.css'],
+    templateUrl: './edit-tipo-cama.component.html',
+    styleUrls: ['./edit-tipo-cama.component.css'],
 })
-export class EditTipoCuartoComponent {
+export class EditTipoCamaComponent {
     constructor(
         private cuartosService: CuartosService,
         private route: ActivatedRoute,
@@ -38,29 +38,29 @@ export class EditTipoCuartoComponent {
     showModal: boolean = false;
 
     formData: any = {
-        nombreTipoCuarto: null,
+        nombreTipoCama: null,
         color: null,
-        idTipoCuarto: null,
+        idTipoCama: null,
     };
 
     ngOnInit(): void {
-        this.formData.idTipoCuarto = this.route.snapshot.paramMap.get('id') || '0';
+        this.formData.idTipoCama = this.route.snapshot.paramMap.get('id') || '0';
 
-        this.cuartosService.getTipoCuarto(this.formData.idTipoCuarto).subscribe({
+        this.cuartosService.getTipoCama(this.formData.idTipoCama).subscribe({
             next: (response) => {
                 if (response.status === 200) {
                     this.formData = {
-                        nombreTipoCuarto: response.tipoCuarto.nombre,
-                        color: response.tipoCuarto.color,
-                        idTipoCuarto: this.formData.idTipoCuarto,
+                        nombreTipoCama: response.tipoCama.nombre,
+                        color: response.tipoCama.color,
+                        idTipoCama: this.formData.idTipoCama,
                     };
                 } else {
-                    console.error('Error al obtener el tipo de cuarto:', response);
+                    console.error('Error al obtener el tipo de cama:', response);
                 }
                 this.cargando = false;
             },
             error: (error) => {
-                console.error('Error al obtener el tipo de cuarto:', error);
+                console.error('Error al obtener el tipo de cama:', error);
                 this.cargando = false;
             },
         });
@@ -72,19 +72,19 @@ export class EditTipoCuartoComponent {
 
     resetForm() {
         this.formData = {
-            nombreTipoCuarto: null,
+            nombreTipoCama: null,
             color: null,
-            idTipoCuarto: null,
+            idTipoCama: null,
         };
     }
 
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
-    editarTipoCuarto(confirmed: boolean): void {
+    editarTipoCama(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.cuartosService.editTipoCuarto(this.formData).subscribe({
+            this.cuartosService.editTipoCama(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
@@ -103,14 +103,14 @@ export class EditTipoCuartoComponent {
                             this.router.navigate(['/']);
                         };
                     } else {
-                        console.error('Error al guardar el tipo Cuarto:', response);
-                        this.snackbar.show('Error al guardar el tipo Cuarto', 3000);
+                        console.error('Error al guardar el tipo Cama:', response);
+                        this.snackbar.show('Error al guardar el tipo Cama', 3000);
                     }
                 },
                 error: (error) => {
                     this.cargando = false;
-                    console.error('Error al guardar el tipo Cuarto:', error);
-                    this.snackbar.show('Error al guardar el tipo Cuarto', 3000);
+                    console.error('Error al guardar el tipo Cama:', error);
+                    this.snackbar.show('Error al guardar el tipo Cama', 3000);
                 },
             });
         }

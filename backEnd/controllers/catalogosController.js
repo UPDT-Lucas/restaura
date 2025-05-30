@@ -1235,7 +1235,7 @@ catalogosCtr.getAllTiposCamas = async (req, res) => {
 catalogosCtr.addTipoCama = async (req, res) => {
     try {
         const nombreTipoCama = req.body.nombreTipoCama;
-        const colorTipoCama = req.body.colorTipoCama;
+        const colorTipoCama = req.body.color;
         const db = dbConnection.getInstance();
         const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
         const resultTipoCama = await tipoCama.create({ nombre: nombreTipoCama, color: colorTipoCama });
@@ -1272,7 +1272,7 @@ catalogosCtr.editTipoCama = async (req, res) => {
 
 catalogosCtr.deleteTipoCama = async (req, res) => {
     try {
-        const idTipoCama = req.body.idTipoCama;
+        const idTipoCama = req.body.id;
         const db = dbConnection.getInstance();
         const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
         const rowAffected = await tipoCama.destroy({ where: { id: idTipoCama } });

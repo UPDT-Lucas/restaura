@@ -27,6 +27,7 @@ import { TiposPensionComponent } from './catalogs/pages/index-tipos-pension/tipo
 import { TipoViolenciaComponent } from './catalogs/pages/index-tipos-violencia/tipos-violencia.component';
 import { CuartosComponent } from './catalogs/pages/index-cuartos/index-cuarto.component';
 import { TipoCuartosComponent } from './catalogs/pages/index-tipos-cuartos/tipos-cuartos.component';
+import { TiposCamasComponent } from './catalogs/pages/index-tipos-camas/tipos-camas.component';
 
 /* Add - Catálogos */
 import { AddCantonComponent } from './catalogs/pages/add-canton/add-canton.component';
@@ -47,6 +48,7 @@ import { AddTipoViolenciaComponent } from './catalogs/pages/add-tipo-violencia/a
 import { addCuartoComponent } from './catalogs/pages/add-cuarto/add-cuarto.component';
 import { AddCamaComponent } from './catalogs/pages/add-cama/add-cama.component';
 import { addTipoCuartoComponent } from './catalogs/pages/add-tipo-cuarto/add-tipo-cuarto.component';
+import { AddTipoCamaComponent } from './catalogs/pages/add-tipo-camas/add-tipo-camas.component';
 
 /* Edit - Catálogos */
 import { EditCantonComponent } from './catalogs/pages/edit-canton/edit-canton.component';
@@ -69,6 +71,7 @@ import { AgregarPersonaCuartoComponent } from './asistente/pages/agregar-persona
 import { EditCuartoComponent } from './catalogs/pages/edit-cuarto/edit-cuarto.component';
 import { EditCamaComponent } from './catalogs/pages/edit-cama/edit-cama.component';
 import { EditTipoCuartoComponent } from './catalogs/pages/edit-tipo-cuarto/edit-tipo-cuarto.component';
+import { EditTipoCamaComponent } from './catalogs/pages/edit-tipo-cama/edit-tipo-cama.component';
 
 export const routes: Routes = [
     // General
@@ -100,6 +103,7 @@ export const routes: Routes = [
     { path: 'tipos-violencia', component: TipoViolenciaComponent },
     { path: 'cuartos', component: CuartosComponent },
     { path: 'tipos-cuartos', component: TipoCuartosComponent },
+    { path: 'tipos-camas', component: TiposCamasComponent },
 
     // Add
     { path: 'nuevo-canton', component: AddCantonComponent },
@@ -120,6 +124,7 @@ export const routes: Routes = [
     { path: 'nuevo-cuarto', component: addCuartoComponent },
     { path: 'nueva-cama/:id', component: AddCamaComponent },
     { path: 'nuevo-tipo-cuarto', component: addTipoCuartoComponent },
+    { path: 'nuevo-tipo-cama', component: AddTipoCamaComponent },
 
     // Edit
     { path: 'editar-canton/:id', component: EditCantonComponent },
@@ -139,5 +144,6 @@ export const routes: Routes = [
     { path: 'editar-tipo-violencia/:id', component: EditTipoViolenciaComponent },
     { path: 'editar-cuarto/:id', component: EditCuartoComponent },
     { path: 'editar-cama/:id', component: EditCamaComponent },
-    { path: 'editar-tipo-cuarto/:id', component: EditTipoCuartoComponent}
+    { path: 'editar-tipo-cuarto/:id', component: EditTipoCuartoComponent },
+    { path: 'editar-tipo-cama/:id', component: EditTipoCamaComponent }
 ];
