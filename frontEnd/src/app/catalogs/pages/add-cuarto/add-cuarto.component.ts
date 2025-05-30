@@ -8,7 +8,6 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.component';
 import { CuartosService } from '../../../services/cuartos.service';
 import { InputBooleanComponent } from '../../../shared/components/input-boolean/input-boolean.component';
-import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component';
 import { LinkStackService } from '../../../services/link-stack.service';
 import { Router } from '@angular/router';
 
@@ -23,7 +22,6 @@ import { Router } from '@angular/router';
         ConfirmDialogComponent,
         SnackbarComponent,
         InputBooleanComponent,
-        DynamicTableComponent,
     ],
     templateUrl: './add-cuarto.component.html',
     styleUrls: ['./add-cuarto.component.css'],

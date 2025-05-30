@@ -1,0 +1,37 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nuevo Tipo Cuarto'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreTipoCuarto"
+        />
+
+        <!-- Color -->
+        <shared-color-picker [label]="'Color del Cuarto'" [(value)]="formData.color" />
+    </div>
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Tipo Cuarto" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Crear Tipo Cuarto'"
+    [text]="'¿Estás seguro de que deseas crear el tipo cuarto: ' + formData.nombreTipoCuarto + '?'"
+    [actionType]="'add'"
+    (confirmed)="crearTipoCuarto($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>
