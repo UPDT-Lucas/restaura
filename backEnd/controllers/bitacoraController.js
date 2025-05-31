@@ -175,16 +175,19 @@ bitacoraCtr.getLastRoom = async(req,res) =>{
       return res.status(409).json({message: "El usuario ya existe en esta bitacora",status:409});
     }
 
-    const lastRoom = await defineList.findOne({
-      where: { cliente_servicio_id: idCliente },
-      order: [['id', 'DESC']], // Ordenar por ID en orden descendente
-      attributes: ['numerocuarto'], // Seleccionar solo el número de cuarto
-    });
-    console.log("Ultimo cuarto:", lastRoom);
-    if (lastRoom) {
-      return res.status(200).json({ numeroCuarto: lastRoom.numerocuarto, status: 200 });
-    } else {
-      return res.status(404).json({ message: "No se encontró información para el cliente", status: 404 });
+    const [results] = await db.Sequelize.query(
+      "SELECT * FROM fn_obtener_ultimo_Cuarto(:p_cliente_id)"
+      , {
+        replacements: { p_cliente_id: idCliente },
+      }
+    );
+    console.log("Resultados de la consulta:", results);
+    
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No se encontró el último cuarto para el cliente", status: 404 });
+    }else{
+      const ultimoCuarto = results[0];
+      return res.status(200).json({ message: "Último cuarto obtenido", data: ultimoCuarto, status: 200 });
     }
 
 

@@ -189,28 +189,56 @@ cuartosCtr.getCamasbyId = async (req, res) => {
 cuartosCtr.getCamasAndTypebyId = async (req, res) => {
   try {
     const db = dbConnection.getInstance();
-    const cama = defineCama(db.Sequelize, db.dataType);
-    const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
 
-    const camas = await cama.findAll({ where: { cuarto_id: req.params.id } });
-    const tipoCamas = await tipoCama.findAll();
-    const camasConTipo = camas.map((cama) => {
-      const tipo = tipoCamas.find((t) => t.id === cama.tipo_cama_id);
+    const fecha1 = req.params.fecha || new Date().toISOString().slice(0, 10);
+    const p_fecha = convertirFechaADate(fecha1);
+    const p_cuarto_id = req.params.id;
+    const [results] = await db.Sequelize.query(
+      "SELECT * FROM fn_get_camas_con_tipo(:p_cuarto_id)",
+      {
+        replacements: { p_cuarto_id },
+      }
+    );
+
+    const [camasEstado] = await db.Sequelize.query(
+      "SELECT * FROM fn_get_asignaciones_camas_por_fecha(:p_fecha, :p_cuarto_id)", 
+      {
+        replacements: { p_fecha,p_cuarto_id},
+      }
+    );
+    
+    const resultsConEstado = results.map((row)=> {
+      const estado = camasEstado.find((e) => e.cama_id === row.id) || {};
+      let boolean_estado = true;
+      let cliente_id = estado.cliente_servicio_id || null;
+      if(!cliente_id){
+        boolean_estado = false; 
+        cliente_id = null;
+      }
       return {
-        ...cama.toJSON(),
-        tipo_cama: tipo
-          ? { id: tipo.id, nombre: tipo.nombre, color: tipo.color }
-          : null,
+        id: row.id,
+        nombre: row.nombre,
+        active: row.active,
+        tipo_cama_id: row.tipo_cama_id,
+        tipo_cama: {
+          id: row.tipo_cama_id,
+          nombre: row.tipo_cama_nombre,
+          color: row.tipo_cama_color,
+        },
+        ocupado: boolean_estado,
+        cliente_servicio_id: cliente_id,
       };
-    });
+    })
 
-    return res
+
+    res
       .status(200)
       .json({
-        message: "Camas encontradas por id obtenidas",
-        data: camasConTipo,
+        message: "Camas obtenidas",
+        data: resultsConEstado,
         status: 200,
       });
+    
   } catch (error) {
     console.error("Error al obtener los cuartos:", error);
     res
