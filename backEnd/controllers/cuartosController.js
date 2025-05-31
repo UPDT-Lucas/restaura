@@ -326,7 +326,6 @@ cuartosCtr.deleteCuarto = async (req, res) => {
 };
 cuartosCtr.deleteCama = async (req, res) => {
   try {
-    console.log("ID de la cama a eliminar:", req.body);
     const db = dbConnection.getInstance();
     const cama = defineCama(db.Sequelize, db.dataType);
     const id = req.body.id;
