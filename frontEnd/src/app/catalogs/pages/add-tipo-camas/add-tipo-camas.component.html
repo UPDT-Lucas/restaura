@@ -1,0 +1,37 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nuevo Tipo Cama'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreTipoCama"
+        />
+
+        <!-- Color -->
+        <shared-color-picker [label]="'Color del Tipo Cama'" [(value)]="formData.color" />
+    </div>
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Tipo Cama" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Crear Tipo Cama'"
+    [text]="'¿Estás seguro de que deseas crear el tipo cama: ' + formData.nombreTipoCama + '?'"
+    [actionType]="'add'"
+    (confirmed)="crearTipoCama($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

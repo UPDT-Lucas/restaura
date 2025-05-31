@@ -16,22 +16,6 @@
         <shared-input-boolean [label]="'Activo'" [(value)]="formData.active" />
     </div>
 
-    <shared-dynamic-table
-        *ngIf="esCuartoCreado"
-        [table_title]="'Camas del Cuarto'"
-        [buttonText]="'Nueva Cama'"
-        [buttonLink]="'/nueva-cama'"
-        [tableData]="tableData"
-        [editLink]="'/editar-cama/'"
-        [deleteButton]="true"
-        [currentPage]="currentPage"
-        [limitPerPage]="limitPerPage"
-        [totalItems]="totalItems"
-        (deleteRow)="onDeleteRow($event)"
-        (updatePage)="onUpdatePage($event)"
-        (changeLimit)="onUpdateLimit($event)"
-    />
-
     <div class="div-note">
         <p class="note-spam">Importante: Creé el cuarto para agregar camas al registro</p>
     </div>

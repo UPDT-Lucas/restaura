@@ -1,20 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component';
-import { CuartosService } from '../../../services/cuartos.service';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { CuartosService } from '../../../services/cuartos.service';
 import { LinkStackService } from '../../../services/link-stack.service';
 
 @Component({
     selector: 'table-example',
     imports: [DynamicTableComponent, CommonModule, ConfirmDialogComponent, SnackbarComponent],
-    templateUrl: './index-cuarto.component.html',
-    styleUrls: ['./index-cuarto.component.css'],
+    templateUrl: './tipos-camas.component.html',
+    styleUrls: ['./tipos-camas.component.css'],
 })
-export class CuartosComponent {
+export class TiposCamasComponent {
     @ViewChild(SnackbarComponent) snackbar!: SnackbarComponent;
     constructor(
         private cuartosService: CuartosService,
@@ -23,27 +22,28 @@ export class CuartosComponent {
         private linkStack: LinkStackService,
     ) {}
 
+    /* Variables */
     cargando: boolean = true;
     showModal: boolean = false;
 
-    headers = [['Id', 'Nombre', 'Tipo Cuarto', 'Activo']];
-    cuartos: any[] = [];
+    headers = [['Id', 'Nombre']];
+    tipoCamas: any[] = [];
     tableData = this.headers;
     currentPage = 1;
     limitPerPage = 5;
     totalItems = 0;
-    selectedIdCuartos: string = '0';
+    selectedIdTipoCama: string = '0';
 
     ngAfterViewInit(): void {
         this.route.queryParamMap.subscribe((params) => {
             const typeMessage = params.get('type-response');
 
             if (typeMessage === '1') {
-                this.snackbar.show('Cuarto creado correctamente', 3000);
+                this.snackbar.show('Tipo Cama creado correctamente', 3000);
             } else if (typeMessage === '2') {
-                this.snackbar.show('Cuarto editado correctamente', 3000);
+                this.snackbar.show('Tipo Cama editado correctamente', 3000);
             } else if (typeMessage === '3') {
-                this.snackbar.show('Cuarto eliminado correctamente', 3000);
+                this.snackbar.show('Tipo Cama eliminado correctamente', 3000);
             }
 
             if (['1', '2', '3'].includes(typeMessage || '')) {
@@ -65,57 +65,35 @@ export class CuartosComponent {
         this.reloadPage();
     }
 
-    async reloadPage() {
+    reloadPage() {
         this.cargando = true;
-        try {
-            const data = await firstValueFrom(this.cuartosService.getCuartos());
 
-            const cuartosConTipo = await Promise.all(
-                data.data.map(async (item: any) => {
-                    try {
-                        const tipoCuartoResp = await firstValueFrom(
-                            this.cuartosService.getTipoCuarto(item.tipo_cuarto_id),
-                        );
+        this.cuartosService.getTiposCamas().subscribe({
+            next: (data) => {
+                this.tipoCamas = data.tiposCamas.map((item: any) => [item.id, [item.nombre, item.color]]);
 
-                        const tipoNombre = tipoCuartoResp.status === 200 ? tipoCuartoResp.tipoCuarto : null;
-
-                        if (tipoNombre) {
-                            return [
-                                String(item.id),
-                                item.nombre,
-                                [tipoNombre.nombre, tipoNombre.color],
-                                item.active ? 'Si' : 'No',
-                            ];
-                        }
-
-                        return [String(item.id), item.nombre, tipoNombre.nombre, item.active === 'true' ? 'Si' : 'No'];
-                    } catch (error) {
-                        console.error('Error al obtener tipoCuarto', error);
-                        return [String(item.id), item.nombre, 'Error', item.active];
-                    }
-                }),
-            );
-
-            this.cuartos = cuartosConTipo;
-            this.getTotalItems();
-            this.actualizarTabla();
-        } catch (error) {
-            console.error('Error al obtener los cuartos:', error);
-        } finally {
-            this.cargando = false;
-        }
+                this.getTotalItems();
+                this.actualizarTabla();
+                this.cargando = false;
+            },
+            error: (error) => {
+                this.cargando = false;
+                console.error('Error al obtener los tipos cuartos:', error);
+                this.snackbar.show('Error al cargar los tipos cuartos', 3000);
+            },
+        });
     }
 
     confirmUpdate() {
         this.showModal = true;
     }
 
-    eliminarCuarto(confirmed: boolean): void {
+    eliminarTipoCama(confirmed: boolean): void {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
 
-            this.cuartosService.deleteCuarto(this.selectedIdCuartos).subscribe({
+            this.cuartosService.deleteTipoCama(this.selectedIdTipoCama).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
@@ -131,33 +109,33 @@ export class CuartosComponent {
                             this.router.navigate(['/']);
                         }
                     } else {
-                        console.error('Error al eliminar el cuarto:', response);
-                        this.snackbar.show('Error al eliminar el cuarto', 3000);
+                        console.error('Error al eliminar el Tipo Cama:', response);
+                        this.snackbar.show('Error al eliminar el Tipo Cama', 3000);
                     }
                 },
                 error: (error) => {
                     this.cargando = false;
-                    console.error('Error al eliminar el cuarto:', error);
-                    this.snackbar.show('Error al eliminar el cuarto', 3000);
+                    console.error('Error al eliminar el Tipo Cama:', error);
+                    this.snackbar.show('Error al eliminar el Tipo Cama', 3000);
                 },
             });
         }
     }
 
     getTotalItems() {
-        this.totalItems = this.cuartos.length > 1 ? this.cuartos.length : 0;
+        this.totalItems = this.tipoCamas.length > 1 ? this.tipoCamas.length : 0;
     }
 
     actualizarTabla() {
         const start = (this.currentPage - 1) * this.limitPerPage;
         const end = start + this.limitPerPage;
-        const paginados = this.cuartos.slice(start, end);
+        const tiposCuartosPaginados = this.tipoCamas.slice(start, end);
 
-        this.tableData = [...this.headers, ...paginados];
+        this.tableData = [...this.headers, ...tiposCuartosPaginados];
     }
 
     onDeleteRow(id: string) {
-        this.selectedIdCuartos = id;
+        this.selectedIdTipoCama = id;
         this.confirmUpdate();
     }
 

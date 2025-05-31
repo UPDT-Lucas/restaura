@@ -78,10 +78,6 @@ export class EditCuartoComponent {
                         replaceUrl: true,
                         skipLocationChange: true,
                     });
-                    
-                    setTimeout(() => {
-                        this.linkStack.popLink();
-                    }, 50);
                 }, 500);
                   
             }

@@ -1131,8 +1131,9 @@ catalogosCtr.getAllTiposCuartos = async (req, res) => {
 
 catalogosCtr.addTipoCuarto = async (req, res) => {
     try {
+        console.log("req.body", req.body);
         const nombreTipoCuarto = req.body.nombreTipoCuarto;
-        const colorTipoCuarto = req.body.colorTipoCuarto;
+        const colorTipoCuarto = req.body.color;
         const db = dbConnection.getInstance();
         const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
         const resultTipoCuarto = await tipoCuarto.create({ nombre: nombreTipoCuarto, color: colorTipoCuarto });
@@ -1145,11 +1146,11 @@ catalogosCtr.addTipoCuarto = async (req, res) => {
 
 catalogosCtr.editTipoCuarto = async (req, res) => {
     try {
-        const { idTipoCuarto, nombreTipoCuarto, colorTipoCuarto } = req.body;
+        const { idTipoCuarto, nombreTipoCuarto, color } = req.body;
         const db = dbConnection.getInstance();
         const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
         const result = await tipoCuarto.update(
-            { nombre: nombreTipoCuarto, color: colorTipoCuarto },
+            { nombre: nombreTipoCuarto, color: color },
             { where: { id: idTipoCuarto } }
         );
         res
@@ -1169,7 +1170,7 @@ catalogosCtr.editTipoCuarto = async (req, res) => {
 
 catalogosCtr.deleteTipoCuarto = async (req, res) => {
     try {
-        const idTipoCuarto = req.body.idTipoCuarto;
+        const idTipoCuarto = req.body.id;
         const db = dbConnection.getInstance();
         const tipoCuarto = defineTipoCuarto(db.Sequelize, db.dataType);
         const rowAffected = await tipoCuarto.destroy({ where: { id: idTipoCuarto } });
@@ -1234,7 +1235,7 @@ catalogosCtr.getAllTiposCamas = async (req, res) => {
 catalogosCtr.addTipoCama = async (req, res) => {
     try {
         const nombreTipoCama = req.body.nombreTipoCama;
-        const colorTipoCama = req.body.colorTipoCama;
+        const colorTipoCama = req.body.color;
         const db = dbConnection.getInstance();
         const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
         const resultTipoCama = await tipoCama.create({ nombre: nombreTipoCama, color: colorTipoCama });
@@ -1271,7 +1272,7 @@ catalogosCtr.editTipoCama = async (req, res) => {
 
 catalogosCtr.deleteTipoCama = async (req, res) => {
     try {
-        const idTipoCama = req.body.idTipoCama;
+        const idTipoCama = req.body.id;
         const db = dbConnection.getInstance();
         const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
         const rowAffected = await tipoCama.destroy({ where: { id: idTipoCama } });

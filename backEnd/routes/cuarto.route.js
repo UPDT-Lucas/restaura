@@ -21,7 +21,7 @@ api.post('/addCama', cuarto.addCama);
 api.put('/editCuarto', cuarto.editCuarto);
 api.put('/editCama', cuarto.editCama);
 //DELETE endpoints
-api.delete('/deleteCuarto/:id', cuarto.deleteCuarto);
+api.delete('/deleteCuarto', cuarto.deleteCuarto);
 api.delete('/deleteCama', cuarto.deleteCama);
 
 

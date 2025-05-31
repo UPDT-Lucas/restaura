@@ -1,0 +1,30 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <shared-dynamic-table
+        [table_title]="'Tipo Cuartos'"
+        [buttonText]="'Nuevo Tipo Cuarto'"
+        [buttonLink]="'/nuevo-tipo-cuarto'"
+        [tableData]="tableData"
+        [editLink]="'/editar-tipo-cuarto/'"
+        [deleteButton]="true"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Eliminar Tipo Cuarto'"
+    [text]="'¿Estás seguro de que eliminar el tipo cuarto?'"
+    [actionType]="'delete'"
+    (confirmed)="eliminarTipoCuarto($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

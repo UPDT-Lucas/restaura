@@ -278,7 +278,6 @@ cuartosCtr.addCuarto = async (req, res) => {
 cuartosCtr.addCama = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const db = dbConnection.getInstance();
     const cama = defineCama(db.Sequelize, db.dataType);
     const camas = await cama.create(data);
@@ -349,7 +348,6 @@ cuartosCtr.deleteCama = async (req, res) => {
 cuartosCtr.editCuarto = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const db = dbConnection.getInstance();
     const cuarto = defineCuarto(db.Sequelize, db.dataType);
     const id = req.body.id;

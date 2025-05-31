@@ -1,0 +1,36 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Editar Tipo Cuarto'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreTipoCuarto"
+        />
+
+        <!-- Color -->
+        <shared-color-picker [label]="'Color del Tipo Cuarto'" [(value)]="formData.color" />
+    </div>
+    <!-- Boton -->
+      <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Editar Tipo Cuarto" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Editar Tipo Cuarto'"
+  [text]="'¿Estás seguro de que deseas editar el Tipo Cuarto: ' + formData.nombreTipoCuarto + '?'"
+  [actionType]="'update'"
+  (confirmed)="editarTipoCuarto($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

@@ -57,6 +57,10 @@ export class CuartosService {
     }
 
     /* TIPO CUARTO */
+    addTipoCuarto(tipoCuarto: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/addTipoCuarto`, tipoCuarto);
+    }
+
     getTiposCuartos(): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/getAllTiposCuartos`);
     }
@@ -65,7 +69,21 @@ export class CuartosService {
         return this.http.get<any>(`${this.apiUrl}/getTipoCuarto/${id}`);
     }
 
+    editTipoCuarto(tipoCuarto: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/editTipoCuarto`, tipoCuarto);
+    }
+
+    deleteTipoCuarto(id: any): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/deleteTipoCuarto`, {
+            body: { id },
+        });
+    }
+
     /* TIPO CAMA */
+    addTipoCama(tipoCama: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/addTipoCama`, tipoCama);
+    }
+
     getTiposCamas(): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/getAllTiposCamas`);
     }
@@ -73,4 +91,16 @@ export class CuartosService {
     getTipoCama(id: any): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/getTipoCama/${id}`);
     }
+
+    editTipoCama(tipoCama: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/editTipoCama`, tipoCama);
+    }
+
+    deleteTipoCama(id: any): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/deleteTipoCama`, {
+            body: { id },
+        });
+    }
 }
+
+
