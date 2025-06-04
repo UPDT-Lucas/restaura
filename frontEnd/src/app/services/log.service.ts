@@ -21,14 +21,19 @@ export class LogService {
     return this.http.get<any>(`${this.apiUrl}/getLastRoom/${id}/${idBitacora}`);
   }
 
+  getBitacoraByFecha(fecha: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/getBitacoraByFecha/${fecha}`);
+  }
+
   createLog(date: Date | string): Observable<any> {
     const d = new Date(date); // fuerza conversión a Date
     const formattedDate = d.toISOString().split('T')[0]; // "YYYY-MM-DD"
     return this.http.post(`${this.apiUrl}/createBitacora/${formattedDate}`, {});
   }
 
-  addClientToLog(cliente_servicio_id: string, bitacora_id: string, cuarto: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/clienteSaveBitacora`, { cliente_servicio_id, bitacora_id, numerocuarto: cuarto });
+  addClientToLog(cliente_servicio_id: string, bitacora_id: string, cama_id: string): Observable<any> {
+    console.log(cliente_servicio_id, bitacora_id, cama_id);
+    return this.http.post(`${this.apiUrl}/clienteSaveBitacora`, { bitacora_id, cliente_servicio_id,  cama_id });
   }
 
   deleteClientFromLog(cliente_servicio_id: string, bitacora_id: string): Observable<any> {

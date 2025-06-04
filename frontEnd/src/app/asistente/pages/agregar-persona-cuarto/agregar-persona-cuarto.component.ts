@@ -21,16 +21,19 @@ export class AgregarPersonaCuartoComponent {
   allRooms: Room[] = [];
   seletectedRoom: string = '';
   userId: string | null = null;
+  fecha : string | null = null;
 
   ngOnInit(){
-    this.roomService.getRooms().subscribe( (roomsResponse: any) => {
+    this.userId = this.route.snapshot.paramMap.get('userId');
+    this.fecha = this.route.snapshot.paramMap.get('fecha');
+    this.roomService.getRooms(this.fecha!).subscribe( (roomsResponse: any) => {
       this.allRooms  = roomsResponse.data;
     })
   }
 
   selectRoom(roomId: string) {
     this.seletectedRoom = roomId;
-    this.router.navigate(['/asignar-cama', roomId]);
+    this.router.navigate(['/asignar-cama', this.userId, roomId, this.fecha]);
   }
   
 } 

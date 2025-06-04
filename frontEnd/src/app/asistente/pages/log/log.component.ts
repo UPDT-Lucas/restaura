@@ -179,22 +179,19 @@ export class LogComponent {
     if (!this.idBitacora || !this.selectedId) {
       return;
     }
-    this.router.navigate(['/asignar-cuarto']);
-
-    // this.logService.getLastRoom(id, this.idBitacora!).subscribe({
-    //   next: (data: any) => {
-    //     this.showAddRoomDialog = true;
-    //     this.cuarto = data.numeroCuarto.toString();
-    //   },
-    //   error: (err) => {
-    //     if (err.status === 409) {
-    //       this.showDuplicateBitacora = true;
-    //     }else if (err.status === 404) {
-    //       this.showAddRoomDialog = true;
-    //       this.cuarto = "Nunca ha estado en un cuarto";
-    //     }
-    //   }
-    // });
+    this.logService.getLastRoom(id, this.idBitacora!).subscribe({
+      next: (data: any) => {
+        this.router.navigate(['/asignar-cama', id, data.data.cuartonombre, this.date]);
+      },
+      error: (err) => {
+        if (err.status === 409) {
+          this.showDuplicateBitacora = true;
+        }else if (err.status === 404) {
+          this.showAddRoomDialog = true;
+          this.router.navigate(['/asignar-cuarto', id, this.date]);
+        }
+      }
+    });
   }
 
   handleInputResult(event: { confirmed: boolean, value?: string }) {

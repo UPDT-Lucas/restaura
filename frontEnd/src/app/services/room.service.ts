@@ -12,11 +12,11 @@ export class RoomService {
 
   constructor(private http: HttpClient) {}
 
-  getRooms(): Observable<AllRooms> {
-    return this.http.get<AllRooms>(`${this.apiUrl}/cuartosAndType`);
+  getRooms(fecha: string): Observable<AllRooms> {
+    return this.http.get<AllRooms>(`${this.apiUrl}/cuartosAndType/${fecha}`);
   }
 
-  getBeds(id: string): Observable<AllBeds> {
-    return this.http.get<AllBeds>(`${this.apiUrl}/camasAndTypeById/${id}`);
+  getBeds(id: string, fecha: Date | string): Observable<AllBeds> {
+    return this.http.get<AllBeds>(`${this.apiUrl}/camasAndTypeById/${id}/${fecha}`);
   }
 }

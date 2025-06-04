@@ -1,6 +1,6 @@
 export interface AllRooms {
-    rooms:  Room[];
-    status: number;
+    message: string;
+    rooms:   Room[];
 }
 
 export interface Room {
@@ -9,6 +9,13 @@ export interface Room {
     active:         boolean;
     tipo_cuarto_id: number;
     tipo_cuarto:    TipoCuarto;
+    camas:          Camas;
+}
+
+export interface Camas {
+    can_no_usadas: string;
+    can_usadas:    string;
+    total_camas:   string;
 }
 
 export interface TipoCuarto {

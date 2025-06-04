@@ -67,12 +67,10 @@ bitacoraCtr.getBitacora = async (req, res) => {
 
     const defineList = defineClienteXBitacora(db.Sequelize, db.dataType);
 
-    // Obtenemos el total para paginación (opcional pero recomendable)
     const totalClientes = await defineList.count({
       where: { bitacora_id: bitacoraResult.dataValues.id }
     });
 
-    // Obtenemos los datos paginados
     const clienteList = await defineList.findAll({
       where: { bitacora_id: bitacoraResult.dataValues.id },
       limit: parseInt(limit),
@@ -104,6 +102,26 @@ bitacoraCtr.getBitacora = async (req, res) => {
     return res.status(500).json({ message: "Error interno del servidor", status: 500 });
   }
 }
+
+bitacoraCtr.getBitacoraIdByFecha = async (req, res) => {
+  try {
+    const db = dbConnection.getInstance();
+    const bitacora = defineBitacora(db.Sequelize, db.dataType);
+    const { fecha } = req.params;
+
+    const bitacoraResult = await bitacora.findOne({
+      where: { fecha }
+    });
+
+    if (!bitacoraResult) {
+      return res.status(404).json({ message: "No se encontró una bitácora con esa fecha", status: 404 });
+    }
+    return res.status(200).json({ bitacora_id: bitacoraResult.dataValues.id, status: 200 });
+  } catch (error) {
+    console.error("Error al buscar bitácora por fecha:", error);
+    return res.status(500).json({ message: "Error interno del servidor", status: 500 });
+  }
+};
 
 bitacoraCtr.clienteSaveBitacora = async(req,res) =>{
   try{

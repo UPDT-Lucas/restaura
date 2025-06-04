@@ -82,8 +82,8 @@ export const routes: Routes = [
     { path: 'edit/:id', component: EditPersonComponent },
     { path: 'view/:id', component: ViewPersonComponent },
     { path: 'consultas', component: ConsultasComponent },
-    { path: 'asignar-cuarto', component: AgregarPersonaCuartoComponent },
-    { path: 'asignar-cama/:idCuarto', component: AgregarPersonaCamaComponent },
+    { path: 'asignar-cuarto/:userId/:fecha', component: AgregarPersonaCuartoComponent },
+    { path: 'asignar-cama/:userId/:idCuarto/:fecha', component: AgregarPersonaCamaComponent },
 
     // Index
     { path: 'cantones', component: CantonesComponent },
