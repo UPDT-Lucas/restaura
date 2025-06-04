@@ -27,14 +27,39 @@ shared-input-date {
     gap: 24px;
 }
 
+.getin, .getout {
+    font-size: 42px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+    border-radius: 50%;
+    padding: 4px;
+    border: 2px solid transparent;
+    user-select: none;
+}
+
 .getin {
     color: red;
-    font-size: 36px;
 }
 
 .getout {
     color: green;
-    font-size: 36px;
+}
+
+.getin:hover {
+    transform: scale(1.1);
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.05);
+}
+
+.getout:hover {
+    transform: scale(1.1);
+    border-color: green;
+    background-color: rgba(0, 128, 0, 0.05);
+}
+
+.getin:active, .getout:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .table-container {

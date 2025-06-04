@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { DropdownComponent } from '../dropdown/dropdown.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AdminService } from '../../../services/admin.service';
+import { LinkStackService } from '../../../services/link-stack.service';
 
 @Component({
   selector: 'shared-header',
@@ -15,7 +16,11 @@ import { AdminService } from '../../../services/admin.service';
 export class HeaderComponent {
   decodedToken: any;
 
-  constructor(private adminService: AdminService){}
+  constructor(
+    private adminService: AdminService, 
+    private linkStackService: LinkStackService,
+    private router: Router
+  ){}
 
   ngOnInit() {
     const token = this.adminService.obtenerToken();
@@ -26,4 +31,19 @@ export class HeaderComponent {
       console.log('No token found');
     }
   }
+
+goBack() {
+  const currentUrl = this.router.url;
+  let lastPage = this.linkStackService.popLink();
+
+  if (lastPage === currentUrl) {
+    lastPage = this.linkStackService.popLink();
+  }
+
+  if (lastPage) {
+    this.router.navigate([lastPage]);
+  } else {
+    this.router.navigate(['/log']);
+  }
+}
 }

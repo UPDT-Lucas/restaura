@@ -33,11 +33,11 @@
     </div>
 
     <div class="buttons-container">
-        <span class="material-icons md-36 getout" (click)="getInClient(selectedId)">
-            east
+        <span class="material-icons getout" (click)="getInClient(selectedId)">
+            keyboard_arrow_right
         </span>
-        <span class="material-icons md-36 getin" (click)="getOutClient()">
-            west
+        <span class="material-icons getin" (click)="getOutClient()">
+            keyboard_arrow_left
         </span>
     </div>
 
@@ -71,11 +71,6 @@
     </div>
 </div>
 
-<shared-confirm-dialog-input *ngIf="showAddRoomDialog" [title]="'Ingrese el Cuarto'"
-    [text]="'Por favor ingrese el numero de cuarto a asginar.' + '\n' + 'Cuarto anterior: '+this.cuarto" [actionType]="'add'"
-    (confirmed)="handleInputResult($event)">
-</shared-confirm-dialog-input>
-
 <app-confirm-dialog *ngIf="showNewBitacora" [title]="'Bitácora no encontrada'"
     [text]="'No hay bitácora para este día. ¿Desea crearla?'" [actionType]="'add'"
     (confirmed)="handleNewBitacora($event)">
@@ -88,4 +83,24 @@
 <app-confirm-dialog *ngIf="showDuplicateBitacora" [title]="'Error al agregar el usuario'"
     [text]="'Usuario ya existe en la bitácora de este día.'" [actionType]="'info'"
     (confirmed)="handleDuplicateBitacora($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog *ngIf="showRoomInfo" [title]="'Último cuarto registrado para la persona'"
+    [text]="'El último cuarto regisrado para la persona con cédula: ' + this.selectedId + ' es: ' + this.lastRoom" [actionType]="'info'" 
+    (confirmed)="handleRoomInfo($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog *ngIf="showMissingSelection" [title]="'Faltan selecciones para continuar'"
+    [text]="'Debe seleccionar la persona a agregar y la fecha a consultar'" [actionType]="'info'" 
+    (confirmed)="handleMissingSelection($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog *ngIf="showMissingOutSelection" [title]="'Faltan selecciones para continuar'"
+    [text]="'Debe seleccionar la persona a eliminar y la fecha a consultar'" [actionType]="'info'" 
+    (confirmed)="handleMissingOutSelection($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog *ngIf="showGetOutConfirm" [title]="'Eliminar de la bitácora'"
+    [text]="'Se va a remover la persona con cédula ' + this.selectedOutId + ' ¿Desea continuar?'" [actionType]="'delete'"
+    (confirmed)="handleGetOutConfirm($event)">
 </app-confirm-dialog>
