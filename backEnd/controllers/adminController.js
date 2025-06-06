@@ -1,5 +1,6 @@
 import dbConnection from "../DB/dbConnection.js";
 import defineUsuarioSistema from "../models/usuario_sistema.js";
+import defineBitacora from "../models/sistema_bitacora.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import config from '../config.js';
@@ -90,6 +91,72 @@ adminCtr.getConsulta = async (req,res)=>{
         res.status(500).json({message:"Error al realizar la consulta",status:500});
     }
 }
+
+adminCtr.getBitacora = async (req, res) => {
+  try {
+    const db = dbConnection.getInstance();
+    const Bitacora = defineBitacora(db.Sequelize, db.dataType);
+
+    const registros = await Bitacora.findAll();
+
+    res.status(200).json({
+      message: "Datos de bitácora obtenidos correctamente",
+      status: 200,
+      registros,
+      count: registros.length,
+    });
+  } catch (error) {
+    console.error("Error al obtener datos de bitácora:", error);
+    res.status(500).json({
+      message: "Error al obtener datos de bitácora",
+      status: 500,
+    });
+  }
+};
+
+
+adminCtr.getMovimientosBitacora = async (req, res) => {
+  try {
+    const db = dbConnection.getInstance();
+    const Bitacora = defineBitacora(db.Sequelize, db.dataType);
+
+    const bitacoraId = req.params.id;
+      
+    console.log("ID de bitácora:", bitacoraId);
+
+    if (!bitacoraId) {
+      return res.status(400).json({
+        message: "ID de bitácora requerido",
+        status: 400,
+      });
+    }
+
+    const registro = await Bitacora.findOne({
+      where: { id: bitacoraId },
+      attributes: ["valor"],
+    });
+
+    if (!registro) {
+      return res.status(404).json({
+        message: "Registro no encontrado",
+        status: 404,
+      });
+    }
+
+    res.status(200).json({
+      message: "Movimiento obtenido correctamente",
+      status: 200,
+      valor: registro.valor,
+    });
+  } catch (error) {
+    console.error("Error al obtener el movimiento de bitácora:", error);
+    res.status(500).json({
+      message: "Error al obtener movimiento",
+      status: 500,
+    });
+  }
+};
+
 
 
 

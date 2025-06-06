@@ -45,6 +45,7 @@ export class ConsultasComponent {
         p_razon_servicio_id: null,
         p_grado_academico_id: null,
         p_tipo_pension_id: null,
+        p_embarazada: null,
     };
     showDialog: boolean = false;
     dialogMessage: string = '';
@@ -201,6 +202,7 @@ export class ConsultasComponent {
             p_razon_servicio_id: null,
             p_grado_academico_id: null,
             p_tipo_pension_id: null,
+            p_embarazada: null,
         };
 
         this.filter();

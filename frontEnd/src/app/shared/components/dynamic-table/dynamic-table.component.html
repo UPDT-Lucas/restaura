@@ -26,7 +26,7 @@
                 <tr>
                     <th *ngIf="this.selectable">Seleccionar</th>
                     <th *ngFor="let title of header">{{ title }}</th>
-                    <th *ngIf="editLink">Acciones</th>
+                    <th *ngIf="editLink || viewLink">Acciones</th>
                 </tr>
             </thead>
             <tbody *ngIf="rows.length > 0; else noData">
@@ -44,7 +44,7 @@
                             {{ cell }}
                         </ng-template>
                     </td>
-                    <td *ngIf="editLink">
+                    <td *ngIf="editLink || viewLink" class="actions">
                         <span *ngIf="viewLink" class="material-icons" [routerLink]="[viewLink, row[0]]">visibility</span>
                         <span *ngIf="editLink" class="material-icons" [routerLink]="[editLink, row[0]]">edit</span>
                         <span *ngIf="deleteButton" class="material-icons" style="cursor: pointer"

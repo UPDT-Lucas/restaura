@@ -28,6 +28,8 @@ import { TipoViolenciaComponent } from './catalogs/pages/index-tipos-violencia/t
 import { CuartosComponent } from './catalogs/pages/index-cuartos/index-cuarto.component';
 import { TipoCuartosComponent } from './catalogs/pages/index-tipos-cuartos/tipos-cuartos.component';
 import { TiposCamasComponent } from './catalogs/pages/index-tipos-camas/tipos-camas.component';
+import { BitacoraSistemaComponent } from './admin/pages/bitacora/bitacora-sistema.component';
+import { BitacoraMovimientosSistemaComponent } from './admin/pages/bitacora-ver-movimientos/bitacora-sistema-ver.component';
 
 /* Add - Catálogos */
 import { AddCantonComponent } from './catalogs/pages/add-canton/add-canton.component';
@@ -84,6 +86,8 @@ export const routes: Routes = [
     { path: 'consultas', component: ConsultasComponent },
     { path: 'asignar-cuarto/:userId/:fecha', component: AgregarPersonaCuartoComponent },
     { path: 'asignar-cama/:userId/:idCuarto/:fecha', component: AgregarPersonaCamaComponent },
+    { path: 'bitacora-sistema', component: BitacoraSistemaComponent },
+    { path: 'bitacora-sistema-ver/:id', component: BitacoraMovimientosSistemaComponent },
 
     // Index
     { path: 'cantones', component: CantonesComponent },

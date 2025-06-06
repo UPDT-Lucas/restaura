@@ -22,6 +22,14 @@ export class AdminService {
         });
     }
 
+    getBitacoraSistema(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getBitacora`);
+    }
+
+    getMovimientosBitacora(id: string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getMovimientosBitacora/${id}`);
+    }
+
     consultas(formFilter: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/Quering`, formFilter);
     }
