@@ -16,20 +16,10 @@
         <shared-search-box [label]="'Buscar persona'" [placeholder]="'Ingrese la cedula de la persona'"
             [error]="'*Campo requerido'" (valueChange)="searchClient($event, page)" [searchIcon]="true" />
 
-        <shared-dynamic-table
-            [table_title]="'Habitantes'"
-            [tableData]="this.tableData"
-            [editLink]="'/edit/'"
-            [deleteButton]="false"
-            [currentPage]="page"
-            [limitPerPage]="limit"
-            [totalItems]="total"
-            [showButton]="false"
-            (updatePage)="onUpdatePage($event)"
-            (changeLimit)="onUpdateLimit($event)"
-            [selectable]="true"
-            (selectedIdChange)="onSelectedIdChange($event!)"
-        />
+        <shared-dynamic-table [table_title]="'Habitantes'" [tableData]="this.tableData" [editLink]="'/edit/'"
+            [deleteButton]="false" [currentPage]="page" [limitPerPage]="limit" [totalItems]="total" [showButton]="false"
+            (updatePage)="onUpdatePage($event)" (changeLimit)="onUpdateLimit($event)" [selectable]="true"
+            (selectedIdChange)="onSelectedIdChange($event!)" />
     </div>
 
     <div class="buttons-container">
@@ -54,20 +44,11 @@
             </shared-input-date>
         </div>
 
-        <shared-dynamic-table
-            [table_title]="'Habitantes en Bitácora'"
-            [tableData]="this.tableDataLog"
-            [editLink]="'/edit/'"
-            [deleteButton]="false"
-            [currentPage]="pageLog"
-            [limitPerPage]="limitLog"
-            [totalItems]="totalLog"
-            [showButton]="false"
-            (updatePage)="onUpdatePageLog($event)"
-            (changeLimit)="onUpdateLimitLog($event)"
-            [selectable]="true"
-            (selectedIdChange)="onSelectedOutIdChange($event!)"
-        />
+        <shared-dynamic-table [table_title]="'Habitantes en hoja de entrada'" [tableData]="this.tableDataLog"
+            [editLink]="'/edit/'" [deleteButton]="false" [currentPage]="pageLog" [limitPerPage]="limitLog"
+            [totalItems]="totalLog" [showButton]="false" (updatePage)="onUpdatePageLog($event)"
+            (changeLimit)="onUpdateLimitLog($event)" [selectable]="true"
+            (selectedIdChange)="onSelectedOutIdChange($event!)" />
     </div>
 </div>
 
@@ -86,21 +67,21 @@
 </app-confirm-dialog>
 
 <app-confirm-dialog *ngIf="showRoomInfo" [title]="'Último cuarto registrado para la persona'"
-    [text]="'El último cuarto regisrado para la persona con cédula: ' + this.selectedId + ' es: ' + this.lastRoom" [actionType]="'info'" 
-    (confirmed)="handleRoomInfo($event)">
+[text]="'El último registrado para la persona con cédula: ' + this.selectedId + 
+      ', fue en el cuarto: ' + this.lastRoom + ' y cama: ' + this.lastBed"    [actionType]="'info'" (confirmed)="handleRoomInfo($event)">
 </app-confirm-dialog>
 
 <app-confirm-dialog *ngIf="showMissingSelection" [title]="'Faltan selecciones para continuar'"
-    [text]="'Debe seleccionar la persona a agregar y la fecha a consultar'" [actionType]="'info'" 
+    [text]="'Debe seleccionar la persona a agregar y la fecha a consultar'" [actionType]="'info'"
     (confirmed)="handleMissingSelection($event)">
 </app-confirm-dialog>
 
 <app-confirm-dialog *ngIf="showMissingOutSelection" [title]="'Faltan selecciones para continuar'"
-    [text]="'Debe seleccionar la persona a eliminar y la fecha a consultar'" [actionType]="'info'" 
+    [text]="'Debe seleccionar la persona a eliminar y la fecha a consultar'" [actionType]="'info'"
     (confirmed)="handleMissingOutSelection($event)">
 </app-confirm-dialog>
 
 <app-confirm-dialog *ngIf="showGetOutConfirm" [title]="'Eliminar de la bitácora'"
-    [text]="'Se va a remover la persona con cédula ' + this.selectedOutId + ' ¿Desea continuar?'" [actionType]="'delete'"
-    (confirmed)="handleGetOutConfirm($event)">
+    [text]="'Se va a remover la persona con cédula ' + this.selectedOutId + ' ¿Desea continuar?'"
+    [actionType]="'delete'" (confirmed)="handleGetOutConfirm($event)">
 </app-confirm-dialog>

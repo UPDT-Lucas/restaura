@@ -171,7 +171,7 @@ export class ConsultasComponent {
                             item.id,
                             item.nombre,
                             item.edad,
-                            item.genero_id,
+                            item.genero_nombre,
                             item.fechaingreso,
                         ]);
 

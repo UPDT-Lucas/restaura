@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class LogService {
   private apiUrl = 'http://localhost:3100';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getLogs(date: Date, limit: string, offset: string): Observable<any> {
     console.log(date);
@@ -33,7 +33,7 @@ export class LogService {
 
   addClientToLog(cliente_servicio_id: string, bitacora_id: string, cama_id: string): Observable<any> {
     console.log(cliente_servicio_id, bitacora_id, cama_id);
-    return this.http.post(`${this.apiUrl}/clienteSaveBitacora`, { bitacora_id, cliente_servicio_id,  cama_id });
+    return this.http.post(`${this.apiUrl}/clienteSaveBitacora`, { bitacora_id, cliente_servicio_id, cama_id });
   }
 
   deleteClientFromLog(cliente_servicio_id: string, bitacora_id: string): Observable<any> {
