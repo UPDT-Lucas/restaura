@@ -41,7 +41,7 @@ export class LogComponent {
   date: Date | undefined;
   data: any[] = [];
   headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Registro'];
-  headersLog: string[] = ['Id', 'Nombre', 'Cuarto', 'Fecha Registro'];
+  headersLog: string[] = ['Id', 'Nombre', 'Cuarto','Cama', 'Fecha Registro'];
   selectedId: string = "";
   selectedOutId: string | null = null;
   idBitacora: string | null = null;
@@ -130,6 +130,7 @@ export class LogComponent {
         this.idBitacora = logs.idbitacora;
         this.totalLog = logs.total;
         this.maxLog = Math.ceil(this.totalLog / this.limitLog);
+        console.log(this.logClients);
         this.tableDataLog = [this.headersLog, ... this.rowsToArray(this.logClients)];
       },
       error: (err) => {
@@ -162,7 +163,8 @@ export class LogComponent {
     return log.map(c => ({
       id: c.id,
       nombre: c.nombre,
-      cuarto: c.numeroCuarto,
+      cuarto: c. cuarto,
+      cama: c.cama,
       fechaIngreso: c.fechaingreso
     }));
   }
@@ -178,6 +180,7 @@ export class LogComponent {
       this.selectedOutId = selectedId;
     }
   }
+  lastBed: string | null = null;
 
   getInClient(id: string) {
     if (!this.idBitacora || !this.selectedId) {
@@ -187,6 +190,7 @@ export class LogComponent {
     this.logService.getLastRoom(id, this.idBitacora!).subscribe({
       next: (data: any) => {
         this.lastRoom = data.data.cuartonombre;
+        this.lastBed = data.data.camanombre;
         this.showRoomInfo = true;
       },
       error: (err) => {
