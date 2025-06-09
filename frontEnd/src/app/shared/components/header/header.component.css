@@ -16,6 +16,7 @@ h1 {
     align-items: center;
     background-color: white;
     box-shadow: 0 6px 10px rgba(85, 85, 85, 0.1);
+    z-index: 1000;
 }
 
 

@@ -1,5 +1,21 @@
 <div class="container">
     <h1>Seleccione la cama</h1>
+
+    <div class="legend">
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: green;"></span>
+            <span>Disponible</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: red;"></span>
+            <span>Ocupado</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: #d4ca6b;"></span>
+            <span>Cama especial</span>
+        </div>
+    </div>
+
     <div class="beds-container">
         @for(bed of allBeds; track bed){
         <div class="bed" (click)="selectBed(bed)">
@@ -22,17 +38,11 @@
     </div>
 </div>
 
-<app-confirm-dialog *ngIf="showGetInConfirm" [title]="'Agregar a la bitácora'"
-    [text]="'Se va a agregar a la persona con cédula ' + this.userId 
+<app-confirm-dialog *ngIf="showGetInConfirm" [title]="'Agregar a la bitácora'" [text]="'Se va a agregar a la persona con cédula ' + this.userId 
     + ' en el cuarto '+ this.roomId
-    + ' con la cama ' + this.selectedBed.nombre"
-    [actionType]="'add'"
-    (confirmed)="handleGetInConfirm($event)">
+    + ' con la cama ' + this.selectedBed.nombre" [actionType]="'add'" (confirmed)="handleGetInConfirm($event)">
 </app-confirm-dialog>
 
-<app-confirm-dialog *ngIf="showUserAdded" [title]="'Persona agregrada a la bitácora'"
-    [text]="'La persona con cédula ' + this.userId 
-    + ' ha sido agregada exitosamente en el cuarto '"
-    [actionType]="'info'"
-    (confirmed)="handleUserAdded($event)">
+<app-confirm-dialog *ngIf="showUserAdded" [title]="'Persona agregrada a la bitácora'" [text]="'La persona con cédula ' + this.userId 
+    + ' ha sido agregada exitosamente en el cuarto '" [actionType]="'info'" (confirmed)="handleUserAdded($event)">
 </app-confirm-dialog>

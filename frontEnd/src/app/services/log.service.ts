@@ -10,7 +10,7 @@ export class LogService {
 
   constructor(private http: HttpClient) { }
 
-  getLogs(date: Date, limit: string, offset: string): Observable<any> {
+  getLogs(date: Date | string, limit: string, offset: string): Observable<any> {
     console.log(date);
     console.log(limit);
     console.log(offset);
@@ -40,6 +40,26 @@ export class LogService {
     return this.http.delete(`${this.apiUrl}/clienteDeleteBitacora`, {
       body: { cliente_servicio_id, bitacora_id },
     });
+  }
+
+  saveDate(date: Date | string, limit: number, page: number): void {
+    if (typeof date === 'string') {
+      const [year, month, day] = date.split('-').map(Number);
+      date = new Date(year, month - 1, day);
+    }
+    localStorage.setItem('date', date.toISOString() + "*" + limit.toString() + "*" + page.toString());
+  }
+
+  getSavedDate(): string | null {
+    return localStorage.getItem('date');
+  }
+
+  savePage(page: number): void {
+    localStorage.setItem('page', page.toString());
+  }
+
+  getSavedPage(): string | null {
+    return localStorage.getItem('page');
   }
 
 

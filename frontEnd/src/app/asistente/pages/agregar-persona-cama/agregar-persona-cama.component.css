@@ -74,7 +74,94 @@ h1 {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.legend {
+    position: fixed;
+    right: 2rem;
+    top: 6rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 1px solid #999;
+}
+
+
 .bed:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(33, 67, 140, 0.2);
+}
+
+@media (max-width: 1400px) {
+    .beds-container {
+        grid-template-columns: repeat(3, 180px);
+        gap: 32px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .legend {
+        top: 0;
+        right: 0;
+        position: static;
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 768px) {
+    .beds-container {
+        grid-template-columns: repeat(2, 160px);
+        gap: 24px;
+    }
+
+    .bed {
+        padding: 16px;
+    }
+
+    .bed-icon {
+        font-size: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .beds-container {
+        grid-template-columns: repeat(1, 90%);
+    }
+
+    .bed {
+        aspect-ratio: unset;
+        padding: 12px;
+    }
+
+    .bed-icon {
+        font-size: 48px;
+    }
+
+    .bed-header h2 {
+        font-size: 1rem;
+    }
+
+    .bed-header p,
+    .bed-content p {
+        font-size: 0.8rem;
+    }
 }
