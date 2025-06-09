@@ -1,5 +1,21 @@
 <div class="container">
     <h1>Seleccione el cuarto</h1>
+
+    <div class="legend">
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: green;"></span>
+            <span>Disponible</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: red;"></span>
+            <span>Lleno</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: burlywood;"></span>
+            <span>Cuarto especial</span>
+        </div>
+    </div>
+
     <div class="rooms-container">
         @for(room of allRooms; track room) {
         <div class="room" (click)="selectRoom(room.id.toString())">

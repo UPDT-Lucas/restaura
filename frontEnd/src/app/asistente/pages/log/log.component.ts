@@ -38,10 +38,10 @@ export class LogComponent {
   pageLog: number = 1;
   maxLog: number = 0;
 
-  date: Date | undefined;
+  date: Date | string | undefined;
   data: any[] = [];
   headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Registro'];
-  headersLog: string[] = ['Id', 'Nombre', 'Cuarto','Cama', 'Fecha Registro'];
+  headersLog: string[] = ['Id', 'Nombre', 'Cuarto', 'Cama', 'Fecha Registro'];
   selectedId: string = "";
   selectedOutId: string | null = null;
   idBitacora: string | null = null;
@@ -62,7 +62,18 @@ export class LogComponent {
 
   ngOnInit() {
     this.cargando = true;
-    this.searchClient("", (this.page - 1));
+    const [savedDate, savedLimit, savedPage]  = this.logService.getSavedDate()?.split('*') || [];
+    if (savedDate) {
+      console.log(savedDate, savedLimit, savedPage);
+      this.date = savedDate.toString().split('T')[0];
+      this.onUpdatePageLog(parseInt(savedLimit) * parseInt(savedPage));
+    }
+    const savedPageLeft = this.logService.getSavedPage();
+    if (savedPageLeft) {
+      this.onUpdatePage(parseInt(savedPageLeft));
+    } else{
+      this.searchClient("", (this.page - 1));
+    }
     this.cargando = false;
   }
 
@@ -98,6 +109,7 @@ export class LogComponent {
 
   onUpdatePage(page: number) {
     this.page = page;
+    this.logService.savePage(page);
     this.searchClient(this.clientId, (this.page - 1) * this.limit);
   }
 
@@ -118,7 +130,7 @@ export class LogComponent {
     this.getDate(this.date!, this.pageLog * this.limitLog);
   }
 
-  getDate(date: Date, offset: number): void {
+  getDate(date: Date | string, offset: number): void {
     this.date = date;
     if (this.pageLog == 1) {
       offset = 0;
@@ -132,6 +144,7 @@ export class LogComponent {
         this.maxLog = Math.ceil(this.totalLog / this.limitLog);
         console.log(this.logClients);
         this.tableDataLog = [this.headersLog, ... this.rowsToArray(this.logClients)];
+        this.logService.saveDate(date, this.limitLog, this.pageLog);
       },
       error: (err) => {
         if (err.status === 404) {
@@ -163,7 +176,7 @@ export class LogComponent {
     return log.map(c => ({
       id: c.id,
       nombre: c.nombre,
-      cuarto: c. cuarto,
+      cuarto: c.cuarto,
       cama: c.cama,
       fechaIngreso: c.fechaingreso
     }));

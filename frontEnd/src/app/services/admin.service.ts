@@ -51,6 +51,6 @@ export class AdminService {
     }
 
     logout(): void {
-        localStorage.removeItem('token'); // o sessionStorage.clear()
+        localStorage.removeItem('token');
     }
 }

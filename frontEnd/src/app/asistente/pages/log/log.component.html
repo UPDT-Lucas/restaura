@@ -39,7 +39,7 @@
             [error]="'*Campo requerido'"
             [searchIcon]="true"
         /> -->
-            <shared-input-date [label]="'Fecha Ingreso'" [placeholder]="'Fecha Ingreso'"
+            <shared-input-date [label]="'Fecha Ingreso'" [placeholder]="'Fecha Ingreso'" [value]="this.date"
                 (valueChange)="getDate($event, page)">
             </shared-input-date>
         </div>
