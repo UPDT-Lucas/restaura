@@ -40,8 +40,8 @@ export class LogComponent {
 
   date: Date | string | undefined;
   data: any[] = [];
-  headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Registro'];
-  headersLog: string[] = ['Id', 'Nombre', 'Cuarto', 'Cama', 'Fecha Registro'];
+  headers: string[] = ['Cedula', 'Nombre', 'Edad', 'Fecha Registro'];
+  headersLog: string[] = ['Cedula', 'Nombre', 'Cuarto','Cama', 'Fecha Registro'];
   selectedId: string = "";
   selectedOutId: string | null = null;
   idBitacora: string | null = null;
