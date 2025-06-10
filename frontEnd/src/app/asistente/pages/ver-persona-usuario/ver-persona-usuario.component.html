@@ -569,5 +569,17 @@
             [(value)]="formPersonaUsuario.inamu.solucionesdetalle"
             [disabled]="true"
         />
+        
     </div>
+
+    <div class="button-export">
+        <shared-button text="Exportar Usuario" (buttonClick)="openModal()"></shared-button>
+    </div>
+
+
+    <shared-file-export-modal
+    *ngIf="showModal"
+    (export)="onExport($event)"
+    (close)="showModal = false"
+    ></shared-file-export-modal>
 </div>
