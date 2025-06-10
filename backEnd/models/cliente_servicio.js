@@ -114,8 +114,11 @@ export default function defineClienteServicio(sequelize) {
     droga_principal:{
         type: DataTypes.TEXT,
         allowNull: true,
-    }
-    ,
+    },
+    embarazo:{
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
     genero_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
