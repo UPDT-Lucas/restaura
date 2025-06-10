@@ -33,7 +33,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
         CommonModule,
         ReactiveFormsModule,
         FileExportModalComponent,
-        ButtonComponent
+        ButtonComponent,
     ],
     templateUrl: './ver-persona-usuario.component.html',
     styleUrls: ['./ver-persona-usuario.component.css'],
@@ -76,6 +76,7 @@ export class ViewPersonComponent {
             razoncarcel: null,
             pendienteresolucion: false,
             edadiniciocarcel: null,
+            embarazo: 'null',
         },
         info3meses_id: {
             carcel: false,
@@ -131,6 +132,11 @@ export class ViewPersonComponent {
     tipoAyudaOptions: { label: string; value: string }[] = [];
     institucionesAyudaOptions: { label: string; value: string }[] = [];
     tipoViolenciaOptions: { label: string; value: string }[] = [];
+    embarazadaOptions: { label: string; value: string }[] = [
+        { label: 'Sí', value: 'true' },
+        { label: 'No', value: 'false' },
+        { label: 'No Aplica', value: 'null' },
+    ];
 
     provinciaId: any = null;
     inamu_informacion: boolean = false;
@@ -254,6 +260,7 @@ export class ViewPersonComponent {
                     canton_id: data.personal.canton_id?.toString(),
                     donde_dormi_id: data.personal.donde_dormi_id?.toString(),
                     tiempo_calle_id: data.personal.tiempo_calle_id?.toString(),
+                    embarazo : data.personal.embarazo?.toString() ?? 'null',
                 };
 
                 this.formPersonaUsuario.info3meses_id = {
@@ -389,6 +396,7 @@ export class ViewPersonComponent {
                         ?.label ?? 'N/A',
                 ],
                 ['Cantidad Hijos', this.formPersonaUsuario.personal.cantidadhijos],
+                ['Embarazo', this.formPersonaUsuario.personal.embarazo ?? 'N/A'],
                 ['Procedencia', ''],
                 [
                     'País',
@@ -412,7 +420,7 @@ export class ViewPersonComponent {
                     this.formPersonaUsuario.catalogos.razon_servicio
                         .map((id: string) => this.razonServicioOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     'Tiempo en Calle',
@@ -465,7 +473,7 @@ export class ViewPersonComponent {
                     this.formPersonaUsuario.catalogos.pensiones
                         .map((id: string) => this.tipoPensionesOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     'Razón Servicio',
@@ -479,23 +487,23 @@ export class ViewPersonComponent {
                 ['Teléfono', this.formPersonaUsuario.contacto.telefono ?? 'N/A'],
                 ['Relación', this.formPersonaUsuario.contacto.relacion ?? 'N/A'],
                 ['Información INAMU', ''],
-                ['¿Es Jefe de Hogar?', this.formPersonaUsuario.inamu.jefehogar ? 'Sí' : 'No'],
-                ['¿Contacto Familiar?', this.formPersonaUsuario.inamu.contactofamilia ? 'Sí' : 'No'],
-                ['¿Apoyo Económico?', this.formPersonaUsuario.inamu.apoyoeconomico ? 'Sí' : 'No'],
-                ['¿Tiene Pareja?', this.formPersonaUsuario.inamu.pareja ? 'Sí' : 'No'],
+                ['¿Es Jefe de Hogar?', this.formPersonaUsuario.inamu?.jefehogar ? 'Sí' : 'No'],
+                ['¿Contacto Familiar?', this.formPersonaUsuario.inamu?.contactofamilia ? 'Sí' : 'No'],
+                ['¿Apoyo Económico?', this.formPersonaUsuario.inamu?.apoyoeconomico ? 'Sí' : 'No'],
+                ['¿Tiene Pareja?', this.formPersonaUsuario.inamu?.pareja ? 'Sí' : 'No'],
                 [
                     '¿Recibe Ayuda de Institución?',
                     this.formPersonaUsuario.catalogos.tipos_ayuda
                         .map((id: string) => this.tipoAyudaOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     '¿Ha sufrido algun tipo de violencia?',
                     this.formPersonaUsuario.catalogos.tipos_violencia
                         .map((id: string) => this.tipoViolenciaOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     'Se dirigió a alguna institución de violencia',
@@ -504,9 +512,9 @@ export class ViewPersonComponent {
                         .filter((label: string | undefined): label is string => !!label)
                         .join(', ') || 'N/A',
                 ],
-                ['¿Pareja en el Centro?', this.formPersonaUsuario.inamu.parejacentro ? 'Sí' : 'No'],
-                ['¿Porqué no está en el Centro?', this.formPersonaUsuario.inamu.parejano ?? 'N/A'],
-                ['Detalle Soluciones', this.formPersonaUsuario.inamu.solucionesdetalle ?? 'N/A'],
+                ['¿Pareja en el Centro?', this.formPersonaUsuario.inamu?.parejacentro ? 'Sí' : 'No'],
+                ['¿Porqué no está en el Centro?', this.formPersonaUsuario.inamu?.parejano ?? 'N/A'],
+                ['Detalle Soluciones', this.formPersonaUsuario.inamu?.solucionesdetalle ?? 'N/A'],
             ];
             this.downloadCSV(data, 'reporte.csv');
         } else {
@@ -531,6 +539,7 @@ export class ViewPersonComponent {
                         ?.label ?? 'N/A',
                 ],
                 ['Cantidad Hijos', this.formPersonaUsuario.personal.cantidadhijos],
+                ['Embarazo', this.formPersonaUsuario.personal.embarazo ?? 'N/A'],
                 ['Procedencia'],
                 [
                     'País',
@@ -554,7 +563,7 @@ export class ViewPersonComponent {
                     this.formPersonaUsuario.catalogos.razon_servicio
                         .map((id: string) => this.razonServicioOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     'Tiempo en Calle',
@@ -607,13 +616,13 @@ export class ViewPersonComponent {
                     this.formPersonaUsuario.catalogos.pensiones
                         .map((id: string) => this.tipoPensionesOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     'Razón Servicio',
                     this.razonServicioOptions.find(
                         (option) => option.value === this.formPersonaUsuario.catalogos.razon_servicio[0],
-                    )?.label ?? 'N/A',
+                    )?.label || 'N/A',
                 ],
                 ['Razón Tratamiento Drogas', this.formPersonaUsuario.info3meses_id.razon_drogas ?? 'N/A'],
                 ['Información de Contacto'],
@@ -621,23 +630,23 @@ export class ViewPersonComponent {
                 ['Teléfono', this.formPersonaUsuario.contacto.telefono ?? 'N/A'],
                 ['Relación', this.formPersonaUsuario.contacto.relacion ?? 'N/A'],
                 ['Información INAMU'],
-                ['¿Es Jefe de Hogar?', this.formPersonaUsuario.inamu.jefehogar ? 'Sí' : 'No'],
-                ['¿Contacto Familiar?', this.formPersonaUsuario.inamu.contactofamilia ? 'Sí' : 'No'],
-                ['¿Apoyo Económico?', this.formPersonaUsuario.inamu.apoyoeconomico ? 'Sí' : 'No'],
-                ['¿Tiene Pareja?', this.formPersonaUsuario.inamu.pareja ? 'Sí' : 'No'],
+                ['¿Es Jefe de Hogar?', this.formPersonaUsuario.inamu?.jefehogar ? 'Sí' : 'No'],
+                ['¿Contacto Familiar?', this.formPersonaUsuario.inamu?.contactofamilia ? 'Sí' : 'No'],
+                ['¿Apoyo Económico?', this.formPersonaUsuario.inamu?.apoyoeconomico ? 'Sí' : 'No'],
+                ['¿Tiene Pareja?', this.formPersonaUsuario.inamu?.pareja ? 'Sí' : 'No'],
                 [
                     '¿Recibe Ayuda de Institución?',
                     this.formPersonaUsuario.catalogos.tipos_ayuda
                         .map((id: string) => this.tipoAyudaOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     '¿Ha sufrido algun tipo de violencia?',
                     this.formPersonaUsuario.catalogos.tipos_violencia
                         .map((id: string) => this.tipoViolenciaOptions.find((opt) => opt.value === id)?.label)
                         .filter((label: string) => label)
-                        .join(', ') ?? 'N/A',
+                        .join(', ') || 'N/A',
                 ],
                 [
                     'Se dirigió a alguna institución de violencia',
@@ -646,9 +655,9 @@ export class ViewPersonComponent {
                         .filter((label: string | undefined): label is string => !!label)
                         .join(', ') || 'N/A',
                 ],
-                ['¿Pareja en el Centro?', this.formPersonaUsuario.inamu.parejacentro ? 'Sí' : 'No'],
-                ['¿Porqué no está en el Centro?', this.formPersonaUsuario.inamu.parejano ?? 'N/A'],
-                ['Detalle Soluciones', this.formPersonaUsuario.inamu.solucionesdetalle ?? 'N/A'],
+                ['¿Pareja en el Centro?', this.formPersonaUsuario.inamu?.parejacentro ? 'Sí' : 'No'],
+                ['¿Porqué no está en el Centro?', this.formPersonaUsuario.inamu?.parejano ?? 'N/A'],
+                ['Detalle Soluciones', this.formPersonaUsuario.inamu?.solucionesdetalle ?? 'N/A'],
             ];
             this.downloadPDF(data, 'reporte.pdf');
         }

@@ -80,6 +80,14 @@
             [(value)]="formPersonaUsuario.personal.cantidadhijos"
             [disabled]="true"
         />
+
+        <!-- Es Embarazada -->
+        <shared-select
+            [label]="'¿Es Embarazada?'"
+            [options]="embarazadaOptions"
+            [(value)]="formPersonaUsuario.personal.embarazo"
+            [disabled]="true"
+        />
     </div>
 
     <!-- PROCEDENCIA -->
@@ -569,17 +577,15 @@
             [(value)]="formPersonaUsuario.inamu.solucionesdetalle"
             [disabled]="true"
         />
-        
     </div>
 
     <div class="button-export">
         <shared-button text="Exportar Usuario" (buttonClick)="openModal()"></shared-button>
     </div>
 
-
     <shared-file-export-modal
-    *ngIf="showModal"
-    (export)="onExport($event)"
-    (close)="showModal = false"
+        *ngIf="showModal"
+        (export)="onExport($event)"
+        (close)="showModal = false"
     ></shared-file-export-modal>
 </div>
