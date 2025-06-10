@@ -1,0 +1,15 @@
+<div class="modal-backdrop">
+    <div class="modal-content">
+      <h3>Exportar archivo</h3>
+      <label for="file-type">Seleccionar tipo:</label>
+      <select id="file-type" [(ngModel)]="selectedFormat">
+        <option value="csv">CSV</option>
+        <option value="pdf">PDF</option>
+      </select>
+      <div class="modal-actions">
+        <button (click)="emitExport()">Exportar</button>
+        <button (click)="close.emit()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  

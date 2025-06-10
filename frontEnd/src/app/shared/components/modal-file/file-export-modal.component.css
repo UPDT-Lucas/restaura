@@ -1,0 +1,104 @@
+/* Fondo oscuro translúcido */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  /* Contenedor del modal */
+  .modal-content {
+    background-color: #ffffff;
+    padding: 24px 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  /* Título */
+  .modal-content h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #3498db;
+  }
+  
+  /* Etiqueta */
+  .modal-content label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  /* Selector */
+  .modal-content select {
+    padding: 10px 15px;
+    border: 1.5px solid #616161;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #444;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .modal-content select:focus {
+    border-color: #3498db;
+  }
+  
+  /* Botones */
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .modal-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-actions button:first-child {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .modal-actions button:first-child:hover {
+    background-color: #1871ab;
+  }
+  
+  .modal-actions button:last-child {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+  
+  .modal-actions button:last-child:hover {
+    background-color: #c2c2c2;
+  }
+  
+  /* Animación de entrada */
+  @keyframes fadeIn {
+    from {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
