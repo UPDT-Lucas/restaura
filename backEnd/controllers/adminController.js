@@ -70,7 +70,7 @@ adminCtr.getConsulta = async (req,res)=>{
             p_fecha_ingreso_desde, p_fecha_ingreso_hasta, p_carcel, 
             p_razon_servicio_id, p_grado_academico_id,p_embarazo} = req.body;
         
-       
+      
         const db = dbConnection.getInstance();
         const sequelize = db.Sequelize;
         const filters = await sequelize.query(

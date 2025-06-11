@@ -59,8 +59,12 @@
         <!-- Cárcel -->
         <shared-input-boolean [label]="'¿Cárcel?'" [(value)]="formFiltros.p_carcel" />
 
-        <!-- Es Embarazada -->
-        <shared-input-boolean [label]="'Embarazada?'" [(value)]="formFiltros.p_embarazada" />
+         <!-- Es Embarazada -->
+         <shared-select
+            [label]="'¿Es Embarazada?'"
+            [options]="embarazadaOptions"
+            [(value)]="formFiltros.p_embarazo"
+        />
     </div>
 
     <div class="buttons">
@@ -69,6 +73,10 @@
         </div>
         <div class="button-container">
             <shared-secondary-button text="Limpiar Filtros" (buttonClick)="clearFilters()"></shared-secondary-button>
+        </div>
+
+        <div class="button-container">
+            <shared-button text="Exportar" (buttonClick)="openModal()"></shared-button>
         </div>
     </div>
 
@@ -86,6 +94,13 @@
         (updatePage)="onUpdatePage($event)"
         (changeLimit)="onUpdateLimit($event)"
     />
+
+    <shared-file-export-modal
+        *ngIf="showModal"
+        (export)="onExport($event)"
+        (close)="showModal = false"
+        [disablePdf]="true"
+    ></shared-file-export-modal>
 </div>
 <app-dialog 
   [text]="dialogMessage" 

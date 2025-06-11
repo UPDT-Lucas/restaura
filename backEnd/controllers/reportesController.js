@@ -20,9 +20,8 @@ reporteCtr.reporteGeneral = async (req, res) => {
   try {
     const db = dbConnection.getInstance();
     const data = req.body;
-    const fechaInicio = convertirFechaADate(data.fechaInicio);
-    const fechaFin = convertirFechaADate(data.fechaFin);
-
+    const fechaInicio = convertirFechaADate(data.p_fecha_ingreso_desde);
+    const fechaFin = convertirFechaADate(data.p_fecha_ingreso_hasta);
 
     const totalServicios = await db.Sequelize.query(
       "select * from fn_total_servicios(:p_fecha_inicio,:p_fecha_fin);",
