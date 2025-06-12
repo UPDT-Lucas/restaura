@@ -31,6 +31,11 @@
 
                             <p>Consultas</p>
                     </li> 
+                    <li class="each-list" routerLink="/cuartos" (click)="toggleDropdown()">
+                           <span class="material-icons">night_shelter</span>
+
+                            <p>Administrador De Cuartos</p>
+                    </li> 
                     @if(token.rol == "0"){
                         <li class="each-list" routerLink="/register" (click)="toggleDropdown()">
                             <span class="material-icons md-16">person_add</span>
@@ -96,6 +101,23 @@
                             <span class="material-icons md-16">warning</span>
                             <p>Tipo de Violencia</p>
                         </li>
+                         <li class="each-list" routerLink="/tipos-cuartos" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">palette</span>
+                            <p>Tipo de Cuarto</p>
+                        </li>
+                        <li class="each-list" routerLink="/tipos-camas" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">palette</span>
+                            <p>Tipo de Cama</p>
+                        </li>
+                        <li class="each-list" routerLink="/bitacora-sistema" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">overview</span>
+                            <p>Bitacora de Acciónes</p>
+                        </li>
+
+
+                        
+
+                    
                     }
                 </ul>
             </div>
