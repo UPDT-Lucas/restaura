@@ -2,18 +2,12 @@
     <h1>Seleccione la cama</h1>
 
     <div class="legend">
-        <div class="legend-item">
-            <span class="legend-color" style="background-color: green;"></span>
-            <span>Disponible</span>
-        </div>
-        <div class="legend-item">
-            <span class="legend-color" style="background-color: red;"></span>
-            <span>Ocupado</span>
-        </div>
-        <div class="legend-item">
-            <span class="legend-color" style="background-color: #d4ca6b;"></span>
-            <span>Cama especial</span>
-        </div>
+        @for (type of tiposCamas; track $index) {
+            <div class="legend-item">
+                <span class="legend-color" [style.background-color]="type.color"></span>
+                <span>{{type.nombre}}</span>
+            </div>
+        }
     </div>
 
     <div class="beds-container">

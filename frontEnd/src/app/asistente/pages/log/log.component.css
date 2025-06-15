@@ -69,6 +69,13 @@ shared-input-date {
     gap: 24px;
 }
 
+.search-options-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
 .overlay {
     position: fixed;
     top: 0;

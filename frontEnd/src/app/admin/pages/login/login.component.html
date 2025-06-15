@@ -13,7 +13,8 @@
                     label="Ingrese la contraseña" 
                     [isPassword]="true" 
                     value=""
-                    (valueChange)="onPasswordChange($event)">
+                    (valueChange)="onPasswordChange($event)"
+                    (keydown.enter)="login()">
                 </shared-input-text>
                 <shared-button 
                     text="Ingresar"

@@ -4,10 +4,11 @@
             arrow_back
         </ul>
         <li routerLink="/log">
-            <img src="restaura-logo-sin-fondo.png" alt="Logo Asociación Restaura San José">
+            <img src="restaura-logo-sin-fondo.png" alt="Logo Asociación Restaura San José"
+            (click)="clearDate()">
         </li>
         <li  routerLink="/log">
-            <h1>Restaura</h1>
+            <h1 (click)="clearDate()"> Restaura</h1>
         </li>
     </ul>
     <shared-dropdown [token]="decodedToken">

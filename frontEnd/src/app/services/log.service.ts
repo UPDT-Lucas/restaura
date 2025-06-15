@@ -47,11 +47,16 @@ export class LogService {
       const [year, month, day] = date.split('-').map(Number);
       date = new Date(year, month - 1, day);
     }
+    console.log("Saving date:", date, "Limit:", limit, "Page:", page);
     localStorage.setItem('date', date.toISOString() + "*" + limit.toString() + "*" + page.toString());
   }
 
   getSavedDate(): string | null {
     return localStorage.getItem('date');
+  }
+
+  removeSavedDate(): void {
+    localStorage.removeItem('date');
   }
 
   savePage(page: number): void {

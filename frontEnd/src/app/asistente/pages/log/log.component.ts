@@ -10,10 +10,11 @@ import { ConfirmDialogInputComponent } from '../../../shared/components/confirm-
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component';
 import { Router } from '@angular/router';
+import { SelectComponent } from "../../../shared/components/select/select.component";
 
 @Component({
   selector: 'app-log',
-  imports: [DynamicTableComponent, SearchBoxComponent, CommonModule, InputDateComponent, ConfirmDialogComponent],
+  imports: [DynamicTableComponent, SearchBoxComponent, CommonModule, InputDateComponent, ConfirmDialogComponent, SelectComponent],
   templateUrl: './log.component.html',
   styleUrl: './log.component.css',
 })
@@ -28,6 +29,14 @@ export class LogComponent {
   clients: ClienteServicio[] = [];
   logClients: any[] = [];
 
+  searchOptions: { label: string, value: string }[] = [
+    { label: 'Todos', value: 'all' },
+    { label: 'Por identificación', value: 'id' },
+    { label: 'Por Nombre', value: 'name' }
+  ]
+
+  selectedSearchOption: string = 'all';
+
   limit: number = 5;
   total: number = 0;
   page: number = 1;
@@ -40,8 +49,8 @@ export class LogComponent {
 
   date: Date | string | undefined;
   data: any[] = [];
-  headers: string[] = ['Cedula', 'Nombre', 'Edad', 'Fecha Registro'];
-  headersLog: string[] = ['Cedula', 'Nombre', 'Cuarto','Cama', 'Fecha Registro'];
+  headers: string[] = ['Id', 'Nombre', 'Edad', 'Fecha Registro'];
+  headersLog: string[] = ['Id', 'Nombre', 'Cuarto', 'Cama', 'Fecha Registro'];
   selectedId: string = "";
   selectedOutId: string | null = null;
   idBitacora: string | null = null;
@@ -54,7 +63,7 @@ export class LogComponent {
   showGetOutConfirm: boolean = false;
   tableData: string[][] = [this.headers];
   tableDataLog: string[][] = [this.headersLog];
-  clientId: string = "";
+  selectedOptionText: string = "";
   cuarto: string | null = null;
   dialogText = ""
   dialogTitle = ""
@@ -62,61 +71,94 @@ export class LogComponent {
 
   ngOnInit() {
     this.cargando = true;
-    const [savedDate, savedLimit, savedPage]  = this.logService.getSavedDate()?.split('*') || [];
+    const [savedDate, savedLimit, savedPage] = this.logService.getSavedDate()?.split('*') || [];
+
     if (savedDate) {
-      console.log(savedDate, savedLimit, savedPage);
       this.date = savedDate.toString().split('T')[0];
-      this.onUpdatePageLog(parseInt(savedLimit) * parseInt(savedPage));
+      this.limitLog = parseInt(savedLimit);
+      this.pageLog = parseInt(savedPage);
+      this.onUpdatePageLog(this.pageLog);
     }
+
     const savedPageLeft = this.logService.getSavedPage();
     if (savedPageLeft) {
       this.onUpdatePage(parseInt(savedPageLeft));
-    } else{
+    } else {
       this.searchClient("", (this.page - 1));
     }
+
     this.cargando = false;
   }
 
-  searchClient(id: string, offset: number): void {
-    if (id) {
-      this.clientId = id
-      if (this.page == 1) {
-        offset = 0;
-      }
-      this.clientService.getClientCountByName(id).subscribe((countData: any) => {
-        this.total = countData.count;
-        this.maxPage = Math.ceil(this.total / this.limit);
-        this.clientService.getClients(id, this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
-          const rows = this.mapClientesToGenericRows(clientsData);
-          this.cargando = false;
-          this.tableData = [this.headers, ... this.rowsToArray(rows)];
-        });
-      });
+  searchClient(optionText: string, offset: number): void {
+    if (this.page == 1) {
+      offset = 0;
+    }
+    if (this.selectedSearchOption === 'id') {
+      this.selectedOptionText = optionText
+      this.searchClientsById(optionText, offset);
+    } else if (this.selectedSearchOption === 'name') {
+      this.selectedOptionText = optionText
+      this.searchClientsByName(optionText, offset);
     } else {
-      this.clientId = "";
-      this.clientService.getClientCount().subscribe((countData: any) => {
-        console.log(offset, this.limit)
-        this.total = countData.count;
-        this.maxPage = Math.ceil(this.total / this.limit);
-        this.clientService.getClients('', this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
-          const rows = this.mapClientesToGenericRows(clientsData);
-          this.cargando = false;
-          this.tableData = [this.headers, ... this.rowsToArray(rows)];
-        });
-      });
+      this.searchAllCients(offset);
     }
   }
+
+  getAllClients(value: string): void {
+    this.page = 1;
+    if (value === 'all') {
+      this.searchAllCients(0);
+    }
+  }
+
+  searchAllCients(offset: number): void {
+    this.clientService.getClientCount().subscribe((countData: any) => {
+      this.total = countData.count;
+      this.maxPage = Math.ceil(this.total / this.limit);
+      this.clientService.getClients('', this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
+        const rows = this.mapClientesToGenericRows(clientsData);
+        this.cargando = false;
+        this.tableData = [this.headers, ... this.rowsToArray(rows)];
+      });
+    });
+  }
+
+  searchClientsByName(name: string, offset: number): void {
+    this.clientService.getClientCountByName(name).subscribe((countData: any) => {
+      this.total = countData.count;
+      this.maxPage = Math.ceil(this.total / this.limit);
+      this.clientService.getClientsByName(name, this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
+        const rows = this.mapClientesToGenericRows(clientsData);
+        this.cargando = false;
+        this.tableData = [this.headers, ... this.rowsToArray(rows)];
+      });
+    });
+  }
+
+  searchClientsById(id: string, offset: number): void {
+    this.clientService.getClientCountById(id).subscribe((countData: any) => {
+      this.total = countData.count;
+      this.maxPage = Math.ceil(this.total / this.limit);
+      this.clientService.getClientsById(id, this.limit.toString(), offset.toString()).subscribe((clientsData: ClienteServicio[]) => {
+        const rows = this.mapClientesToGenericRows(clientsData);
+        this.cargando = false;
+        this.tableData = [this.headers, ... this.rowsToArray(rows)];
+      });
+    });
+  }
+
 
   onUpdatePage(page: number) {
     this.page = page;
     this.logService.savePage(page);
-    this.searchClient(this.clientId, (this.page - 1) * this.limit);
+    this.searchClient(this.selectedOptionText, (this.page - 1) * this.limit);
   }
 
   onUpdateLimit(limit: number) {
     this.limit = limit;
     this.page = 1;
-    this.searchClient(this.clientId, (this.page - 1) * this.limit);
+    this.searchClient(this.selectedOptionText, (this.page - 1) * this.limit);
   }
 
   onUpdatePageLog(page: number) {
@@ -142,8 +184,8 @@ export class LogComponent {
         this.idBitacora = logs.idbitacora;
         this.totalLog = logs.total;
         this.maxLog = Math.ceil(this.totalLog / this.limitLog);
-        console.log(this.logClients);
         this.tableDataLog = [this.headersLog, ... this.rowsToArray(this.logClients)];
+        console.log(date, this.limitLog, this.pageLog);
         this.logService.saveDate(date, this.limitLog, this.pageLog);
       },
       error: (err) => {

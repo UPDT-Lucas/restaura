@@ -3,6 +3,7 @@ import { DropdownComponent } from '../dropdown/dropdown.component';
 import { Router, RouterModule } from '@angular/router';
 import { AdminService } from '../../../services/admin.service';
 import { LinkStackService } from '../../../services/link-stack.service';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'shared-header',
@@ -17,10 +18,11 @@ export class HeaderComponent {
   decodedToken: any;
 
   constructor(
-    private adminService: AdminService, 
+    private adminService: AdminService,
     private linkStackService: LinkStackService,
-    private router: Router
-  ){}
+    private router: Router,
+    private logService: LogService
+  ) { }
 
   ngOnInit() {
     const token = this.adminService.obtenerToken();
@@ -32,18 +34,21 @@ export class HeaderComponent {
     }
   }
 
-goBack() {
-  const currentUrl = this.router.url;
-  let lastPage = this.linkStackService.popLink();
-
-  if (lastPage === currentUrl) {
-    lastPage = this.linkStackService.popLink();
+  clearDate(){
+    this.logService.removeSavedDate(); 
   }
+  
 
-  if (lastPage) {
-    this.router.navigate([lastPage]);
-  } else {
-    this.router.navigate(['/log']);
+  goBack() {
+    const currentUrl = this.router.url;
+    let lastPage = this.linkStackService.popLink();
+    if (lastPage === currentUrl) {
+      lastPage = this.linkStackService.popLink();
+    }
+    if (lastPage) {
+      this.router.navigate([lastPage]);
+    } else {
+      this.router.navigate(['/log']);
+    }
   }
-}
 }

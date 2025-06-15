@@ -3,18 +3,15 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- <shared-search-box [searchIcon]="true"
-    (onValue)="searchClientById($event)">
-    </shared-search-box> -->
-
-
     <div class="table-container">
-        <!-- <shared-search-box 
-            [searchIcon]="true"
-            (onValue)="searchClientById($event)">
-        </shared-search-box> -->
-        <shared-search-box [label]="'Buscar persona'" [placeholder]="'Ingrese la cedula de la persona'"
+
+        <div class="search-options-container">
+            <shared-search-box [label]="'Buscar persona'" [placeholder]="'Ingrese la cedula de la persona'"
             [error]="'*Campo requerido'" (valueChange)="searchClient($event, page)" [searchIcon]="true" />
+
+            <shared-select [label]="'Tipo de búsqueda'" [options]="searchOptions" [(value)]="selectedSearchOption"
+            (valueChange)="getAllClients($event)"></shared-select>
+        </div>
 
         <shared-dynamic-table [table_title]="'Habitantes'" [tableData]="this.tableData" [editLink]="'/edit/'"
             [deleteButton]="false" [currentPage]="page" [limitPerPage]="limit" [totalItems]="total" [showButton]="false"
@@ -33,12 +30,6 @@
 
     <div class="table-container">
         <div class="options">
-            <!-- <shared-search-box
-            [label]="'Buscar persona'"
-            [placeholder]="'Ingrese el nombre'"
-            [error]="'*Campo requerido'"
-            [searchIcon]="true"
-        /> -->
             <shared-input-date [label]="'Fecha Ingreso'" [placeholder]="'Fecha Ingreso'" [value]="this.date"
                 (valueChange)="getDate($event, page)">
             </shared-input-date>
