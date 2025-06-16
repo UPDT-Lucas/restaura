@@ -31,7 +31,7 @@
 <app-confirm-dialog
     *ngIf="showModal"
     [title]="'Crear Nuevo Cuarto'"
-    [text]="'¿Estás seguro de que deseas crear el registro: ' + formData.nombreCuarto + '?'"
+    [text]="'¿Estás seguro de que deseas crear el registro' + (formData?.nombre ? ': ' + formData.nombre : '') + '?'"
     [actionType]="'add'"
     (confirmed)="crearCuarto($event)"
 >

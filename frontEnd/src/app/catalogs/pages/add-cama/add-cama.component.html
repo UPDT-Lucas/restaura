@@ -32,7 +32,7 @@
 <app-confirm-dialog
     *ngIf="showModal"
     [title]="'Crear Nueva Cama'"
-    [text]="'¿Estás seguro de que deseas crear la cama: ' + formData.nombreCama + '?'"
+    [text]="'¿Estás seguro de que deseas crear la cama' + (formData?.nombre ? ': ' + formData.nombre : '')  + '?'"
     [actionType]="'add'"
     (confirmed)="crearCama($event)"
 >
