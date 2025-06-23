@@ -359,16 +359,38 @@ clienteCtr.getClienteAll = async (req,res)=> {
 }
 
 clienteCtr.getClientCountByName = async (req, res) => {
-    const p_id = req.params.id || "";  // <- Usa params, no query
+    const p_prefijo = req.params.name || "";  // <- Usa params, no query
 
     try {
         const sequelize = dbConnection.getInstance().Sequelize;
         let clientService;
 
         clientService = await sequelize.query(
-            'SELECT count_clients_by_name(:p_id) AS count',
+            'SELECT count_clients_by_name(:p_prefijo) AS count',
             {
-                replacements: { p_id },
+                replacements: { p_prefijo },
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+
+        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+    } catch (error) {
+        console.error('Error al obtener el conteo de clientes:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
+    }
+};
+
+clienteCtr.getClientCountById = async (req, res) => {
+    const p_prefijo = req.params.id || "";  // <- Usa params, no query
+
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+        let clientService;
+
+        clientService = await sequelize.query(
+            'SELECT count_clients_by_id(:p_prefijo) AS count',
+            {
+                replacements: { p_prefijo },
                 type: sequelize.QueryTypes.SELECT,
             }
         );
@@ -402,18 +424,18 @@ clienteCtr.getClientCount = async (req, res) => {
 
 
 clienteCtr.getClientService = async (req, res) => {
-    const p_id = req.query.p_id || ""; 
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
+
+    console.log("Limit:", limit, "Offset:", offset);
    
     try {
         const sequelize = dbConnection.getInstance().Sequelize;
        
-        
         const clientService = await sequelize.query(
-            'SELECT * FROM buscar_clientes(:p_id, :p_limit, :p_offset)',
+            'SELECT * FROM buscar_clientes(:p_limit, :p_offset)',
             {
-                replacements: { p_id, p_limit: limit, p_offset: offset },
+                replacements: { p_limit: limit, p_offset: offset },
                 type: sequelize.QueryTypes.SELECT,
             }
         );
@@ -425,28 +447,53 @@ clienteCtr.getClientService = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
     }
 };
-clienteCtr.getClientCountByName = async (req, res) => {
-    const p_id = req.params.id || "";  // <- Usa params, no query
 
+clienteCtr.getClientsById = async (req, res) => {
+    const p_id = req.query.p_id || ""; 
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = parseInt(req.query.offset) || 0;
+   
     try {
         const sequelize = dbConnection.getInstance().Sequelize;
-        let clientService;
-
-        clientService = await sequelize.query(
-            'SELECT count_clients_by_name(:p_id) AS count',
+        
+        const clientService = await sequelize.query(
+            'SELECT * FROM buscar_clientes_id(:p_id, :p_limit, :p_offset)',
             {
-                replacements: { p_id },
+                replacements: { p_id, p_limit: limit, p_offset: offset },
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
+        res.status(200).json(clientService);
+    } catch (error) {
+        console.error('Error al obtener el cliente y servicio:', error);
+        res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
+    }
+};
+
+clienteCtr.getClientsByName = async (req, res) => {
+    const p_name = req.query.p_name || ""; 
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = parseInt(req.query.offset) || 0;
+   
+    try {
+        const sequelize = dbConnection.getInstance().Sequelize;
+       
+        
+        const clientService = await sequelize.query(
+            'SELECT * FROM buscar_clientes_name(:p_name, :p_limit, :p_offset)',
+            {
+                replacements: { p_name, p_limit: limit, p_offset: offset },
                 type: sequelize.QueryTypes.SELECT,
             }
         );
 
-        res.status(200).json(clientService[0]);  // <-- Devolver solo el primer objeto
+        
+        res.status(200).json(clientService);
     } catch (error) {
-        console.error('Error al obtener el conteo de clientes:', error);
-        res.status(500).json({ message: 'Error al obtener el conteo de clientes', error: error.message });
+        console.error('Error al obtener el cliente y servicio:', error);
+        res.status(500).json({ message: 'Error al obtener el cliente y servicio', error: error.message });
     }
 };
-
 
 clienteCtr.updateCliente = async (req,res)=> {
     try{

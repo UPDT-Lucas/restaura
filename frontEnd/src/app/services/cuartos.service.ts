@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AllBeds } from '../interfaces/allBeds.interface';
+import { AllRooms } from '../interfaces/allRooms.interface';
+
 
 @Injectable({
     providedIn: 'root',
@@ -8,7 +11,7 @@ import { Observable } from 'rxjs';
 export class CuartosService {
     private apiUrl = 'http://localhost:3100';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     /* CUARTOS */
     getCuartos(): Observable<any> {
@@ -100,6 +103,15 @@ export class CuartosService {
         return this.http.delete<any>(`${this.apiUrl}/deleteTipoCama`, {
             body: { id },
         });
+    }
+
+    //add room
+    getRooms(fecha: string): Observable<AllRooms> {
+        return this.http.get<AllRooms>(`${this.apiUrl}/cuartosAndType/${fecha}`);
+    }
+
+    getBeds(id: string, fecha: Date | string): Observable<AllBeds> {
+        return this.http.get<AllBeds>(`${this.apiUrl}/camasAndTypeById/${id}/${fecha}`);
     }
 }
 

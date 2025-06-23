@@ -28,7 +28,7 @@
 <app-confirm-dialog
     *ngIf="showModal"
     [title]="'Crear Tipo Cuarto'"
-    [text]="'¿Estás seguro de que deseas crear el tipo cuarto: ' + formData.nombreTipoCuarto + '?'"
+    [text]="'¿Estás seguro de que deseas crear el tipo cuarto' + (formData?.nombreTipoCuarto ? ': ' + formData.nombreTipoCuarto : '') + '?'"
     [actionType]="'add'"
     (confirmed)="crearTipoCuarto($event)"
 >

@@ -17,11 +17,23 @@ export class ClientService {
     }
 
     getClients(text: string, limit: string, offset: string): Observable<ClienteServicio[]> {
-        return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clients/?p_id=${text}&limit=${limit}&offset=${offset}`);
+        return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clients/?limit=${limit}&offset=${offset}`);
     }
 
-    getClientCountByName(id: string): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/getClientCountByName/${id}`);
+    getClientsById(text: string, limit: string, offset: string): Observable<ClienteServicio[]> {
+        return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clientsById/?p_id=${text}&limit=${limit}&offset=${offset}`);
+    }
+
+    getClientsByName(text: string, limit: string, offset: string): Observable<ClienteServicio[]> {
+        return this.http.get<ClienteServicio[]>(`${this.apiUrl}/clientsByName/?p_name=${text}&limit=${limit}&offset=${offset}`);
+    }
+
+    getClientCountByName(name: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClientCountByName/${name}`);
+    }
+
+    getClientCountById(id: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/getClientCountById/${id}`);
     }
 
     getClientCount(): Observable<any> {
