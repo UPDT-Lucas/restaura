@@ -1234,6 +1234,7 @@ catalogosCtr.getAllTiposCamas = async (req, res) => {
 
 catalogosCtr.addTipoCama = async (req, res) => {
     try {
+        console.log("req.body", req.body);
         const nombreTipoCama = req.body.nombreTipoCama;
         const colorTipoCama = req.body.color;
         const db = dbConnection.getInstance();
@@ -1248,11 +1249,11 @@ catalogosCtr.addTipoCama = async (req, res) => {
 
 catalogosCtr.editTipoCama = async (req, res) => {
     try {
-        const { idTipoCama, nombreTipoCama, colorTipoCama } = req.body;
+        const { idTipoCama, nombreTipoCama, color } = req.body;
         const db = dbConnection.getInstance();
         const tipoCama = defineTipoCama(db.Sequelize, db.dataType);
         const result = await tipoCama.update(
-            { nombre: nombreTipoCama, color: colorTipoCama },
+            { nombre: nombreTipoCama, color: color },
             { where: { id: idTipoCama } }
         );
         res
