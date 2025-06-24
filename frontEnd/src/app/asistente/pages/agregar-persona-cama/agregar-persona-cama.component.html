@@ -21,10 +21,11 @@
                 bed
             </span>
             <div class="bed-content">
-                @if(bed.active){
+                @if(bed.ocupado === false) {
                 <p class="bed-free">Disponible</p>
                 }@else {
                 <p class="bed-occupied">Ocupado</p>
+                <p class="bed-cedula">Cédula: {{bed.cliente_servicio_id}}</p>
                 }
             </div>
         </div>
