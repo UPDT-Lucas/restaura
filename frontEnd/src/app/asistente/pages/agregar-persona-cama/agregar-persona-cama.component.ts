@@ -42,6 +42,7 @@ export class AgregarPersonaCamaComponent {
     this.roomService.getBeds(this.roomId!, this.fecha!).subscribe((beds: any) => {
       this.allBeds = beds.data;
       this.getBedTypes();
+      
     })
   }
 

@@ -84,6 +84,8 @@ export class EditTipoCamaComponent {
         if (confirmed) {
             this.cargando = true;
 
+            console.log('Datos a enviar:', this.formData);
+
             this.cuartosService.editTipoCama(this.formData).subscribe({
                 next: (response) => {
                     this.cargando = false;

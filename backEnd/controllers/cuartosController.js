@@ -230,7 +230,6 @@ cuartosCtr.getCamasAndTypebyId = async (req, res) => {
       };
     })
 
-
     res
       .status(200)
       .json({
