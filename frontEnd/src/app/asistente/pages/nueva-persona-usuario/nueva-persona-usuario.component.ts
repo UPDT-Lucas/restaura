@@ -37,7 +37,7 @@ import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.
         SecondaryButtonComponent,
         ReactiveFormsModule,
         ConfirmDialogComponent,
-        SnackbarComponent
+        SnackbarComponent,
     ],
     templateUrl: './nueva-persona-usuario.component.html',
     styleUrls: ['./nueva-persona-usuario.component.css'],
@@ -82,6 +82,7 @@ export class AddPersonComponent {
             razoncarcel: null,
             pendienteresolucion: false,
             edadiniciocarcel: null,
+            embarazo: 'null',
         },
         info3meses_id: {
             carcel: false,
@@ -216,6 +217,12 @@ export class AddPersonComponent {
     tipoAyudaOptions: { label: string; value: string }[] = [];
     institucionesAyudaOptions: { label: string; value: string }[] = [];
     tipoViolenciaOptions: { label: string; value: string }[] = [];
+    embarazadaOptions: { label: string; value: string }[] = [
+        { label: 'Sí', value: 'true' },
+        { label: 'No', value: 'false' },
+        { label: 'No Aplica', value: 'null' },
+    ];
+    
 
     // Variables de control
     provinciaId: any = null;
@@ -475,25 +482,57 @@ export class AddPersonComponent {
         this.showModal = false;
         if (confirmed) {
             this.cargando = true;
+            
+            // Hacer una copia profunda del objeto para no modificar el original
+            const personaEditada = JSON.parse(JSON.stringify(this.formPersonaUsuario));
 
+            // Si no hay información del INAMU, eliminarla
             if (!this.inamu_informacion) {
-                this.formPersonaUsuario.inamu = null;
+                personaEditada.inamu = null;
             }
 
-            
+            // Si contacto está completamente vacío, eliminar el objeto contacto
+            const contacto = personaEditada.contacto;
+            console.log('Contacto:', contacto);
+            if (
+                contacto?.nombre === null &&
+                contacto?.telefono === null &&
+                contacto?.relacion === null &&
+                contacto?.id === null
+            ) {
+                personaEditada.contacto = null;
+            }
 
-            this.clientService.addClient(this.formPersonaUsuario).subscribe({
+            // Convertir campos que deben ser números
+            const personal = personaEditada.personal;
+            personal.tipo_id_id = personal.tipo_id_id !== null ? Number(personal.tipo_id_id) : null;
+            personal.canton_id = personal.canton_id !== null ? Number(personal.canton_id) : null;
+            personal.pais_id = personal.pais_id !== null ? Number(personal.pais_id) : null;
+            personal.donde_dormi_id = personal.donde_dormi_id !== null ? Number(personal.donde_dormi_id) : null;
+            personal.tiempo_calle_id = personal.tiempo_calle_id !== null ? Number(personal.tiempo_calle_id) : null;
+            personal.embarazo = personal.embarazo === 'null' ? null : personal.embarazo === 'true';
+
+            // Convertir arrays de strings a arrays de números
+            const catalogos = personaEditada.catalogos;
+            catalogos.tipos_ayuda = catalogos.tipos_ayuda.map((id: string) => Number(id));
+            catalogos.tipos_violencia = catalogos.tipos_violencia.map((id: string) => Number(id));
+            catalogos.instituciones_violencia = catalogos.instituciones_violencia.map((id: string) => Number(id));
+
+            // Mostrar en consola para depuración
+            console.log('Objeto final a enviar:', personaEditada);
+
+            this.clientService.addClient(personaEditada).subscribe({
                 next: (response) => {
                     this.cargando = false;
 
                     if (response.status === 200) {
                         localStorage.removeItem('personaUsuario');
                         console.log('Persona usuario guardada correctamente:', response.data);
-                        this.snackbar.show('Persona usuario guardada correctamente',3000);
+                        this.snackbar.show('Persona usuario guardada correctamente', 3000);
                         this.resetForm();
                     } else {
                         console.error('Error al guardar la persona usuario:', response);
-                        this.snackbar.show('Error al guardar la persona usuario',3000);
+                        this.snackbar.show('Error al guardar la persona usuario', 3000);
                     }
                 },
                 error: (error) => {

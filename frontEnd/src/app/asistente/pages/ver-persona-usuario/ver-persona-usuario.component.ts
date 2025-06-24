@@ -14,6 +14,9 @@ import { CatalogoService } from '../../../services/catalogo.service';
 import { CantonesService } from '../../../services/cantones.service';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../services/client.service';
+import { FileExportModalComponent } from '../../../shared/components/modal-file/file-export-modal.component';
+import jsPDF from 'jspdf';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
     selector: 'nueva-persona-usuario',
@@ -29,6 +32,8 @@ import { ClientService } from '../../../services/client.service';
         InputNumberComponent,
         CommonModule,
         ReactiveFormsModule,
+        FileExportModalComponent,
+        ButtonComponent,
     ],
     templateUrl: './ver-persona-usuario.component.html',
     styleUrls: ['./ver-persona-usuario.component.css'],
@@ -71,6 +76,7 @@ export class ViewPersonComponent {
             razoncarcel: null,
             pendienteresolucion: false,
             edadiniciocarcel: null,
+            embarazo: 'null',
         },
         info3meses_id: {
             carcel: false,
@@ -107,7 +113,8 @@ export class ViewPersonComponent {
         },
     };
 
-    // Variables Formulario
+    // Variable Modal
+    showModal = false;
 
     // Variables API
     catalogos: any[] = [];
@@ -125,6 +132,11 @@ export class ViewPersonComponent {
     tipoAyudaOptions: { label: string; value: string }[] = [];
     institucionesAyudaOptions: { label: string; value: string }[] = [];
     tipoViolenciaOptions: { label: string; value: string }[] = [];
+    embarazadaOptions: { label: string; value: string }[] = [
+        { label: 'Sí', value: 'true' },
+        { label: 'No', value: 'false' },
+        { label: 'No Aplica', value: 'null' },
+    ];
 
     provinciaId: any = null;
     inamu_informacion: boolean = false;
@@ -248,6 +260,7 @@ export class ViewPersonComponent {
                     canton_id: data.personal.canton_id?.toString(),
                     donde_dormi_id: data.personal.donde_dormi_id?.toString(),
                     tiempo_calle_id: data.personal.tiempo_calle_id?.toString(),
+                    embarazo : data.personal.embarazo?.toString() ?? 'null',
                 };
 
                 this.formPersonaUsuario.info3meses_id = {
@@ -354,5 +367,356 @@ export class ViewPersonComponent {
             this.formPersonaUsuario.inamu = null;
         }
         // Aquí podrías hacer una petición POST si querés
+    }
+
+    openModal() {
+        this.showModal = true;
+    }
+
+    onExport(format: 'csv' | 'pdf') {
+        if (format === 'csv') {
+            const data = [
+                ['Información Entrevistador', ''],
+                ['Nombre Entrevistador', this.formPersonaUsuario.personal.nombreentrevistador],
+                ['Fecha Ingreso', this.formPersonaUsuario.personal.fechaingreso],
+                ['Información Personal', ''],
+                ['Nombre Persona Usuario', this.formPersonaUsuario.personal.nombre],
+                [
+                    'Tipo ID',
+                    this.tipoIdentificacionOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.tipo_id_id,
+                    )?.label ?? 'N/A',
+                ],
+                ['Identificación', this.formPersonaUsuario.personal.id],
+                ['Edad', this.formPersonaUsuario.personal.edad],
+                ['Fecha Nacimiento', this.formPersonaUsuario.personal.fechanacimiento],
+                [
+                    'Género',
+                    this.generoOptions.find((option) => option.value === this.formPersonaUsuario.personal.genero_id)
+                        ?.label ?? 'N/A',
+                ],
+                ['Cantidad Hijos', this.formPersonaUsuario.personal.cantidadhijos],
+                ['Embarazo', this.formPersonaUsuario.personal.embarazo ?? 'N/A'],
+                ['Procedencia', ''],
+                [
+                    'País',
+                    this.paisOptions.find((option) => option.value === this.formPersonaUsuario.personal.pais_id)
+                        ?.label ?? 'N/A',
+                ],
+                [
+                    'Cantón',
+                    this.cantonOptions.find((option) => option.value === this.formPersonaUsuario.personal.canton_id)
+                        ?.label ?? 'N/A',
+                ],
+                ['Dormitorio', ''],
+                [
+                    '¿Dónde Conoció el Dormitorio?',
+                    this.contactoDormitorioOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.donde_dormi_id,
+                    )?.label ?? 'N/A',
+                ],
+                [
+                    'Razón por la que acude al Dormitorio',
+                    this.formPersonaUsuario.catalogos.razon_servicio
+                        .map((id: string) => this.razonServicioOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    'Tiempo en Calle',
+                    this.tiempoCalleOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.tiempo_calle_id,
+                    )?.label ?? 'N/A',
+                ],
+                ['Información Laboral', ''],
+                ['¿Trabaja?', this.formPersonaUsuario.personal.sitrabaja ? 'Sí' : 'No'],
+                ['Empresa', this.formPersonaUsuario.personal.empresa ?? 'N/A'],
+                ['Ocupación', this.formPersonaUsuario.personal.ocupacion ?? 'N/A'],
+                ['Licencias', ''],
+                ['¿Tiene Licencia?', this.formPersonaUsuario.personal.licencia ? 'Sí' : 'No'],
+                ['Tipo de Licencia', this.formPersonaUsuario.personal.tipo_licencia ?? 'N/A'],
+                ['Observaciones'],
+                ['Observación', this.formPersonaUsuario.personal.observacion ?? 'N/A'],
+                ['Estado de Salud', ''],
+                ['Tos, Flema o Fiebre', this.formPersonaUsuario.personal.tosflemafiebre ? 'Sí' : 'No'],
+                ['Condición Especial', this.formPersonaUsuario.personal.condicionespecial ?? 'N/A'],
+                ['¿Tiene Discapacidad?', this.formPersonaUsuario.personal.discapacidad ? 'Sí' : 'No'],
+                ['¿Toma Medicación?', this.formPersonaUsuario.personal.medicacion ? 'Sí' : 'No'],
+                ['Detalle Medicamento', this.formPersonaUsuario.personal.detallemedicamento ?? 'N/A'],
+                ['¿Sabe Leer y Escribir?', this.formPersonaUsuario.personal.leerescribir ? 'Sí' : 'No'],
+                ['Nombre Técnico', this.formPersonaUsuario.personal.nombretecnico ?? 'N/A'],
+                ['Drogas y Cárcel', ''],
+                ['¿Consume Drogas?', this.formPersonaUsuario.personal.consumodrogas ? 'Sí' : 'No'],
+                [
+                    'Droga Principal',
+                    this.tipoDrogasOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.droga_principal,
+                    )?.label ?? 'N/A',
+                ],
+                ['Edad Inicio Drogas', this.formPersonaUsuario.personal.edadiniciodrogas ?? 'N/A'],
+                ['Número de Internamientos', this.formPersonaUsuario.personal.numerointernamientos ?? 'N/A'],
+                ['¿Ha Estado en la Cárcel?', this.formPersonaUsuario.personal.carcel ? 'Sí' : 'No'],
+                ['Razón Cárcel', this.formPersonaUsuario.personal.razoncarcel ?? 'N/A'],
+                ['¿Pendiente Resolución?', this.formPersonaUsuario.personal.pendienteresolucion ? 'Sí' : 'No'],
+                ['Edad Inicio Cárcel', this.formPersonaUsuario.personal.edadiniciocarcel ?? 'N/A'],
+                ['Información para Referencias', ''],
+                ['¿Ha Estado en la Cárcel?', this.formPersonaUsuario.info3meses_id.carcel ? 'Sí' : 'No'],
+                ['Razón Cárcel', this.formPersonaUsuario.info3meses_id.razoncarcel ?? 'N/A'],
+                ['¿Tratamiento Médico?', this.formPersonaUsuario.info3meses_id.tratamiento_medico ? 'Sí' : 'No'],
+                ['Razón Tratamiento Médico', this.formPersonaUsuario.info3meses_id.razon_trat ?? 'N/A'],
+                ['¿Tratamiento Psiquiátrico?', this.formPersonaUsuario.info3meses_id.tratamiento_psiq ? 'Sí' : 'No'],
+                ['Razón Tratamiento Psiquiátrico', this.formPersonaUsuario.info3meses_id.razon_psiq ?? 'N/A'],
+                ['¿Tratamiento Drogas?', this.formPersonaUsuario.info3meses_id.tratamiento_drogas ? 'Sí' : 'No'],
+                ['Pemsiones', ''],
+                [
+                    'Tipo de Pensión',
+                    this.formPersonaUsuario.catalogos.pensiones
+                        .map((id: string) => this.tipoPensionesOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    'Razón Servicio',
+                    this.razonServicioOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.catalogos.razon_servicio[0],
+                    )?.label ?? 'N/A',
+                ],
+                ['Razón Tratamiento Drogas', this.formPersonaUsuario.info3meses_id.razon_drogas ?? 'N/A'],
+                ['Información de Contacto', ''],
+                ['Nombre', this.formPersonaUsuario.contacto.nombre ?? 'N/A'],
+                ['Teléfono', this.formPersonaUsuario.contacto.telefono ?? 'N/A'],
+                ['Relación', this.formPersonaUsuario.contacto.relacion ?? 'N/A'],
+                ['Información INAMU', ''],
+                ['¿Es Jefe de Hogar?', this.formPersonaUsuario.inamu?.jefehogar ? 'Sí' : 'No'],
+                ['¿Contacto Familiar?', this.formPersonaUsuario.inamu?.contactofamilia ? 'Sí' : 'No'],
+                ['¿Apoyo Económico?', this.formPersonaUsuario.inamu?.apoyoeconomico ? 'Sí' : 'No'],
+                ['¿Tiene Pareja?', this.formPersonaUsuario.inamu?.pareja ? 'Sí' : 'No'],
+                [
+                    '¿Recibe Ayuda de Institución?',
+                    this.formPersonaUsuario.catalogos.tipos_ayuda
+                        .map((id: string) => this.tipoAyudaOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    '¿Ha sufrido algun tipo de violencia?',
+                    this.formPersonaUsuario.catalogos.tipos_violencia
+                        .map((id: string) => this.tipoViolenciaOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    'Se dirigió a alguna institución de violencia',
+                    this.formPersonaUsuario.catalogos.instituciones_violencia
+                        .map((id: string) => this.institucionesAyudaOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string | undefined): label is string => !!label)
+                        .join(', ') || 'N/A',
+                ],
+                ['¿Pareja en el Centro?', this.formPersonaUsuario.inamu?.parejacentro ? 'Sí' : 'No'],
+                ['¿Porqué no está en el Centro?', this.formPersonaUsuario.inamu?.parejano ?? 'N/A'],
+                ['Detalle Soluciones', this.formPersonaUsuario.inamu?.solucionesdetalle ?? 'N/A'],
+            ];
+            this.downloadCSV(data, 'reporte.csv');
+        } else {
+            const data = [
+                ['Información Entrevistador'],
+                ['Nombre Entrevistador', this.formPersonaUsuario.personal.nombreentrevistador],
+                ['Fecha Ingreso', this.formPersonaUsuario.personal.fechaingreso],
+                ['Información Personal'],
+                ['Nombre Persona Usuario', this.formPersonaUsuario.personal.nombre],
+                [
+                    'Tipo ID',
+                    this.tipoIdentificacionOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.tipo_id_id,
+                    )?.label ?? 'N/A',
+                ],
+                ['Identificación', this.formPersonaUsuario.personal.id],
+                ['Edad', this.formPersonaUsuario.personal.edad],
+                ['Fecha Nacimiento', this.formPersonaUsuario.personal.fechanacimiento],
+                [
+                    'Género',
+                    this.generoOptions.find((option) => option.value === this.formPersonaUsuario.personal.genero_id)
+                        ?.label ?? 'N/A',
+                ],
+                ['Cantidad Hijos', this.formPersonaUsuario.personal.cantidadhijos],
+                ['Embarazo', this.formPersonaUsuario.personal.embarazo ?? 'N/A'],
+                ['Procedencia'],
+                [
+                    'País',
+                    this.paisOptions.find((option) => option.value === this.formPersonaUsuario.personal.pais_id)
+                        ?.label ?? 'N/A',
+                ],
+                [
+                    'Cantón',
+                    this.cantonOptions.find((option) => option.value === this.formPersonaUsuario.personal.canton_id)
+                        ?.label ?? 'N/A',
+                ],
+                ['Dormitorio'],
+                [
+                    '¿Dónde Conoció el Dormitorio?',
+                    this.contactoDormitorioOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.donde_dormi_id,
+                    )?.label ?? 'N/A',
+                ],
+                [
+                    'Razón por la que acude al Dormitorio',
+                    this.formPersonaUsuario.catalogos.razon_servicio
+                        .map((id: string) => this.razonServicioOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    'Tiempo en Calle',
+                    this.tiempoCalleOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.tiempo_calle_id,
+                    )?.label ?? 'N/A',
+                ],
+                ['Información Laboral'],
+                ['¿Trabaja?', this.formPersonaUsuario.personal.sitrabaja ? 'Sí' : 'No'],
+                ['Empresa', this.formPersonaUsuario.personal.empresa ?? 'N/A'],
+                ['Ocupación', this.formPersonaUsuario.personal.ocupacion ?? 'N/A'],
+                ['Licencias'],
+                ['¿Tiene Licencia?', this.formPersonaUsuario.personal.licencia ? 'Sí' : 'No'],
+                ['Tipo de Licencia', this.formPersonaUsuario.personal.tipo_licencia ?? 'N/A'],
+                ['Observaciones'],
+                ['Observación', this.formPersonaUsuario.personal.observacion ?? 'N/A'],
+                ['Estado de Salud'],
+                ['Tos, Flema o Fiebre', this.formPersonaUsuario.personal.tosflemafiebre ? 'Sí' : 'No'],
+                ['Condición Especial', this.formPersonaUsuario.personal.condicionespecial ?? 'N/A'],
+                ['¿Tiene Discapacidad?', this.formPersonaUsuario.personal.discapacidad ? 'Sí' : 'No'],
+                ['¿Toma Medicación?', this.formPersonaUsuario.personal.medicacion ? 'Sí' : 'No'],
+                ['Detalle Medicamento', this.formPersonaUsuario.personal.detallemedicamento ?? 'N/A'],
+                ['¿Sabe Leer y Escribir?', this.formPersonaUsuario.personal.leerescribir ? 'Sí' : 'No'],
+                ['Nombre Técnico', this.formPersonaUsuario.personal.nombretecnico ?? 'N/A'],
+                ['Drogas y Cárcel'],
+                ['¿Consume Drogas?', this.formPersonaUsuario.personal.consumodrogas ? 'Sí' : 'No'],
+                [
+                    'Droga Principal',
+                    this.tipoDrogasOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.personal.droga_principal,
+                    )?.label ?? 'N/A',
+                ],
+                ['Edad Inicio Drogas', this.formPersonaUsuario.personal.edadiniciodrogas ?? 'N/A'],
+                ['Número de Internamientos', this.formPersonaUsuario.personal.numerointernamientos ?? 'N/A'],
+                ['¿Ha Estado en la Cárcel?', this.formPersonaUsuario.personal.carcel ? 'Sí' : 'No'],
+                ['Razón Cárcel', this.formPersonaUsuario.personal.razoncarcel ?? 'N/A'],
+                ['¿Pendiente Resolución?', this.formPersonaUsuario.personal.pendienteresolucion ? 'Sí' : 'No'],
+                ['Edad Inicio Cárcel', this.formPersonaUsuario.personal.edadiniciocarcel ?? 'N/A'],
+                ['Información para Referencias', ''],
+                ['¿Ha Estado en la Cárcel?', this.formPersonaUsuario.info3meses_id.carcel ? 'Sí' : 'No'],
+                ['Razón Cárcel', this.formPersonaUsuario.info3meses_id.razoncarcel ?? 'N/A'],
+                ['¿Tratamiento Médico?', this.formPersonaUsuario.info3meses_id.tratamiento_medico ? 'Sí' : 'No'],
+                ['Razón Tratamiento Médico', this.formPersonaUsuario.info3meses_id.razon_trat ?? 'N/A'],
+                ['¿Tratamiento Psiquiátrico?', this.formPersonaUsuario.info3meses_id.tratamiento_psiq ? 'Sí' : 'No'],
+                ['Razón Tratamiento Psiquiátrico', this.formPersonaUsuario.info3meses_id.razon_psiq ?? 'N/A'],
+                ['¿Tratamiento Drogas?', this.formPersonaUsuario.info3meses_id.tratamiento_drogas ? 'Sí' : 'No'],
+                ['Pemsiones'],
+                [
+                    'Tipo de Pensión',
+                    this.formPersonaUsuario.catalogos.pensiones
+                        .map((id: string) => this.tipoPensionesOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    'Razón Servicio',
+                    this.razonServicioOptions.find(
+                        (option) => option.value === this.formPersonaUsuario.catalogos.razon_servicio[0],
+                    )?.label || 'N/A',
+                ],
+                ['Razón Tratamiento Drogas', this.formPersonaUsuario.info3meses_id.razon_drogas ?? 'N/A'],
+                ['Información de Contacto'],
+                ['Nombre', this.formPersonaUsuario.contacto.nombre ?? 'N/A'],
+                ['Teléfono', this.formPersonaUsuario.contacto.telefono ?? 'N/A'],
+                ['Relación', this.formPersonaUsuario.contacto.relacion ?? 'N/A'],
+                ['Información INAMU'],
+                ['¿Es Jefe de Hogar?', this.formPersonaUsuario.inamu?.jefehogar ? 'Sí' : 'No'],
+                ['¿Contacto Familiar?', this.formPersonaUsuario.inamu?.contactofamilia ? 'Sí' : 'No'],
+                ['¿Apoyo Económico?', this.formPersonaUsuario.inamu?.apoyoeconomico ? 'Sí' : 'No'],
+                ['¿Tiene Pareja?', this.formPersonaUsuario.inamu?.pareja ? 'Sí' : 'No'],
+                [
+                    '¿Recibe Ayuda de Institución?',
+                    this.formPersonaUsuario.catalogos.tipos_ayuda
+                        .map((id: string) => this.tipoAyudaOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    '¿Ha sufrido algun tipo de violencia?',
+                    this.formPersonaUsuario.catalogos.tipos_violencia
+                        .map((id: string) => this.tipoViolenciaOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string) => label)
+                        .join(', ') || 'N/A',
+                ],
+                [
+                    'Se dirigió a alguna institución de violencia',
+                    this.formPersonaUsuario.catalogos.instituciones_violencia
+                        .map((id: string) => this.institucionesAyudaOptions.find((opt) => opt.value === id)?.label)
+                        .filter((label: string | undefined): label is string => !!label)
+                        .join(', ') || 'N/A',
+                ],
+                ['¿Pareja en el Centro?', this.formPersonaUsuario.inamu?.parejacentro ? 'Sí' : 'No'],
+                ['¿Porqué no está en el Centro?', this.formPersonaUsuario.inamu?.parejano ?? 'N/A'],
+                ['Detalle Soluciones', this.formPersonaUsuario.inamu?.solucionesdetalle ?? 'N/A'],
+            ];
+            this.downloadPDF(data, 'reporte.pdf');
+        }
+
+        this.showModal = false;
+    }
+
+    downloadCSV(data: string[][], filename: string) {
+        const csvContent = '\uFEFF' + data.map((e) => e.join(';')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        this.triggerDownload(blob, filename);
+    }
+
+    downloadPDF(data: string[][], filename: string) {
+        const doc = new jsPDF();
+        const lineHeight = 10;
+        const marginTop = 10;
+        const marginLeft = 10;
+        const maxLinesPerPage = Math.floor((doc.internal.pageSize.height - marginTop * 2) / lineHeight);
+
+        let currentLine = 0;
+
+        data.forEach((row, index) => {
+            // Verificamos si hay que agregar una nueva página
+            if (currentLine >= maxLinesPerPage) {
+                doc.addPage();
+                currentLine = 0;
+            }
+
+            // Identificar si es una fila de encabezado (solo un elemento)
+            const isHeader = row.length === 1;
+
+            // Agregar espacio extra antes del header, excepto el primero
+            if (isHeader && index !== 0) {
+                currentLine += 0.5; // medio espacio antes del header
+            }
+
+            const y = marginTop + currentLine * lineHeight;
+
+            if (isHeader) {
+                doc.setFont('helvetica', 'bold');
+                doc.text(row[0], marginLeft, y);
+                doc.setFont('helvetica', 'normal'); // Restaurar a normal para lo que sigue
+            } else {
+                doc.text(`${row[0]}: ${row[1]}`, marginLeft, y);
+            }
+
+            currentLine++;
+        });
+
+        doc.save(filename);
+    }
+
+    triggerDownload(blob: Blob, filename: string) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
     }
 }

@@ -8,10 +8,6 @@ export default function defineClienteXBitacora(sequelize) {
       allowNull: false,
       primaryKey: true,
     },
-    numerocuarto: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     bitacora_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -30,6 +26,15 @@ export default function defineClienteXBitacora(sequelize) {
         key: 'id',
       },
     },
+    cama_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      primaryKey: true,
+      references: {
+        model: 'cama',
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     tableName: 'clientexbitacora',
@@ -42,7 +47,7 @@ export default function defineClienteXBitacora(sequelize) {
         fields: [
           { name: "id" },
           { name: "bitacora_id" },
-          { name: "cliente_servicio_id" },
+          { name: "cliente_servicio_id" }
         ],
       },
     ],

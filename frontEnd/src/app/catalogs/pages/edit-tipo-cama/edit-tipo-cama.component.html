@@ -1,0 +1,36 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Editar Tipo Cama'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombreTipoCama"
+        />
+
+        <!-- Color -->
+        <shared-color-picker [label]="'Color de la Tipo Cama'" [(value)]="formData.color" />
+    </div>
+    <!-- Boton -->
+      <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Editar Tipo Cama" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showModal"
+  [title]="'Editar Tipo Cama'"
+  [text]="'¿Estás seguro de que deseas editar el Tipo Cama: ' + formData.nombreTipoCama + '?'"
+  [actionType]="'update'"
+  (confirmed)="editarTipoCama($event)">
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

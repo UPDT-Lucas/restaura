@@ -1,0 +1,19 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Ver Registro de Cambio'"></shared-title>
+
+    <div *ngIf="!cargando && datos && objectKeys(datos).length > 0" class="valor-listado">
+        <ul>
+            <li *ngFor="let key of objectKeys(datos)">
+                <strong>{{ key }}:</strong> {{ datos[key] }}
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="!cargando && objectKeys(datos).length === 0">
+        <p>No se encontraron datos modificados.</p>
+    </div>
+</div>

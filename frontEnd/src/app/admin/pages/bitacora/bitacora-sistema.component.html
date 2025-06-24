@@ -1,0 +1,19 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-dynamic-table
+        [table_title]="'Bitácora del Sistema'"
+        [tableData]="tableData"
+        [viewLink]="'/bitacora-sistema-ver/'"
+        [deleteButton]="false"
+        [currentPage]="currentPage"
+        [limitPerPage]="limitPerPage"
+        [totalItems]="totalItems"
+        [showButton]="false"
+        (deleteRow)="onDeleteRow($event)"
+        (updatePage)="onUpdatePage($event)"
+        (changeLimit)="onUpdateLimit($event)"
+    />
+</div>

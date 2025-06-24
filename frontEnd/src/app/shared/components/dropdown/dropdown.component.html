@@ -1,6 +1,6 @@
 <div class="container">
     <!-- icon to open -->
-    <span class="material-icons" (click)="toggleDropdown()" #toggle>menu</span>
+    <span class="material-icons menu-icon" (click)="toggleDropdown()" #toggle>menu</span>
 
     <!-- options container -->
     <div class="menu-options" [ngClass]="{ open: isOpen }" #menu>
@@ -19,17 +19,19 @@
                 <ul class="functions-list">
                     <li class="each-list" routerLink="/log" (click)="toggleDropdown()">
                         <span class="material-icons md-16">auto_stories</span>
-                        <p>Bitácora</p>
+                        <p>Hoja de entrada</p>
                     </li>
                     <li class="each-list" routerLink="/add" (click)="toggleDropdown()">
                         <span class="material-icons md-16">groups</span>
                         <p>Agregar Persona Usuario</p>
-                        
                     </li>
                     <li class="each-list" routerLink="/consultas" (click)="toggleDropdown()">
-                           <span class="material-icons">query_stats</span>
-
-                            <p>Consultas</p>
+                        <span class="material-icons md-16">query_stats</span>
+                        <p>Consultas</p>
+                    </li> 
+                    <li class="each-list" routerLink="/cuartos" (click)="toggleDropdown()">
+                        <span class="material-icons md-16">night_shelter</span>
+                        <p>Administrador De Cuartos</p>
                     </li> 
                     @if(token.rol == "0"){
                         <li class="each-list" routerLink="/register" (click)="toggleDropdown()">
@@ -96,6 +98,23 @@
                             <span class="material-icons md-16">warning</span>
                             <p>Tipo de Violencia</p>
                         </li>
+                         <li class="each-list" routerLink="/tipos-cuartos" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">palette</span>
+                            <p>Tipo de Cuarto</p>
+                        </li>
+                        <li class="each-list" routerLink="/tipos-camas" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">palette</span>
+                            <p>Tipo de Cama</p>
+                        </li>
+                        <li class="each-list" routerLink="/bitacora-sistema" (click)="toggleDropdown()">
+                            <span class="material-icons md-16">history_toggle_off</span>
+                            <p>Bitacora de Acciónes</p>
+                        </li>
+
+
+                        
+
+                    
                     }
                 </ul>
             </div>

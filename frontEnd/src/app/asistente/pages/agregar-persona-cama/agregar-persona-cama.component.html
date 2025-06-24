@@ -1,0 +1,43 @@
+<div class="container">
+    <h1>Seleccione la cama</h1>
+
+    <div class="legend">
+        @for (type of tiposCamas; track $index) {
+            <div class="legend-item">
+                <span class="legend-color" [style.background-color]="type.color"></span>
+                <span>{{type.nombre}}</span>
+            </div>
+        }
+    </div>
+
+    <div class="beds-container">
+        @for(bed of allBeds; track bed){
+        <div class="bed" (click)="selectBed(bed)">
+            <div class="bed-header">
+                <h2>Cama {{bed.nombre}}</h2>
+                <p>{{bed.tipo_cama.nombre}}</p>
+            </div>
+            <span class="material-icons bed-icon" [style.color]='bed.tipo_cama.color'>
+                bed
+            </span>
+            <div class="bed-content">
+                @if(bed.ocupado === false) {
+                <p class="bed-free">Disponible</p>
+                }@else {
+                <p class="bed-occupied">Ocupado</p>
+                <p class="bed-cedula">Cédula: {{bed.cliente_servicio_id}}</p>
+                }
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+<app-confirm-dialog *ngIf="showGetInConfirm" [title]="'Agregar a la bitácora'" [text]="'Se va a agregar a la persona con cédula ' + this.userId 
+    + ' en el cuarto '+ this.roomId
+    + ' con la cama ' + this.selectedBed.nombre" [actionType]="'add'" (confirmed)="handleGetInConfirm($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog *ngIf="showUserAdded" [title]="'Persona agregrada a la bitácora'" [text]="'La persona con cédula ' + this.userId 
+    + ' ha sido agregada exitosamente en el cuarto '" [actionType]="'info'" (confirmed)="handleUserAdded($event)">
+</app-confirm-dialog>

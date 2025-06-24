@@ -21,7 +21,10 @@ api.get('/getAllGradosAcademicos', catalogosCtr.getAllGradosAcademicos);
 api.get('/getAllGeneros', catalogosCtr.getAllGeneros);
 api.get('/getAllEstadosCiviles', catalogosCtr.getAllEstadosCiviles);
 api.get('/getAllTiposViolencia', catalogosCtr.getAllTiposViolencia);
-
+api.get('/getTipoCama/:id', catalogosCtr.getTipoCama);
+api.get('/getTipoCuarto/:id', catalogosCtr.getTipoCuarto);
+api.get('/getAllTiposCamas', catalogosCtr.getAllTiposCamas);
+api.get('/getAllTiposCuartos', catalogosCtr.getAllTiposCuartos);
 // POST endpoints
 api.post('/addDroga', catalogosCtr.addDroga);
 api.post('/addDondeDormi', catalogosCtr.addDondeDormi);
@@ -38,7 +41,8 @@ api.post('/addGenero', catalogosCtr.addGenero);
 api.post('/addEstadoCivil', catalogosCtr.addEstadoCivil);
 api.post('/addTipoViolencia', catalogosCtr.addTipoViolencia);
 api.post('/addCanton', catalogosCtr.addCanton);
-
+api.post('/addTipoCama', catalogosCtr.addTipoCama);
+api.post('/addTipoCuarto', catalogosCtr.addTipoCuarto);
 // PUT endpoints
 api.put('/editDroga', catalogosCtr.editDroga);
 api.put('/editDondeDormi', catalogosCtr.editDondeDormi);
@@ -55,7 +59,8 @@ api.put('/editGenero', catalogosCtr.editGenero);
 api.put('/editEstadoCivil', catalogosCtr.editEstadoCivil);
 api.put('/editTipoViolencia', catalogosCtr.editTipoViolencia);
 api.put('/editCanton', catalogosCtr.editCanton);
-
+api.put('/editTipoCama', catalogosCtr.editTipoCama);
+api.put('/editTipoCuarto', catalogosCtr.editTipoCuarto);
 // DELETE endpoints
 api.delete('/deleteDroga', catalogosCtr.deleteDroga);
 api.delete('/deleteDondeDormi', catalogosCtr.deleteDondeDormi);
@@ -72,6 +77,7 @@ api.delete('/deleteGenero', catalogosCtr.deleteGenero);
 api.delete('/deleteEstadoCivil', catalogosCtr.deleteEstadoCivil);
 api.delete('/deleteTipoViolencia', catalogosCtr.deleteTipoViolencia);
 api.delete('/deleteCanton', catalogosCtr.deleteCanton);
-
+api.delete('/deleteTipoCama', catalogosCtr.deleteTipoCama);
+api.delete('/deleteTipoCuarto', catalogosCtr.deleteTipoCuarto);
 
 export default api;

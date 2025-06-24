@@ -1,0 +1,41 @@
+<div class="container">
+    <div *ngIf="cargando" class="overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <shared-title [text]="'Nueva Cama'"></shared-title>
+
+    <div class="form-wrap">
+        <!-- Nombre -->
+        <shared-input-text
+            [label]="'Nombre'"
+            [placeholder]="'Ingrese el nombre'"
+            [error]="'*Campo requerido'"
+            [(value)]="formData.nombre"
+        />
+
+        <!-- Tipo Cuarto -->
+        <shared-select [label]="'Tipo Cama'" [options]="tipoCamaOptions" [(value)]="formData.tipo_cama_id" />
+        
+        <!-- Activo -->
+        <shared-input-boolean [label]="'Activo'" [(value)]="formData.active" />
+    </div>
+
+    <!-- Boton -->
+    <div class="buttons">
+        <div class="button-container">
+            <shared-button text="Crear Nueva Cama" (buttonClick)="confirmUpdate()"></shared-button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-dialog
+    *ngIf="showModal"
+    [title]="'Crear Nueva Cama'"
+    [text]="'¿Estás seguro de que deseas crear la cama' + (formData?.nombre ? ': ' + formData.nombre : '')  + '?'"
+    [actionType]="'add'"
+    (confirmed)="crearCama($event)"
+>
+</app-confirm-dialog>
+
+<app-snackbar></app-snackbar>

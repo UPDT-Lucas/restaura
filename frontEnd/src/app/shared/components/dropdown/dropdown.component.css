@@ -79,6 +79,23 @@ hr {
     gap: 6px;
 }
 
+.menu-icon {
+    font-size: 28px;
+    transition: transform 0.3s ease;
+    color: #21438c;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+    border-radius: 50%;
+    user-select: none;
+    padding: 4px;
+    border: 2px solid transparent;
+}
+
+.menu-icon:hover {
+    transform: scale(1.05);
+    border-color: #21438c;
+    background-color: rgba(33, 67, 140, 0.05);
+}
+
 .start-info {
     display: flex;
     flex-direction: column;

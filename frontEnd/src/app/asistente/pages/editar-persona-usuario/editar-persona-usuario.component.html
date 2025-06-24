@@ -69,6 +69,9 @@
             [placeholder]="'Ingrese el número de hijos'"
             [(value)]="formPersonaUsuario.personal.cantidadhijos"
         />
+
+         <!-- Es Embarazada -->
+         <shared-select [label]="'¿Es Embarazada?'" [options]="embarazadaOptions" [(value)]="formPersonaUsuario.personal.embarazo" />
     </div>
 
     <!-- PROCEDENCIA -->

@@ -31,6 +31,10 @@
     width: 50%;
 }
 
+.button-export {
+    margin-top: 30px;
+}
+
 .overlay {
     position: fixed;
     top: 0;

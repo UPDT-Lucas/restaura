@@ -37,7 +37,7 @@ import { SnackbarComponent } from '../../../shared/components/snackbar/snackbar.
         SecondaryButtonComponent,
         ReactiveFormsModule,
         ConfirmDialogComponent,
-        SnackbarComponent
+        SnackbarComponent,
     ],
     templateUrl: './editar-persona-usuario.component.html',
     styleUrls: ['./editar-persona-usuario.component.css'],
@@ -80,6 +80,7 @@ export class EditPersonComponent {
             razoncarcel: null,
             pendienteresolucion: false,
             edadiniciocarcel: null,
+            embarazo: null,
         },
         info3meses_id: {
             carcel: false,
@@ -97,7 +98,7 @@ export class EditPersonComponent {
             relacion: null,
         },
         inamu: {
-            id:null,
+            id: null,
             jefehogar: false,
             contactofamilia: false,
             apoyoeconomico: false,
@@ -135,6 +136,11 @@ export class EditPersonComponent {
     tipoAyudaOptions: { label: string; value: string }[] = [];
     institucionesAyudaOptions: { label: string; value: string }[] = [];
     tipoViolenciaOptions: { label: string; value: string }[] = [];
+    embarazadaOptions: { label: string; value: string }[] = [
+        { label: 'Sí', value: 'true' },
+        { label: 'No', value: 'false' },
+        { label: 'No Aplica', value: 'null' },
+    ];
 
     provinciaId: any = null;
     inamu_informacion: boolean = false;
@@ -147,7 +153,7 @@ export class EditPersonComponent {
         private clientService: ClientService,
         private cantonesService: CantonesService,
         private route: ActivatedRoute,
-    ) { }
+    ) {}
 
     // Llamada API
     ngOnInit(): void {
@@ -248,6 +254,8 @@ export class EditPersonComponent {
                     },
                 });
 
+                console.log('Datos del cliente:', data.personal.embarazo?.toString());
+
                 // 1. Secciones simples
                 this.formPersonaUsuario.personal = {
                     ...data.personal,
@@ -257,6 +265,7 @@ export class EditPersonComponent {
                     canton_id: data.personal.canton_id?.toString(),
                     donde_dormi_id: data.personal.donde_dormi_id?.toString(),
                     tiempo_calle_id: data.personal.tiempo_calle_id?.toString(),
+                    embarazo: data.personal.embarazo?.toString() ?? 'null',
                 };
 
                 this.formPersonaUsuario.info3meses_id = {
@@ -281,15 +290,15 @@ export class EditPersonComponent {
                 this.inamu_informacion = !!data.inamu;
                 this.formPersonaUsuario.inamu = data.inamu
                     ? {
-                        id: data.inamu.id ?? null,
-                        jefehogar: data.inamu.jefehogar ?? false,
-                        contactofamilia: data.inamu.contactofamilia ?? false,
-                        apoyoeconomico: data.inamu.apoyoeconomico ?? false,
-                        pareja: data.inamu.pareja ?? false,
-                        parejacentro: data.inamu.parejacentro ?? false,
-                        parejano: data.inamu.parejano ?? null,
-                        solucionesdetalle: data.inamu.solucionesdetalle ?? null,
-                    }
+                          id: data.inamu.id ?? null,
+                          jefehogar: data.inamu.jefehogar ?? false,
+                          contactofamilia: data.inamu.contactofamilia ?? false,
+                          apoyoeconomico: data.inamu.apoyoeconomico ?? false,
+                          pareja: data.inamu.pareja ?? false,
+                          parejacentro: data.inamu.parejacentro ?? false,
+                          parejano: data.inamu.parejano ?? null,
+                          solucionesdetalle: data.inamu.solucionesdetalle ?? null,
+                      }
                     : null;
 
                 // 2. Secciones tipo lista (IDs en string)
@@ -378,7 +387,6 @@ export class EditPersonComponent {
         this.showModal = true;
     }
 
-    
     confirmDelete() {
         this.showModalDelete = true;
     }
@@ -400,18 +408,23 @@ export class EditPersonComponent {
             // Si contacto está completamente vacío, eliminar el objeto contacto
             const contacto = personaEditada.contacto;
             console.log('Contacto:', contacto);
-            if (contacto?.nombre === null && contacto?.telefono === null && contacto?.relacion === null&& contacto?.id === null) {
+            if (
+                contacto?.nombre === null &&
+                contacto?.telefono === null &&
+                contacto?.relacion === null &&
+                contacto?.id === null
+            ) {
                 personaEditada.contacto = null;
             }
 
             // Convertir campos que deben ser números
             const personal = personaEditada.personal;
-            personal.genero_id = personal.genero_id !== null ? Number(personal.genero_id) : null;
             personal.tipo_id_id = personal.tipo_id_id !== null ? Number(personal.tipo_id_id) : null;
             personal.canton_id = personal.canton_id !== null ? Number(personal.canton_id) : null;
             personal.pais_id = personal.pais_id !== null ? Number(personal.pais_id) : null;
             personal.donde_dormi_id = personal.donde_dormi_id !== null ? Number(personal.donde_dormi_id) : null;
             personal.tiempo_calle_id = personal.tiempo_calle_id !== null ? Number(personal.tiempo_calle_id) : null;
+            personal.embarazo = personal.embarazo === 'null' ? null : personal.embarazo === 'true';
 
             // Convertir arrays de strings a arrays de números
             const catalogos = personaEditada.catalogos;
@@ -428,10 +441,10 @@ export class EditPersonComponent {
 
                 if (response.status === 200) {
                     console.log('Persona usuario editada correctamente:', response.data);
-                    this.snackbar.show('Usuario editado correctamente',3000);
+                    this.snackbar.show('Usuario editado correctamente', 3000);
                 } else {
                     console.error('Error al editar la persona usuario:', response);
-                    this.snackbar.show('Error al editar el usuario',3000);
+                    this.snackbar.show('Error al editar el usuario', 3000);
                 }
             });
         }
@@ -439,15 +452,16 @@ export class EditPersonComponent {
 
     deleteClient(confirmed: boolean): void {
         this.showModalDelete = false;
-        if(confirmed) {
+        if (confirmed) {
             const id = this.formPersonaUsuario.personal.id;
-            const inamuId = this.formPersonaUsuario.inamu? this.formPersonaUsuario.inamu.id: null;
+            const inamuId = this.formPersonaUsuario.inamu ? this.formPersonaUsuario.inamu.id : null;
             this.clientService.deleteClient(id, inamuId).subscribe((response) => {
-                if(response.status === 200){ 
-                this.snackbar.show('Usuario eliminado correctamente',3000);
-                }else{
-                this.snackbar.show('Error al eliminar el cliente', 3000);
-                }});   
+                if (response.status === 200) {
+                    this.snackbar.show('Usuario eliminado correctamente', 3000);
+                } else {
+                    this.snackbar.show('Error al eliminar el cliente', 3000);
+                }
+            });
         }
     }
 }

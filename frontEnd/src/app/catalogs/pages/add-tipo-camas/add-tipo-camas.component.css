@@ -1,0 +1,39 @@
+.container {
+    padding-left: 10rem;
+    padding-right: 10rem;
+    padding-bottom: 10rem;
+    padding-top: 7rem;
+}
+
+.form-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 3rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-top: 50px;
+}
+
+.button-container {
+    width: 100%;
+}
+
+shared-input-text {
+    display: flex;
+    flex: 1 1 250px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+shared-select {
+    display: flex;
+    flex: 1 1 250px;
+    max-width: 100%;
+    box-sizing: border-box;
+}

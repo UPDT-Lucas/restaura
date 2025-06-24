@@ -1,0 +1,18 @@
+<div class="input-container">
+  <label class="input-label">{{ label }}</label>
+  <div class="color-input-wrapper">
+    <input
+      type="color"
+      class="custom-input-color"
+      [value]="value"
+      (input)="onInputChange($event)"
+      (blur)="onBlur()"
+      [disabled]="disabled"
+    />
+    <span class="hex-value">{{ value }}</span>
+  </div>
+
+  <p class="error-message" *ngIf="touched && (!value || value === '')">
+    {{ error }}
+  </p>
+</div>

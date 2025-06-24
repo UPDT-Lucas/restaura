@@ -4,9 +4,10 @@ export interface Log {
 }
 
 export interface Client {
-    id:           string;
-    nombre:       string;
-    edad:         number;
+    id: string;
+    nombre: string;
+    edad: number;
     fechaingreso: Date;
-    numeroCuarto: number;
+    cuarto: string;
+    cama: string;
 }

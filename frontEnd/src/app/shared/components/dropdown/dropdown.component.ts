@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../../services/admin.service';
+import { LinkStackService } from '../../../services/link-stack.service';
 
 @Component({
     selector: 'shared-dropdown',
@@ -11,7 +12,7 @@ import { AdminService } from '../../../services/admin.service';
     styleUrl: './dropdown.component.css',
 })
 export class DropdownComponent {
-    constructor(private adminService: AdminService, private router: Router){}
+    constructor(private adminService: AdminService, private router: Router, private linkStack: LinkStackService) {}
 
     isOpen = false;
 
@@ -20,6 +21,8 @@ export class DropdownComponent {
 
     toggleDropdown() {
         this.isOpen = !this.isOpen;
+
+        this.linkStack.clear();
     }
 
     @Input()
@@ -35,7 +38,7 @@ export class DropdownComponent {
         }
     }
 
-    leave(){
+    leave() {
         this.adminService.logout();
         this.router.navigate(['/']);
     }
