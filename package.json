@@ -1,5 +1,5 @@
 {
-  "name": "tu-app",
+  "name": "sistema-registro-restaura",
   "version": "1.0.0",
   "main": "electron/electron-main.js",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "build": {
     "appId": "com.tuapp.example",
-    "productName": "Tu App",
+    "productName": "sistema-registro-restaura",
     "extraResources": [
       {
         "from": "dist/frontEnd/dist/restaura-app/browser",
@@ -49,10 +49,18 @@
     ],
     "win": {
       "target": "nsis",
-      "requestedExecutionLevel": "asInvoker",
-      "verifyUpdateCodeSignature": false,
-      "signingHashAlgorithms": [],
-      "icon": "assets/icon.ico"
+      "icon": "electron/icon/restaura.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "electron/icon/install.ico",
+      "uninstallerIcon": "electron/icon/uninstall.ico",
+      "installerHeaderIcon": "electron/icon/install.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "sistema-registro-restaura"
     }
   }
 }

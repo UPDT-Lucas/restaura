@@ -16,12 +16,13 @@ function createWindow() {
   // Calcula la posición para centrar la ventana
   const winX = Math.floor((screenWidth - winWidth) / 2)
   const winY = Math.floor((screenHeight - winHeight) / 2)
-
+  console.log(path.join(__dirname,'icon/restaura.ico'));
   mainWindow = new BrowserWindow({
     width: winWidth,
     height: winHeight,
     x: winX,
     y: winY,
+    icon: path.join(__dirname, 'icon/restaura.ico'), // Asegúrate de que la ruta al icono sea correcta
     show: false, // Oculta la ventana inicialmente
     webPreferences: {
       nodeIntegration: false,

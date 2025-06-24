@@ -5,7 +5,7 @@ import dbConnection from "./DB/dbConnection.js";
 
 (async () => {
     try {
-        
+        console.log(config.DB_NAME);
         const db = dbConnection.getInstance();
         const sequelize = db.Sequelize;
 
